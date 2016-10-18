@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crypto.cs" />
     <Compile Include="IDecryptor.cs" />
     <Compile Include="IEncryptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
