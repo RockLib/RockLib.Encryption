@@ -39,6 +39,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,11 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeCrypto.cs" />
     <Compile Include="Crypto.cs" />
+    <Compile Include="Configuration\CryptoElement.cs" />
+    <Compile Include="Configuration\CryptoElementCollection.cs" />
     <Compile Include="IDecryptor.cs" />
     <Compile Include="IEncryptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ICrypto.cs" />
+    <Compile Include="Configuration\RockEncryptionSection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

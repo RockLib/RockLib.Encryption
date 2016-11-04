@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
+using Rock.Encryption.Configuration;
 using Rock.Immutable;
+using System.Configuration;
 
 namespace Rock.Encryption
 {
@@ -178,8 +181,19 @@ namespace Rock.Encryption
 
         private static ICrypto GetDefaultCrypto()
         {
-            // TODO: Load from config
-            throw new NotImplementedException();
+            var section = (RockEncryptionSection)ConfigurationManager.GetSection("rock.encryption");
+
+            if (section.CryptoFactories.Count == 0)
+            {
+                throw new InvalidOperationException("No crypto implementations found in config.");
+            }
+
+            if (section.CryptoFactories.Count == 1)
+            {
+                return section.CryptoFactories.Cast<CryptoElement>().First().CreateInstance();
+            }
+
+            return new CompositeCrypto(section.CryptoFactories.Cast<CryptoElement>().Select(c => c.CreateInstance()));
         }
     }
 }

@@ -68,5 +68,27 @@
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
         IDecryptor GetDecryptor(object keyIdentifier);
+
+        /// <summary>
+        /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
+        /// is able to handle the provided key identifier for an encrypt operation.
+        /// </summary>
+        /// <param name="keyIdentifier">The key identifier to check.</param>
+        /// <returns>
+        /// True, if this instance can handle the key identifier for an encrypt operation.
+        /// Otherwise, false.
+        /// </returns>
+        bool CanEncrypt(object keyIdentifier);
+
+        /// <summary>
+        /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
+        /// is able to handle the provided key identifier for an decrypt operation.
+        /// </summary>
+        /// <param name="keyIdentifier">The key identifier to check.</param>
+        /// <returns>
+        /// True, if this instance can handle the key identifier for an encrypt operation.
+        /// Otherwise, false.
+        /// </returns>
+        bool CanDecrypt(object keyIdentifier);
     }
 }
