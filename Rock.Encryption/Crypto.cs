@@ -27,7 +27,7 @@ namespace Rock.Encryption
         }
 
         /// <summary>
-        /// 
+        /// Sets the value of the <see cref="Current"/> property.
         /// </summary>
         /// <param name="crypto"></param>
         /// <remarks>
