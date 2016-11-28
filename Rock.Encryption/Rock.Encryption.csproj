@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bcl\BclCredentialRepository.cs" />
-    <Compile Include="Bcl\BclCryptoConfiguration.cs" />
+    <Compile Include="Bcl\Configuration\Xml\BclCryptoConfiguration.cs" />
     <Compile Include="Bcl\BclDecryptor.cs" />
     <Compile Include="Bcl\BclEncryptor.cs" />
     <Compile Include="Bcl\BclProtocolExtensions.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="Configuration\CryptoElementCollection.cs" />
     <Compile Include="Bcl\BclAlgorithm.cs" />
     <Compile Include="Bcl\BclAlgorithmExtensions.cs" />
-    <Compile Include="Bcl\BclCredential.cs" />
+    <Compile Include="Bcl\Configuration\Xml\BclCredential.cs" />
     <Compile Include="Bcl\IBclCredentialRepository.cs" />
     <Compile Include="IDecryptor.cs" />
     <Compile Include="IEncryptor.cs" />

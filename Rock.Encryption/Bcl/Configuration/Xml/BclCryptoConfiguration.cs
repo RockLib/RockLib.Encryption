@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Bcl.Configuration.Xml
 {
     public class BclCryptoConfiguration
     {

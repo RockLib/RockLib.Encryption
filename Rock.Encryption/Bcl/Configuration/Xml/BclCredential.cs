@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using Rock.DataProtection.Xml;
 
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Bcl.Configuration.Xml
 {
     public class BclCredential : IBclCredential
     {

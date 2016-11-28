@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Rock.Encryption.Bcl.Configuration.Xml;
 
 namespace Rock.Encryption.Bcl
 {
