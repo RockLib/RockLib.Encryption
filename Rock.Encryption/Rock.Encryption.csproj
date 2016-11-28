@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Rock.Core, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rock.Core.0.9.10\lib\net45\Rock.Core.dll</HintPath>
+      <HintPath>..\packages\Rock.Core.0.9.11\lib\net45\Rock.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -48,15 +48,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bcl\BclCredentialRepository.cs" />
+    <Compile Include="Bcl\BclCryptoConfiguration.cs" />
+    <Compile Include="Bcl\BclDecryptor.cs" />
+    <Compile Include="Bcl\BclEncryptor.cs" />
+    <Compile Include="Bcl\BclProtocolExtensions.cs" />
+    <Compile Include="Bcl\IBclCredential.cs" />
+    <Compile Include="Bcl\RNG.cs" />
+    <Compile Include="CredentialInfoExtensions.cs" />
+    <Compile Include="ICredentialInfo.cs" />
     <Compile Include="CompositeCrypto.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Configuration\CryptoElement.cs" />
     <Compile Include="Configuration\CryptoElementCollection.cs" />
+    <Compile Include="Bcl\BclAlgorithm.cs" />
+    <Compile Include="Bcl\BclAlgorithmExtensions.cs" />
+    <Compile Include="Bcl\BclCredential.cs" />
+    <Compile Include="Bcl\IBclCredentialRepository.cs" />
     <Compile Include="IDecryptor.cs" />
     <Compile Include="IEncryptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ICrypto.cs" />
     <Compile Include="Configuration\RockEncryptionSection.cs" />
+    <Compile Include="Bcl\BclCrypto.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
