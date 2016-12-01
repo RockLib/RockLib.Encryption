@@ -5,15 +5,15 @@ namespace Rock.Encryption.Bcl
 {
     internal static class BclProtocolExtensions
     {
-        /* Crypto Protocol:
-         * 
-         * byte# : size         | Field
-         * ---------------------+-----------------
-         * 0 : 1                | Protocol version
-         * 1 : 2                | IV length
-         * 3 : IV length        | IV
-         * 3 + IV Length : eof  | Ciphertext
-         */
+        /* Crypto Protocol v1
+        +---------------+----------------------+---------------------+
+        | byte#         | size                 | field               |
+        |---------------+----------------------+---------------------|
+        | 0             | 1                    | version (value = 1) |
+        | 1             | 2                    | iv length           |
+        | 3             | iv length            | iv                  |
+        | 3 + iv Length | payload size - byte# | ciphertext          |
+        +---------------+----------------------+---------------------+ */
 
         public static void WriteCipherTextHeader(this Stream stream, byte[] iv)
         {
