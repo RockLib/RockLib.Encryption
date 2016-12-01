@@ -7,12 +7,28 @@ using System.Text;
 
 namespace Rock.Encryption.Bcl
 {
+    /// <summary>
+    /// Defines an object that is capable of decrypting <c>string</c> values and
+    /// <c>byte[]</c> values using all of the encryption algorithms that are native
+    /// to the .NET Framework.
+    /// </summary>
     public class BclDecryptor : IDecryptor
     {
         private readonly IBclCredential _credential;
         private readonly Encoding _encoding;
-        private readonly SymmetricAlgorithm _algorithm;
+        private readonly System.Security.Cryptography.SymmetricAlgorithm _algorithm;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BclDecryptor"/> class.
+        /// </summary>
+        /// <param name="credential">
+        /// The <see cref="IBclCredential"/> that determines what kind of encryption operations
+        /// are to be performed.
+        /// </param>
+        /// <param name="encoding">
+        /// The <see cref="Encoding"/> that is used to convert a <c>string</c> object to a
+        /// <c>byte[]</c> value.
+        /// </param>
         public BclDecryptor(IBclCredential credential, Encoding encoding)
         {
             _credential = credential;
@@ -20,11 +36,20 @@ namespace Rock.Encryption.Bcl
             _algorithm = credential.Algorithm.CreateSymmetricAlgorithm();
         }
 
+        /// <summary>
+        /// Releases all resources used by the current instance of the
+        /// <see cref="BclDecryptor"/> class.
+        /// </summary>
         public void Dispose()
         {
             _algorithm.Dispose();
         }
 
+        /// <summary>
+        /// Decrypts the specified cipher text.
+        /// </summary>
+        /// <param name="cipherText">The cipher text.</param>
+        /// <returns>The decrypted value as a string.</returns>
         public string Decrypt(string cipherText)
         {
             var cipherTextData = Convert.FromBase64String(cipherText);
@@ -33,6 +58,11 @@ namespace Rock.Encryption.Bcl
             return plainText;
         }
 
+        /// <summary>
+        /// Decrypts the specified cipher text.
+        /// </summary>
+        /// <param name="cipherText">The cipher text.</param>
+        /// <returns>The decrypted value as a byte array.</returns>
         public byte[] Decrypt(byte[] cipherText)
         {
             var decrypted = new List<byte>(cipherText.Length);

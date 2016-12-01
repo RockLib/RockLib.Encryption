@@ -5,12 +5,28 @@ using System.Text;
 
 namespace Rock.Encryption.Bcl
 {
+    /// <summary>
+    /// Defines an object that is capable of encrypting <c>string</c> values and
+    /// <c>byte[]</c> values using all of the encryption algorithms that are native
+    /// to the .NET Framework.
+    /// </summary>
     public class BclEncryptor : IEncryptor
     {
         private readonly IBclCredential _credential;
         private readonly Encoding _encoding;
-        private readonly SymmetricAlgorithm _algorithm;
+        private readonly System.Security.Cryptography.SymmetricAlgorithm _algorithm;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BclEncryptor"/> class.
+        /// </summary>
+        /// <param name="credential">
+        /// The <see cref="IBclCredential"/> that determines what kind of encryption operations
+        /// are to be performed.
+        /// </param>
+        /// <param name="encoding">
+        /// The <see cref="Encoding"/> that is used to convert a <c>string</c> object to a
+        /// <c>byte[]</c> value.
+        /// </param>
         public BclEncryptor(IBclCredential credential, Encoding encoding)
         {
             _encoding = encoding;
@@ -18,11 +34,20 @@ namespace Rock.Encryption.Bcl
             _algorithm = credential.Algorithm.CreateSymmetricAlgorithm();
         }
 
+        /// <summary>
+        /// Releases all resources used by the current instance of the
+        /// <see cref="BclEncryptor"/> class.
+        /// </summary>
         public void Dispose()
         {
             _algorithm.Dispose();
         }
 
+        /// <summary>
+        /// Encrypts the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <returns>The encrypted value as a string.</returns>
         public string Encrypt(string plainText)
         {
             var plainTextData = _encoding.GetBytes(plainText);
@@ -31,6 +56,11 @@ namespace Rock.Encryption.Bcl
             return cipherText;
         }
 
+        /// <summary>
+        /// Encrypts the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <returns>The encrypted value as a byte array.</returns>
         public byte[] Encrypt(byte[] plainText)
         {
             using (var stream = new MemoryStream())

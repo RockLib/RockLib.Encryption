@@ -5,7 +5,7 @@ namespace Rock.Encryption.Bcl
 {
     internal static class BclAlgorithmExtensions
     {
-        public static SymmetricAlgorithm CreateSymmetricAlgorithm(
+        public static System.Security.Cryptography.SymmetricAlgorithm CreateSymmetricAlgorithm(
             this BclAlgorithm algorithm)
         {
             switch (algorithm)
