@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace Rock.Encryption.Symmetric.Configuration.Xml
+namespace Rock.Encryption.Symmetric.Xml
 {
     /// <summary>
     /// Defines an xml-serializable object that contains the information needed to configure an

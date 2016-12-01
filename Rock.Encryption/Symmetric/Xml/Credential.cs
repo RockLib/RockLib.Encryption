@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using Rock.DataProtection.Xml;
 using Rock.DataProtection;
 
-namespace Rock.Encryption.Symmetric.Configuration.Xml
+namespace Rock.Encryption.Symmetric.Xml
 {
     /// <summary>
     /// Defines an implementation of <see cref="ICredential"/> that is suitable for initialization

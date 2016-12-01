@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Rock.Encryption.Symmetric.Configuration.Xml;
+using Rock.Encryption.Symmetric.Xml;
 
 namespace Rock.Encryption.Symmetric
 {
