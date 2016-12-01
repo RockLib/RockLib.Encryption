@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Symmetric\CredentialRepository.cs" />
-    <Compile Include="Symmetric\Configuration\Xml\CryptoConfiguration.cs" />
+    <Compile Include="Symmetric\Xml\CryptoConfiguration.cs" />
     <Compile Include="Symmetric\SymmetricDecryptor.cs" />
     <Compile Include="Symmetric\SymmetricEncryptor.cs" />
     <Compile Include="Symmetric\ProtocolExtensions.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="Configuration\CryptoElementCollection.cs" />
     <Compile Include="Symmetric\SymmetricAlgorithm.cs" />
     <Compile Include="Symmetric\SymmetricAlgorithmExtensions.cs" />
-    <Compile Include="Symmetric\Configuration\Xml\Credential.cs" />
+    <Compile Include="Symmetric\Xml\Credential.cs" />
     <Compile Include="Symmetric\ICredentialRepository.cs" />
     <Compile Include="IDecryptor.cs" />
     <Compile Include="IEncryptor.cs" />
