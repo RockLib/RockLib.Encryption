@@ -48,29 +48,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bcl\BclCredentialRepository.cs" />
-    <Compile Include="Bcl\Configuration\Xml\BclCryptoConfiguration.cs" />
-    <Compile Include="Bcl\BclDecryptor.cs" />
-    <Compile Include="Bcl\BclEncryptor.cs" />
-    <Compile Include="Bcl\BclProtocolExtensions.cs" />
-    <Compile Include="Bcl\IBclCredential.cs" />
-    <Compile Include="Bcl\RNG.cs" />
+    <Compile Include="Symmetric\CredentialRepository.cs" />
+    <Compile Include="Symmetric\Configuration\Xml\CryptoConfiguration.cs" />
+    <Compile Include="Symmetric\SymmetricDecryptor.cs" />
+    <Compile Include="Symmetric\SymmetricEncryptor.cs" />
+    <Compile Include="Symmetric\ProtocolExtensions.cs" />
+    <Compile Include="Symmetric\ICredential.cs" />
+    <Compile Include="Symmetric\RNG.cs" />
     <Compile Include="CredentialInfoExtensions.cs" />
     <Compile Include="ICredentialInfo.cs" />
     <Compile Include="CompositeCrypto.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Configuration\CryptoElement.cs" />
     <Compile Include="Configuration\CryptoElementCollection.cs" />
-    <Compile Include="Bcl\BclAlgorithm.cs" />
-    <Compile Include="Bcl\BclAlgorithmExtensions.cs" />
-    <Compile Include="Bcl\Configuration\Xml\BclCredential.cs" />
-    <Compile Include="Bcl\IBclCredentialRepository.cs" />
+    <Compile Include="Symmetric\SymmetricAlgorithm.cs" />
+    <Compile Include="Symmetric\SymmetricAlgorithmExtensions.cs" />
+    <Compile Include="Symmetric\Configuration\Xml\Credential.cs" />
+    <Compile Include="Symmetric\ICredentialRepository.cs" />
     <Compile Include="IDecryptor.cs" />
     <Compile Include="IEncryptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ICrypto.cs" />
     <Compile Include="Configuration\RockEncryptionSection.cs" />
-    <Compile Include="Bcl\BclCrypto.cs" />
+    <Compile Include="Symmetric\SymmetricCrypto.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
