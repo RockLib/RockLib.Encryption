@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Threading;
 
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Symmetric
 {
     internal static class RNG
     {

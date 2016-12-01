@@ -1,43 +1,43 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Rock.Encryption.Bcl.Configuration.Xml;
+using Rock.Encryption.Symmetric.Configuration.Xml;
 
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Symmetric
 {
     /// <summary>
     /// An implementation of <see cref="ICrypto"/> that uses the symmetric encryption
     /// algorithms that are in the .NET base class library.
     /// </summary>
-    public class BclCrypto : ICrypto
+    public class SymmetricCrypto : ICrypto
     {
-        private readonly IBclCredentialRepository _credentialRepository;
+        private readonly ICredentialRepository _credentialRepository;
         private readonly Encoding _encoding;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BclCrypto"/> class.
+        /// Initializes a new instance of the <see cref="SymmetricCrypto"/> class.
         /// </summary>
         /// <param name="encryptionSettings">
         /// An xml-deserializable object whose properties are the source of the
-        /// <see cref="IBclCredentialRepository"/> and <see cref="Encoding"/> required by
-        /// the <see cref="BclCrypto(IBclCredentialRepository,Encoding)"/> constructor.
+        /// <see cref="ICredentialRepository"/> and <see cref="Encoding"/> required by
+        /// the <see cref="SymmetricCrypto(ICredentialRepository,Encoding)"/> constructor.
         /// </param>
-        public BclCrypto(BclCryptoConfiguration encryptionSettings)
-            : this(new BclCredentialRepository(encryptionSettings.Credentials),
+        public SymmetricCrypto(CryptoConfiguration encryptionSettings)
+            : this(new CredentialRepository(encryptionSettings.Credentials),
                 encryptionSettings.Encoding)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BclCrypto"/> class.
+        /// Initializes a new instance of the <see cref="SymmetricCrypto"/> class.
         /// </summary>
         /// <param name="credentialRepository">
-        /// An object that can retrieve <see cref="IBclCredential"/> objects.
+        /// An object that can retrieve <see cref="ICredential"/> objects.
         /// </param>
         /// <param name="encoding">
         /// The <see cref="Encoding"/> that is used to convert a <c>string</c> object to a
         /// <c>byte[]</c> value.
         /// </param>
-        public BclCrypto(IBclCredentialRepository credentialRepository,
+        public SymmetricCrypto(ICredentialRepository credentialRepository,
             Encoding encoding = null)
         {
             _credentialRepository = credentialRepository;
@@ -122,13 +122,13 @@ namespace Rock.Encryption.Bcl
         /// <returns>An object that can be used for encryption operations.</returns>
         public IEncryptor GetEncryptor(object keyIdentifier)
         {
-            IBclCredential credential;
+            ICredential credential;
             if (!_credentialRepository.TryGet(keyIdentifier, out credential))
             {
                 throw new KeyNotFoundException();
             }
 
-            return new BclEncryptor(credential, _encoding);
+            return new SymmetricEncryptor(credential, _encoding);
         }
 
         /// <summary>
@@ -141,13 +141,13 @@ namespace Rock.Encryption.Bcl
         /// <returns>An object that can be used for decryption operations.</returns>
         public IDecryptor GetDecryptor(object keyIdentifier)
         {
-            IBclCredential credential;
+            ICredential credential;
             if (!_credentialRepository.TryGet(keyIdentifier, out credential))
             {
                 throw new KeyNotFoundException();
             }
 
-            return new BclDecryptor(credential, _encoding);
+            return new SymmetricDecryptor(credential, _encoding);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Rock.Encryption.Bcl
         /// </returns>
         public bool CanEncrypt(object keyIdentifier)
         {
-            IBclCredential dummy;
+            ICredential dummy;
             return _credentialRepository.TryGet(keyIdentifier, out dummy);
         }
 

@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Symmetric
 {
-    internal static class BclProtocolExtensions
+    internal static class ProtocolExtensions
     {
         /* Crypto Protocol v1
         +---------------+----------------------+---------------------+

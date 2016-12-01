@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace Rock.Encryption.Bcl.Configuration.Xml
+namespace Rock.Encryption.Symmetric.Configuration.Xml
 {
     /// <summary>
     /// Defines an xml-serializable object that contains the information needed to configure an
-    /// instance of <see cref="BclCrypto"/>.
+    /// instance of <see cref="SymmetricCrypto"/>.
     /// </summary>
-    public class BclCryptoConfiguration
+    public class CryptoConfiguration
     {
-        private readonly List<BclCredential> _credentials = new List<BclCredential>();
+        private readonly List<Credential> _credentials = new List<Credential>();
 
         /// <summary>
         /// Gets the collection of credentials that will be available for encryption or
@@ -18,7 +18,7 @@ namespace Rock.Encryption.Bcl.Configuration.Xml
         /// </summary>
         [XmlArray("credentials")]
         [XmlArrayItem("credential")]
-        public List<BclCredential> Credentials { get { return _credentials; } }
+        public List<Credential> Credentials { get { return _credentials; } }
 
         /// <summary>
         /// Gets or sets the <see cref="System.Text.Encoding"/> that is used to

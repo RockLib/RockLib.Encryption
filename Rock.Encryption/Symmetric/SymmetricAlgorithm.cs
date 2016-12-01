@@ -1,9 +1,9 @@
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Symmetric
 {
     /// <summary>
     /// Defines the supported symmetric algorithms.
     /// </summary>
-    public enum BclAlgorithm
+    public enum SymmetricAlgorithm
     {
         /// <summary>
         /// The Advanced Encryption Standard (AES) symmetric algorithm. Corresponds to the

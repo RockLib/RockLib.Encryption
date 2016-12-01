@@ -1,16 +1,16 @@
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Symmetric
 {
     /// <summary>
     /// Represents the information required to perform a symmetric encryption or
     /// decryption operation.
     /// </summary>
-    public interface IBclCredential : ICredentialInfo
+    public interface ICredential : ICredentialInfo
     {
         /// <summary>
-        /// Gets the <see cref="BclAlgorithm"/> that will be used for a symmetric
+        /// Gets the <see cref="SymmetricAlgorithm"/> that will be used for a symmetric
         /// encryption or decryption operation.
         /// </summary>
-        BclAlgorithm Algorithm { get; }
+        SymmetricAlgorithm Algorithm { get; }
 
         /// <summary>
         /// Gets the size of the initialization vector that is used to add entropy to

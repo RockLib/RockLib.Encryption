@@ -1,24 +1,24 @@
 using System;
 using System.Security.Cryptography;
 
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Symmetric
 {
-    internal static class BclAlgorithmExtensions
+    internal static class SymmetricAlgorithmExtensions
     {
         public static System.Security.Cryptography.SymmetricAlgorithm CreateSymmetricAlgorithm(
-            this BclAlgorithm algorithm)
+            this SymmetricAlgorithm algorithm)
         {
             switch (algorithm)
             {
-                case BclAlgorithm.Aes:
+                case SymmetricAlgorithm.Aes:
                     return Aes.Create();
-                case BclAlgorithm.DES:
+                case SymmetricAlgorithm.DES:
                     return DES.Create();
-                case BclAlgorithm.RC2:
+                case SymmetricAlgorithm.RC2:
                     return RC2.Create();
-                case BclAlgorithm.Rijndael:
+                case SymmetricAlgorithm.Rijndael:
                     return Rijndael.Create();
-                case BclAlgorithm.TripleDES:
+                case SymmetricAlgorithm.TripleDES:
                     return TripleDES.Create();
                 default:
                     throw new ArgumentOutOfRangeException("algorithm");

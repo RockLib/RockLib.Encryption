@@ -4,18 +4,18 @@ using System.Xml.Serialization;
 using Rock.DataProtection.Xml;
 using Rock.DataProtection;
 
-namespace Rock.Encryption.Bcl.Configuration.Xml
+namespace Rock.Encryption.Symmetric.Configuration.Xml
 {
     /// <summary>
-    /// Defines an implementation of <see cref="IBclCredential"/> that is suitable for initialization
+    /// Defines an implementation of <see cref="ICredential"/> that is suitable for initialization
     /// via xml-deserialization.
     /// </summary>
-    public class BclCredential : IBclCredential
+    public class Credential : ICredential
     {
         /// <summary>
-        /// Defines the default value of <see cref="BclAlgorithm"/>.
+        /// Defines the default value of <see cref="SymmetricAlgorithm"/>.
         /// </summary>
-        public const BclAlgorithm DefaultAlgorithm = BclAlgorithm.Rijndael;
+        public const SymmetricAlgorithm DefaultAlgorithm = SymmetricAlgorithm.Rijndael;
 
         /// <summary>
         /// Defines the default initialization vector size.
@@ -27,9 +27,9 @@ namespace Rock.Encryption.Bcl.Configuration.Xml
         private readonly List<string> _namespaces = new List<string>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BclCredential"/> class.
+        /// Initializes a new instance of the <see cref="Credential"/> class.
         /// </summary>
-        public BclCredential()
+        public Credential()
         {
             _key = new Lazy<byte[]>(LoadKey);
             Algorithm = DefaultAlgorithm;
@@ -60,11 +60,11 @@ namespace Rock.Encryption.Bcl.Configuration.Xml
 
 
         /// <summary>
-        /// Gets the <see cref="BclAlgorithm"/> that will be used for a symmetric
+        /// Gets the <see cref="SymmetricAlgorithm"/> that will be used for a symmetric
         /// encryption or decryption operation.
         /// </summary>
         [XmlAttribute("algorithm")]
-        public BclAlgorithm Algorithm { get; set; }
+        public SymmetricAlgorithm Algorithm { get; set; }
 
         /// <summary>
         /// Gets the size of the initialization vector that is used to add entropy to

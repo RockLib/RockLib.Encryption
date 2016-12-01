@@ -3,31 +3,31 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Rock.Encryption.Bcl
+namespace Rock.Encryption.Symmetric
 {
     /// <summary>
     /// Defines an object that is capable of encrypting <c>string</c> values and
     /// <c>byte[]</c> values using all of the encryption algorithms that are native
     /// to the .NET Framework.
     /// </summary>
-    public class BclEncryptor : IEncryptor
+    public class SymmetricEncryptor : IEncryptor
     {
-        private readonly IBclCredential _credential;
+        private readonly ICredential _credential;
         private readonly Encoding _encoding;
         private readonly System.Security.Cryptography.SymmetricAlgorithm _algorithm;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BclEncryptor"/> class.
+        /// Initializes a new instance of the <see cref="SymmetricEncryptor"/> class.
         /// </summary>
         /// <param name="credential">
-        /// The <see cref="IBclCredential"/> that determines what kind of encryption operations
+        /// The <see cref="ICredential"/> that determines what kind of encryption operations
         /// are to be performed.
         /// </param>
         /// <param name="encoding">
         /// The <see cref="Encoding"/> that is used to convert a <c>string</c> object to a
         /// <c>byte[]</c> value.
         /// </param>
-        public BclEncryptor(IBclCredential credential, Encoding encoding)
+        public SymmetricEncryptor(ICredential credential, Encoding encoding)
         {
             _encoding = encoding;
             _credential = credential;
@@ -36,7 +36,7 @@ namespace Rock.Encryption.Bcl
 
         /// <summary>
         /// Releases all resources used by the current instance of the
-        /// <see cref="BclEncryptor"/> class.
+        /// <see cref="SymmetricEncryptor"/> class.
         /// </summary>
         public void Dispose()
         {
