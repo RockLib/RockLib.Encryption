@@ -158,7 +158,7 @@ namespace Rock.Encryption
 
             if (!crypto.MoveNext())
             {
-                throw new Exception();
+                throw new KeyNotFoundException($"Unable to locate implementation of ICrypto that can locate a credential using keyIdentifier: {keyIdentifier}");
             }
 
             return crypto.Current;
