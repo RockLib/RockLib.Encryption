@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rock.Encryption", "Rock.Encryption\Rock.Encryption.csproj", "{BDCEC783-7FC0-4903-9B45-DFBA5D364B4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rock.Encryption.XSerializer", "Rock.Encryption.XSerializer\Rock.Encryption.XSerializer.csproj", "{9E66B304-79A0-4EED-A5F3-ADAF0E27844B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{BDCEC783-7FC0-4903-9B45-DFBA5D364B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDCEC783-7FC0-4903-9B45-DFBA5D364B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDCEC783-7FC0-4903-9B45-DFBA5D364B4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E66B304-79A0-4EED-A5F3-ADAF0E27844B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E66B304-79A0-4EED-A5F3-ADAF0E27844B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E66B304-79A0-4EED-A5F3-ADAF0E27844B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E66B304-79A0-4EED-A5F3-ADAF0E27844B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
