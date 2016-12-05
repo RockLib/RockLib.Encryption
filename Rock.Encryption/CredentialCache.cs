@@ -53,43 +53,47 @@ namespace Rock.Encryption
                 credential = _defaultCredential.Value;
                 return credential != null;
             }
-
-            credential = _credentialCache.GetOrAdd(keyIdentifier,
-                k =>
-                {
-                    var credentialName = keyIdentifier as string;
-
-                    if (credentialName != null)
-                    {
-                        return _credentials.FirstOrDefault(candidate => candidate.Name == credentialName);
-                    }
-
-                    var targetType = keyIdentifier as Type;
-
-                    if (targetType != null)
-                    {
-                        var c =
-                            _credentials.FirstOrDefault(candidate =>
-                                candidate.Types != null && candidate.Types.Any(candidateType =>
-                                    candidateType == targetType.FullName));
-
-                        if (c != null)
-                        {
-                            return c;
-                        }
-
-                        var targetNamespaces = GetTargetNamespaces(targetType);
-
-                        return _credentials.FirstOrDefault(candidate =>
-                            candidate.Namespaces != null && targetNamespaces.Any(targetNamespace =>
-                                candidate.Namespaces.Any(candidateNamespace =>
-                                    candidateNamespace == targetNamespace)));
-                    }
-
-                    return null;
-                });
-
+            credential = _credentialCache.GetOrAdd(keyIdentifier, FindCredential);
             return credential != null;
+        }
+
+        private TCredentialInfo FindCredential(object keyIdentifier)
+        {
+            var credentialName = keyIdentifier as string;
+
+            if (credentialName != null)
+            {
+                return _credentials.FirstOrDefault(candidate => candidate.Name == credentialName);
+            }
+
+            var targetType = keyIdentifier as Type;
+
+            if (targetType != null)
+            {
+                var c =
+                    _credentials.FirstOrDefault(candidate =>
+                        candidate.Types != null && candidate.Types.Any(candidateType =>
+                            candidateType == targetType.FullName));
+
+                if (c != null)
+                {
+                    return c;
+                }
+
+                var targetNamespaces = GetTargetNamespaces(targetType);
+
+                c = _credentials.FirstOrDefault(candidate =>
+                        candidate.Namespaces != null && targetNamespaces.Any(targetNamespace =>
+                            candidate.Namespaces.Any(candidateNamespace =>
+                                candidateNamespace == targetNamespace)));
+
+                if (c != null)
+                {
+                    return c;
+                }
+            }
+
+            return _defaultCredential.Value;
         }
 
         private static IEnumerable<string> GetTargetNamespaces(Type targetType)
