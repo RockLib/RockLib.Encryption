@@ -9,8 +9,6 @@ namespace Rock.Encryption.Symmetric
     /// </summary>
     public class CredentialRepository : ICredentialRepository
     {
-        private readonly IReadOnlyCollection<ICredential> _credentials;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CredentialRepository"/> class.
         /// </summary>
@@ -19,18 +17,25 @@ namespace Rock.Encryption.Symmetric
         /// invoking the <see cref="TryGet"/> method.
         /// </param>
         public CredentialRepository(IEnumerable<ICredential> credentials)
+            : this(new CredentialCache<ICredential>(credentials.ToList()))
         {
-            _credentials = credentials.ToList();
         }
 
         /// <summary>
-        /// Gets the collection of <see cref="ICredential"/> instances that are chosen from when
-        /// invoking the <see cref="TryGet"/> method.
+        /// Initializes a new instance of the <see cref="CredentialRepository"/> class.
         /// </summary>
-        public IReadOnlyCollection<ICredential> Credentials
+        /// <param name="cache">
+        /// An object that caches and retrieves credential instances.
+        /// </param>
+        public CredentialRepository(CredentialCache<ICredential> cache)
         {
-            get { return _credentials; }
+            Cache = cache;
         }
+
+        /// <summary>
+        /// Gets the object that caches and retrieves credential instances.
+        /// </summary>
+        public CredentialCache<ICredential> Cache { get; }
 
         /// <summary>
         /// Attempts to retrieve a <see cref="ICredential"/> using the specified
@@ -49,13 +54,7 @@ namespace Rock.Encryption.Symmetric
         /// </returns>
         public bool TryGet(object keyIdentifier, out ICredential credential)
         {
-            if (keyIdentifier == null)
-            {
-                credential = _credentials.FirstOrDefault(x => string.IsNullOrEmpty(x.Name) || x.Name.ToLower() == "default");
-                return credential != null;
-            }
-
-            return _credentials.TryGetCredential(keyIdentifier, out credential);
+            return Cache.TryGetCredential(keyIdentifier, out credential);
         }
     }
 }

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CredentialCache.cs" />
     <Compile Include="Symmetric\CredentialRepository.cs" />
     <Compile Include="Symmetric\Xml\CryptoConfiguration.cs" />
     <Compile Include="Symmetric\SymmetricDecryptor.cs" />
@@ -55,7 +56,6 @@
     <Compile Include="Symmetric\ProtocolExtensions.cs" />
     <Compile Include="Symmetric\ICredential.cs" />
     <Compile Include="Symmetric\RNG.cs" />
-    <Compile Include="CredentialInfoExtensions.cs" />
     <Compile Include="ICredentialInfo.cs" />
     <Compile Include="CompositeCrypto.cs" />
     <Compile Include="Crypto.cs" />
