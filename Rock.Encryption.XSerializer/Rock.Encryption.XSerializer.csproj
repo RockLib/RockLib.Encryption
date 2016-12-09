@@ -37,7 +37,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Rock.Encryption, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rock.Encryption.0.9.0-rc3\lib\net45\Rock.Encryption.dll</HintPath>
+      <HintPath>..\packages\Rock.Encryption.0.9.0\lib\net45\Rock.Encryption.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
