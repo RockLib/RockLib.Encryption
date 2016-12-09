@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace Rock.Encryption.Symmetric
@@ -21,7 +22,10 @@ namespace Rock.Encryption.Symmetric
                 case SymmetricAlgorithm.TripleDES:
                     return TripleDES.Create();
                 default:
-                    throw new ArgumentOutOfRangeException("algorithm");
+                    throw new ArgumentOutOfRangeException("algorithm", algorithm,
+                        $@"Invalid SymmetricAlgorithm. Valid values are: {
+                            string.Join(", ", Enum.GetValues(typeof(SymmetricAlgorithm))
+                                .Cast<SymmetricAlgorithm>().Select(x => x.ToString()))}.");
             }
         }
     }

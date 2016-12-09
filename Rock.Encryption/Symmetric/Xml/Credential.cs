@@ -101,7 +101,7 @@ namespace Rock.Encryption.Symmetric.Xml
         {
             if (KeyFactory == null)
             {
-                throw new InvalidOperationException("Key is required.");
+                throw new InvalidOperationException("The KeyFactory property (or <key> xml element) is required, but was not provided.");
             }
 
             return KeyFactory.CreateInstance().GetValue();

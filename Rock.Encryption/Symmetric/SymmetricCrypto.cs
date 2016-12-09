@@ -125,7 +125,7 @@ namespace Rock.Encryption.Symmetric
             ICredential credential;
             if (!_credentialRepository.TryGet(keyIdentifier, out credential))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Unable to locate credential using keyIdentifier: {keyIdentifier}");
             }
 
             return new SymmetricEncryptor(credential, _encoding);
@@ -144,7 +144,7 @@ namespace Rock.Encryption.Symmetric
             ICredential credential;
             if (!_credentialRepository.TryGet(keyIdentifier, out credential))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Unable to locate credential using keyIdentifier: {keyIdentifier}");
             }
 
             return new SymmetricDecryptor(credential, _encoding);

@@ -26,7 +26,7 @@ namespace Rock.Encryption.Symmetric
         public static byte[] ReadIVFromCipherTextHeader(this Stream stream)
         {
             var protocolVersion = stream.ReadByte();
-            if (protocolVersion != 1) throw new InvalidOperationException("Unknown protocol version: " + protocolVersion);
+            if (protocolVersion != 1) throw new InvalidOperationException("Unknown protocol version (only version 1 is supported): " + protocolVersion);
             var ivSize = (ushort)(stream.ReadByte() | (stream.ReadByte() << 8));
             var iv = new byte[ivSize];
             stream.Read(iv, 0, ivSize);
