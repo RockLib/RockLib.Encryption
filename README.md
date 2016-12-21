@@ -18,6 +18,10 @@ _An easy-to-use, easy-to-configure crypto API._
 - [Configuration](#configuration)
 - [`ICrypto` implementations](#icrypto-implementations)
   - [`SymmetricCrypto` class](#symmetriccrypto-class)
+  - [`CompositeCrypto` class](#compositecrypto-class)
+- [Rock.Encryption.XSerializer](#rockencryptionxserializer)
+  - [Background](#background)
+  - [SerializingCrypto Usage](#serializingcrypto-usage)
 
 ------
 
@@ -119,6 +123,7 @@ IEncryptor encryptor = crypto.GetEncryptor(null);
 string foo = encryptor.Encrypt("foo");
 string bar = encryptor.Encrypt("bar");
 byte[] baz = encryptor.Encrypt(new byte[] { 1, 2, 3 });
+```
 
 ### `Crypto` static class
 
@@ -228,6 +233,8 @@ Rock.Encryption provides an implementation of `ICrypto` that uses the various sy
 
 _Note that it is an **exceedingly** bad idea to store symmetric keys in configuration plaintext as shown above. Rock.Core provides a mechanism for securing configuration data. That topic will be added here at a later date._
 
+**TODO: flesh out the documentation for this section**
+
 ### `CompositeCrypto` class
 
 If your application needs to support more than one implementation of the `ICrypto` interface, you can use the `CompositeCrypto` class.
@@ -238,6 +245,10 @@ It does so by implementing the [_composite_](http://www.blackwasp.co.uk/Composit
 ### Background
 
 XSerializer includes a feature where it encrypts/decrypts properties marked with its `[Encrypt]` attribute in-line during JSON and XML serialization operations. Rock.Encryption.XSerializer marries XSerializer's field-level encryption mechanism with Rock.Encryption's standardized crypto API.
+
+### SerializingCrypto class
+
+The Rock.Encryption.XSerializer package contains the
 
 ### SerializingCrypto Usage
 
