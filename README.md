@@ -72,6 +72,31 @@ string bar = encryptor.Encrypt("bar");
 byte[] baz = encryptor.Encrypt(new byte[] { 1, 2, 3 });
 ```
 
+## Configuration
+
+The easiest way to configure Rock.Encryption is through a `app.config` or `web.config`. Add a custom `rock.encryption` section to your configuration as shown below.
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <!-- Declare a section with a name of "rock.encryption" -->
+    <section name="rock.encryption" type="Rock.Encryption.Configuration.RockEncryptionSection, Rock.Encryption" />
+  </configSections>
+  
+  <!-- Define the section -->
+  <rock.encryption>
+    <settings>
+      <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
+        <!-- settings specific to the type specified above -->
+      </crypto>
+    </settings>
+  </rock.encryption>
+</configuration>
+```
+
+Your configuration can define one or more `crypto` elements. Each of these elements describe an implementation of the `ICrypto` interface.
+
 ### `Crypto` static class
 
 For convenience, Rock.Encryption defines a static `Crypto` class with these public members:
@@ -122,13 +147,9 @@ If you wish to programmatically set the value of the `Current` property, you mus
 
 ## `ICrypto` Implementations
 
-### `CompositeCrypto` class
+### `SymmetricCrypto` class
 
-Rock.Encryption contains an implementation of `ICrypto` that uses the [_composite_](http://www.blackwasp.co.uk/Composite.aspx) pattern.
-
-#### SymmetricCrypto
-
-The default symmetric encryption algorithms that ship with .NET are implemented in the `Rock.Encryption.Symmetric.SymmetricCrypto` class.
+Rock.Encryption provides an implementation of `ICrypto` that uses the various symmetric encryption implementations that are provided by .NET. The supported algorithms are: `AES`, `DES`, `RC2`, `Rijndael`, and `Triple DES`.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -157,30 +178,10 @@ The default symmetric encryption algorithms that ship with .NET are implemented 
 
 _Note that it is an **exceedingly** bad idea to store symmetric keys in configuration plaintext as shown above. Rock.Core provides a mechanism for securing configuration data. That topic will be added here at a later date._
 
-## Configuration
+### `CompositeCrypto` class
 
-The easiest way to configure Rock.Encryption is through a `app.config` or `web.config`. Add a custom `rock.encryption` section to your configuration as shown below.
-
-```xml
-<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-  <configSections>
-    <!-- Declare a section with a name of "rock.encryption" -->
-    <section name="rock.encryption" type="Rock.Encryption.Configuration.RockEncryptionSection, Rock.Encryption" />
-  </configSections>
-  
-  <!-- Define the section -->
-  <rock.encryption>
-    <settings>
-      <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
-        <!-- settings specific to the type specified above -->
-      </crypto>
-    </settings>
-  </rock.encryption>
-</configuration>
-```
-
-Your configuration can define one or more `crypto` elements. Each of these elements describe an implementation of the `ICrypto` interface. 
+If your application needs to support more than one implementation of the `ICrypto` interface, you can use the `CompositeCrypto` class.
+It does so by implementing the [_composite_](http://www.blackwasp.co.uk/Composite.aspx) pattern. The constructor of this class takes a collection of `ICrypto` objects. Each method of the `CompositeCrypto` class is implemented by iterating through that collection. The first item in the collection that returns `true` from its `CanEncrypt` or `CanDecrypt` method is the `ICrypto` that is used for the current encryption operation.
 
 ## Rock.Encryption.XSerializer
 
