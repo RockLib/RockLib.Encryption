@@ -11,14 +11,14 @@ _An easy-to-use, easy-to-configure crypto API._
 ```c#
 public interface ICrypto
 {
+    bool CanEncrypt(object keyIdentifier);
+    bool CanDecrypt(object keyIdentifier);
     string Encrypt(string plainText, object keyIdentifier);
     string Decrypt(string cipherText, object keyIdentifier);
     byte[] Encrypt(byte[] plainText, object keyIdentifier);
     byte[] Decrypt(byte[] cipherText, object keyIdentifier);
     IEncryptor GetEncryptor(object keyIdentifier);
     IDecryptor GetDecryptor(object keyIdentifier);
-    bool CanEncrypt(object keyIdentifier);
-    bool CanDecrypt(object keyIdentifier);
 }
 ```
 
@@ -43,7 +43,7 @@ bool canEncryptBar = cryptoB.CanEncrypt(null); // Should return false.
 
 #### `Encrypt` / `Decrypt` methods
 
-Each of the `Encrypt` and `Decrypt` methods should be self-explainatory: they encrypt or decrypt values, where a value can be a string or a byte array.
+These are the main methods of the interface. Each of the `Encrypt` and `Decrypt` methods take two parameters. The first one is the value to be operated upon, and has a type of either `string` or `byte[]`. Note that this type determines the return type of the method. The second parameter is a `keyIdentifier` object, as described above.
 
 ```c#
 ICrypto crypto = // TODO: initialize with an implementation of ICrypto that has a default key.
@@ -81,6 +81,7 @@ public static class Crypto
 {
     public static ICrypto Current { get; }
     public static void SetCurrent(ICrypto crypto);
+    
     public static string Encrypt(string plainText);
     public static string Encrypt(string plainText, object keyIdentifier);
     public static string Decrypt(string cipherText);
@@ -92,12 +93,32 @@ public static class Crypto
     public static IEncryptor GetEncryptor();
     public static IEncryptor GetEncryptor(object keyIdentifier);
     public static IDecryptor GetDecryptor();
+    public static IDecryptor GetDecryptor(object keyIdentifier);
+}
+```
+##### Implementation
+
+The `Current` property is used by the methods of the `Crypto` class to perform their various encryption operations. For example, this is the implementation of the `Encrypt(string, object)` method:
+
+```c#
+public static string Encrypt(string plainText, object keyIdentifier)
+{
+    return Current.Encrypt(plainText, keyIdentifier);
 }
 ```
 
-This class contains a `Current` property, which holds an implementation of `ICrypto`. This `Current` property is used by the static methods in the `Crypto` class to perform the various encryption operations. The value can be changed by calling the `SetCurrent` method. However, once the `Current` property has been accessed, it can no longer be changed.
+There are overloads of each of the methods that do not have a `keyIdentifier` parameter - these methods call their overload, passing `null` for the `keyIdentifier` parameter. For example, this is the implementation of the `Encrypt(string)` method:
 
-You'll note that most of the methods mirror the methods of the `ICrypto` inteface. There are also methods without a `keyIdentifier` parameter - these methods merely call their corresponding method _with_ a `keyIdentifier` parameter, passing null as that value.
+```c#
+public static string Encrypt(string plainText)
+{
+    return Encrypt(plainText, null);
+}
+```
+
+#### `Current` property and `SetCurrent` method
+
+If you wish to programmatically set the value of the `Current` property, you must do so at the "beginnning" of your application, e.g. `Program.Main` or global.asax's `application_start` method by calling the `SetCurrent` method. Once the `Current` property has been read, its value is "locked" - any calls to `SetCurrent` will not succeed.
 
 ## `ICrypto` Implementations
 
