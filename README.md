@@ -172,7 +172,21 @@ public static string Encrypt(string plainText)
 
 #### `Current` property and `SetCurrent` method
 
-If you wish to programmatically set the value of the `Current` property, you must do so at the "beginnning" of your application, e.g. `Program.Main` or global.asax's `application_start` method by calling the `SetCurrent` method. Once the `Current` property has been read, its value is "locked" - any calls to `SetCurrent` will not succeed.
+The `Crypto` class will attempt to set its `Current` property by reading from your [App.config or Web.config](#configuration). If your application does not have a App.config or Web.config, or you wish to override what is in your App.config or Web.config, you can programmatically set the value of the `Current` property at the "beginning" of your application, e.g. `Program.Main` or global.asax's `application_start` by calling the `SetCurrent` method.
+
+**If you wish to programmatically set the value of the `Current` property, you must do so at the "beginnning" of your application, e.g. `Program.Main` or global.asax's `application_start` method by calling the `SetCurrent` method. Once the `Current` property has been read, its value is "locked" - any calls to `SetCurrent` will not succeed.**
+
+```c#
+class Program
+{
+    static void Main(string[] args)
+    {
+        ICrypto defaultCrypto = // TODO: get an instance of ICrypto
+        Crypto.SetCurrent(defaultCrypto);
+
+        // TODO: The rest of your application
+    }
+}
 ```
 
 ## Configuration
