@@ -6,6 +6,7 @@ _An easy-to-use, easy-to-configure crypto API._
 
 ##### Table of Contents
 - [Nuget](#nuget)
+- [Simple Usage](#simple-usage)
 - [Concepts](#concepts)
   - [`ICrypto` interface](#icrypto-interface)
     - [`CanEncrypt` / `CanDecrypt` methods](#canencrypt--candecrypt-methods)
@@ -22,6 +23,21 @@ Rock.Encryption is available via [nuget](http://www.nuget.org/packages/Rock.Encr
 
 ```
 PM> Install-Package Rock.Encryption
+```
+
+## Simple Usage
+
+Once [configured](#configuration) in your App.config or Web.config, use the static `Crypto` class to encrypt your sensitive data:
+
+```c#
+// Our sensitive data is a "social security number".
+string ssn = "123-45-6789";
+
+// Encrypt the SSN. The resulting value should be different from the original SSN.
+string encryptedSsn = Crypto.Encrypt(ssn);
+
+// Decrypt the SSN. The resulting value should be the same as the original SSN.
+string decryptedSsn = Crypto.Decrypt(encryptedSsn);
 ```
 
 ## Concepts
