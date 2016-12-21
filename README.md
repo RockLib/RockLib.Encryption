@@ -30,6 +30,12 @@ Rock.Encryption is available via [nuget](http://www.nuget.org/packages/Rock.Encr
 PM> Install-Package Rock.Encryption
 ```
 
+[Rock.Encryption.XSerializer](#rockencryptionxserializer) is also available via [nuget](http://www.nuget.org/packages/Rock.Encryption.XSerializer). From the package manager console:
+
+```
+PM> Install-Package Rock.Encryption.XSerializer
+```
+
 ## Simple Usage
 
 Once [configured](#configuration) in your App.config or Web.config, use the static `Crypto` class to encrypt your sensitive data:
