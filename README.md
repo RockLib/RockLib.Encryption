@@ -191,7 +191,7 @@ class Program
 
 ## Configuration
 
-The easiest way to configure Rock.Encryption is through a `app.config` or `web.config`. When you add a custom `rock.encryption` section to your configuration as shown below, the [`Crypto`](#crypto-class) class will discover it and set its `Current` property according to your configuration.
+The easiest way to configure Rock.Encryption is through a `app.config` or `web.config`. When you add a custom `rock.encryption` section to your configuration as shown below, the [`Crypto`](#crypto-static-class) class will discover it and set its `Current` property according to your configuration.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
