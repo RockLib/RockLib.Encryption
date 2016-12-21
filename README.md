@@ -2,6 +2,20 @@
 
 _An easy-to-use, easy-to-configure crypto API._
 
+------
+
+##### Table of Contents
+- [Nuget](#nuget)
+- [Concepts](#concepts)
+  - [`ICrypto` interface](#icrypto-interface)
+    - [`CanEncrypt` / `CanDecrypt` methods](#canencrypt--candecrypt-methods)
+    - [`Encrypt` / `Decrypt` methods](#encrypt--decrypt-methods)
+    - [`GetEncryptor` / `GetDecryptor` methods](#getencryptor--getdecryptor-methods)
+- TODO: Finish ToC
+
+------
+
+
 ## Nuget
 
 Rock.Encryption is available via [nuget](http://www.nuget.org/packages/Rock.Encryption). From the package manager console:
