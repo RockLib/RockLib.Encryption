@@ -12,7 +12,12 @@ _An easy-to-use, easy-to-configure crypto API._
     - [`CanEncrypt` / `CanDecrypt` methods](#canencrypt--candecrypt-methods)
     - [`Encrypt` / `Decrypt` methods](#encrypt--decrypt-methods)
     - [`GetEncryptor` / `GetDecryptor` methods](#getencryptor--getdecryptor-methods)
-- TODO: Finish ToC
+-   [`Crypto` static class](#crypto-static-class)
+  -   [Encryption methods](#encryption-methods)
+  -   [`Current` property and `SetCurrent` method](#current-property-and-setcurrent-method)
+- [Configuration](#configuration)
+- [`ICrypto` implementations](#icrypto-implementations)
+  - [`SymmetricCrypto` class](#symmetriccrypto-class)
 
 ------
 
@@ -108,32 +113,6 @@ IEncryptor encryptor = crypto.GetEncryptor(null);
 string foo = encryptor.Encrypt("foo");
 string bar = encryptor.Encrypt("bar");
 byte[] baz = encryptor.Encrypt(new byte[] { 1, 2, 3 });
-```
-
-## Configuration
-
-The easiest way to configure Rock.Encryption is through a `app.config` or `web.config`. Add a custom `rock.encryption` section to your configuration as shown below.
-
-```xml
-<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-  <configSections>
-    <!-- Declare a section with a name of "rock.encryption" -->
-    <section name="rock.encryption" type="Rock.Encryption.Configuration.RockEncryptionSection, Rock.Encryption" />
-  </configSections>
-  
-  <!-- Define the section -->
-  <rock.encryption>
-    <settings>
-      <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
-        <!-- settings specific to the type specified above -->
-      </crypto>
-    </settings>
-  </rock.encryption>
-</configuration>
-```
-
-Your configuration can define one or more `crypto` elements. Each of these elements describe an implementation of the `ICrypto` interface.
 
 ### `Crypto` static class
 
@@ -159,9 +138,10 @@ public static class Crypto
     public static IDecryptor GetDecryptor(object keyIdentifier);
 }
 ```
-##### Implementation
 
-The `Current` property is used by the methods of the `Crypto` class to perform their various encryption operations. For example, this is the implementation of the `Encrypt(string, object)` method:
+#### Encryption methods
+
+Each of the encryption methods delegates responsibility to the value of the `Current` property. For example, this is the implementation of the `Encrypt(string, object)` method:
 
 ```c#
 public static string Encrypt(string plainText, object keyIdentifier)
@@ -182,8 +162,34 @@ public static string Encrypt(string plainText)
 #### `Current` property and `SetCurrent` method
 
 If you wish to programmatically set the value of the `Current` property, you must do so at the "beginnning" of your application, e.g. `Program.Main` or global.asax's `application_start` method by calling the `SetCurrent` method. Once the `Current` property has been read, its value is "locked" - any calls to `SetCurrent` will not succeed.
+```
 
-## `ICrypto` Implementations
+## Configuration
+
+The easiest way to configure Rock.Encryption is through a `app.config` or `web.config`. When you add a custom `rock.encryption` section to your configuration as shown below, the [`Crypto`](#crypto-class) class will discover it and set its `Current` property according to your configuration.
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <!-- Declare a section with a name of "rock.encryption" -->
+    <section name="rock.encryption" type="Rock.Encryption.Configuration.RockEncryptionSection, Rock.Encryption" />
+  </configSections>
+  
+  <!-- Define the section -->
+  <rock.encryption>
+    <settings>
+      <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
+        <!-- settings specific to the type specified above -->
+      </crypto>
+    </settings>
+  </rock.encryption>
+</configuration>
+```
+
+Your configuration can define one or more `crypto` elements. Each of these elements describe an implementation of the `ICrypto` interface, and will be transformed into an item in the collection of an instance of [`CompositeCrypto`](#compositecrypto-class).
+
+## `ICrypto` implementations
 
 ### `SymmetricCrypto` class
 
