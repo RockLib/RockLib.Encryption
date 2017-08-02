@@ -47,11 +47,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Configuration\" />
       <Folder Include="Properties\" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="RockLib.Configuration" Version="0.0.1-alpha01" />
+      <PackageReference Include="RockLib.DataProtection" Version="0.0.1-alpha01" />
       <PackageReference Include="RockLib.Immutable" Version="0.0.1-alpha01" />
     </ItemGroup>
 

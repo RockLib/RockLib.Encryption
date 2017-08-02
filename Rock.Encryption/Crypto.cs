@@ -1,6 +1,9 @@
 using System;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 #if ROCKLIB
+using RockLib.Encryption.Configuration;
+using RockLib.Configuration;
 using RockLib.Immutable;
 #else
 using Rock.Encryption.Configuration;
@@ -190,8 +193,10 @@ namespace Rock.Encryption
         private static ICrypto GetDefaultCrypto()
         {
 #if ROCKLIB
+            var section = Config.Root.GetSection("rocklib.encryption").Get<EncryptionSection>();
 #else
             var section = (RockEncryptionSection)ConfigurationManager.GetSection("rock.encryption");
+#endif
 
             if (section.CryptoFactories.Count == 0)
             {
@@ -200,11 +205,18 @@ namespace Rock.Encryption
 
             if (section.CryptoFactories.Count == 1)
             {
-                return section.CryptoFactories.Cast<CryptoElement>().First().CreateInstance();
+                return section.CryptoFactories
+#if !ROCKLIB
+                    .Cast<CryptoElement>()
+#endif
+                    .First().CreateInstance();
             }
 
-            return new CompositeCrypto(section.CryptoFactories.Cast<CryptoElement>().Select(c => c.CreateInstance()));
+            return new CompositeCrypto(section.CryptoFactories
+#if !ROCKLIB
+                .Cast<CryptoElement>()
 #endif
+                .Select(c => c.CreateInstance()));
         }
     }
 }
