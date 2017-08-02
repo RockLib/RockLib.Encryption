@@ -1,10 +1,18 @@
 using System;
 using System.Linq;
+#if ROCKLIB
+using RockLib.Immutable;
+#else
 using Rock.Encryption.Configuration;
 using Rock.Immutable;
 using System.Configuration;
+#endif
 
+#if ROCKLIB
+namespace RockLib.Encryption
+#else
 namespace Rock.Encryption
+#endif
 {
     /// <summary>
     /// Provides a set of static methods used for encryption and decryption
@@ -181,6 +189,8 @@ namespace Rock.Encryption
 
         private static ICrypto GetDefaultCrypto()
         {
+#if ROCKLIB
+#else
             var section = (RockEncryptionSection)ConfigurationManager.GetSection("rock.encryption");
 
             if (section.CryptoFactories.Count == 0)
@@ -194,6 +204,7 @@ namespace Rock.Encryption
             }
 
             return new CompositeCrypto(section.CryptoFactories.Cast<CryptoElement>().Select(c => c.CreateInstance()));
+#endif
         }
     }
 }

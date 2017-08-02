@@ -1,4 +1,8 @@
+#if ROCKLIB
+namespace RockLib.Encryption.Symmetric
+#else
 namespace Rock.Encryption.Symmetric
+# endif
 {
     /// <summary>
     /// Defines the supported symmetric algorithms.
@@ -11,6 +15,7 @@ namespace Rock.Encryption.Symmetric
         /// </summary>
         Aes,
 
+#if !ROCKLIB
         /// <summary>
         /// The Data Encryption Standard (DES) algorithm. Corresponds to the
         /// <see cref="System.Security.Cryptography.DES"/> class.
@@ -29,6 +34,7 @@ namespace Rock.Encryption.Symmetric
         /// </summary>
         Rijndael,
 
+#endif
         /// <summary>
         /// The Triple Data Encryption Standard algorithm Corresponds to the
         /// <see cref="System.Security.Cryptography.TripleDES"/> class.

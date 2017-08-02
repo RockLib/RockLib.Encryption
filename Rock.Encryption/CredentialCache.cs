@@ -3,7 +3,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
+#if ROCKLIB
+namespace RockLib.Encryption
+#else
 namespace Rock.Encryption
+#endif
 {
     /// <summary>
     /// Defines an object that retrieves and caches instances of the

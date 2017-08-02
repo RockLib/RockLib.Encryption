@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 
+#if ROCKLIB
+namespace RockLib.Encryption
+#else
 namespace Rock.Encryption
+#endif
 {
     /// <summary>
     /// Defines various parameters used to search for an encrypt or decrypt

@@ -1,12 +1,16 @@
 using System.Security.Cryptography;
 using System.Threading;
 
+#if ROCKLIB
+namespace RockLib.Encryption.Symmetric
+#else
 namespace Rock.Encryption.Symmetric
+# endif
 {
     internal static class RNG
     {
-        private static readonly ThreadLocal<RNGCryptoServiceProvider> _instance =
-            new ThreadLocal<RNGCryptoServiceProvider>(() => new RNGCryptoServiceProvider());
+        private static readonly ThreadLocal<RandomNumberGenerator> _instance =
+            new ThreadLocal<RandomNumberGenerator>(RandomNumberGenerator.Create);
 
         public static byte[] GetBytes(int size)
         {

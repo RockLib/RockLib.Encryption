@@ -1,6 +1,10 @@
 using System;
 
+#if ROCKLIB
+namespace RockLib.Encryption
+#else
 namespace Rock.Encryption
+#endif
 {
     /// <summary>
     /// Defines methods for encryption.

@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+#if ROCKLIB
+namespace RockLib.Encryption
+#else
 namespace Rock.Encryption
+#endif
 {
     /// <summary>
     /// An composite implementation of <see cref="ICrypto"/> that delegates logic to an arbitrary

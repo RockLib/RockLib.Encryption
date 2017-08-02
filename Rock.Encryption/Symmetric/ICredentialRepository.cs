@@ -1,4 +1,8 @@
+#if ROCKLIB
+namespace RockLib.Encryption.Symmetric
+#else
 namespace Rock.Encryption.Symmetric
+# endif
 {
     /// <summary>
     /// Defines an interface for retrieving instances of <see cref="ICredential"/> using

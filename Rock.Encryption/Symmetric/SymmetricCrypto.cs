@@ -1,8 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+#if ROCKLIB
+#else
 using Rock.Encryption.Symmetric.Xml;
+#endif
 
+#if ROCKLIB
+namespace RockLib.Encryption.Symmetric
+#else
 namespace Rock.Encryption.Symmetric
+#endif
 {
     /// <summary>
     /// An implementation of <see cref="ICrypto"/> that uses the symmetric encryption
