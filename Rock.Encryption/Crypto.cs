@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
 #if ROCKLIB
+using Microsoft.Extensions.Configuration;
 using RockLib.Encryption.Configuration;
 using RockLib.Configuration;
 using RockLib.Immutable;

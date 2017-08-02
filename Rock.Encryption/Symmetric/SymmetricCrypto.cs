@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RockLib.Configuration;
-using RockLib.DataProtection;
-using RockLib.Immutable;
-
 #if ROCKLIB
+using RockLib.Immutable;
 #else
+using Rock.DataProtection;
 using Rock.Encryption.Symmetric.Xml;
 #endif
 
