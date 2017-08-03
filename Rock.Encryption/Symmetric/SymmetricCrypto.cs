@@ -30,6 +30,7 @@ namespace Rock.Encryption.Symmetric
 
         public SymmetricCrypto()
         {
+            _encoding = Encoding.UTF8;
         }
 
         public CryptoConfiguration EncryptionSettings
