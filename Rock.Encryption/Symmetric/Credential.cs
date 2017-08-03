@@ -75,7 +75,7 @@ namespace RockLib.Encryption.Symmetric
         /// <remarks>
         /// This method is not intended for direct use - it exists for xml serialization purposes only.
         /// </remarks>
-        public LateBoundConfigurationSection<IProtectedValue> KeyFactory { get; set; }
+        public LateBoundConfigurationSection<IProtectedValue> Key { get; set; }
 
         /// <summary>
         /// Gets the plain-text value of the symmetric key that is used for encryption
@@ -91,12 +91,12 @@ namespace RockLib.Encryption.Symmetric
 
         private byte[] LoadKey()
         {
-            if (KeyFactory == null)
+            if (Key == null)
             {
                 throw new InvalidOperationException("The KeyFactory property (or <key> xml element) is required, but was not provided.");
             }
 
-            return KeyFactory.CreateInstance().GetValue();
+            return Key.CreateInstance().GetValue();
         }
     }
 }
