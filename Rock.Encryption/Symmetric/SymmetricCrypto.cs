@@ -1,8 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+#if ROCKLIB
+using RockLib.Immutable;
+#else
+using Rock.DataProtection;
 using Rock.Encryption.Symmetric.Xml;
+#endif
 
+#if ROCKLIB
+namespace RockLib.Encryption.Symmetric
+#else
 namespace Rock.Encryption.Symmetric
+#endif
 {
     /// <summary>
     /// An implementation of <see cref="ICrypto"/> that uses the symmetric encryption
@@ -10,8 +20,30 @@ namespace Rock.Encryption.Symmetric
     /// </summary>
     public class SymmetricCrypto : ICrypto
     {
-        private readonly ICredentialRepository _credentialRepository;
         private readonly Encoding _encoding;
+
+#if ROCKLIB
+        private CryptoConfiguration _encryptionSettings;
+        private readonly Semimutable<ICredentialRepository> _credentialRepositoryField = new Semimutable<ICredentialRepository>();
+        // ReSharper disable once InconsistentNaming
+        private ICredentialRepository _credentialRepository => _credentialRepositoryField.Value;
+
+        public SymmetricCrypto()
+        {
+            _encoding = Encoding.UTF8;
+        }
+
+        public CryptoConfiguration EncryptionSettings
+        {
+            get => _encryptionSettings;
+            set
+            {
+                _credentialRepositoryField.Value = new CredentialRepository(value.Credentials);
+                _encryptionSettings = value;
+            }
+        }
+#else
+        private readonly ICredentialRepository _credentialRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SymmetricCrypto"/> class.
@@ -26,6 +58,7 @@ namespace Rock.Encryption.Symmetric
                 encryptionSettings.Encoding)
         {
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SymmetricCrypto"/> class.
@@ -40,7 +73,11 @@ namespace Rock.Encryption.Symmetric
         public SymmetricCrypto(ICredentialRepository credentialRepository,
             Encoding encoding = null)
         {
+#if ROCKLIB
+            _credentialRepositoryField.Value = credentialRepository;
+#else
             _credentialRepository = credentialRepository;
+#endif
             _encoding = encoding ?? Encoding.UTF8;
         }
 
