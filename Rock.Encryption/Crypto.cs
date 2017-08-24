@@ -198,9 +198,9 @@ namespace Rock.Encryption
             var section = (RockEncryptionSection)ConfigurationManager.GetSection("rock.encryption");
 #endif
 
-            if (section.CryptoFactories.Count == 0)
+            if (section == null || section.CryptoFactories.Count == 0)
             {
-                throw new InvalidOperationException("No crypto implementations found in config.");
+                throw new InvalidOperationException("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration.");
             }
 
             if (section.CryptoFactories.Count == 1)
