@@ -205,21 +205,5 @@ namespace RockLib.Encryption.Tests
 
             return array;
         }
-
-        public string SerializeToString<T>(T item, Type type)
-        {
-            var serializer = new JsonSerializer();
-            var sb = new StringBuilder();
-
-            using (var stringWriter = new StringWriter())
-            {
-                using (var jsonWriter = new JsonTextWriter(stringWriter))
-                {
-                    serializer.Serialize(jsonWriter, item, type);
-                }
-            }
-
-            return sb.ToString();
-        }
     }
 }
