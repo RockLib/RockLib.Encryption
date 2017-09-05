@@ -12,6 +12,6 @@ namespace RockLib.Encryption.Symmetric
         /// Gets the collection of credentials that will be available for encryption or
         /// decryption operations.
         /// </summary>
-        public List<ICredential> Credentials { get; set; } = new List<ICredential>();
+        public List<Credential> Credentials { get; set; } = new List<Credential>();
     }
 }
