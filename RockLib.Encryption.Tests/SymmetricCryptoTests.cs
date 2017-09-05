@@ -53,6 +53,42 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
+        public void CanCreateSymmetricCryptoByCredentialRepositoryWithEncoding()
+        {
+            var credentialMock = new Mock<ICredential>();
+            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
+            credentialMock.Setup(cm => cm.IVSize).Returns(16);
+            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
+
+            var credentialRepo = new CredentialRepository(new List<ICredential> { credentialMock.Object });
+
+            var crypto = new SymmetricCrypto(credentialRepo, Encoding.ASCII);
+
+            crypto.Should().NotBe(null);
+        }
+
+        [Test]
+        public void CanEncryptDecryptByCredentialRepositoryWithEncoding()
+        {
+            var credentialMock = new Mock<ICredential>();
+            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
+            credentialMock.Setup(cm => cm.IVSize).Returns(16);
+            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
+
+            var credentialRepo = new CredentialRepository(new List<ICredential> { credentialMock.Object });
+
+            var crypto = new SymmetricCrypto(credentialRepo, Encoding.ASCII);
+
+            var plainText = "This is just some random text to encrypt/decrypt";
+            var encrypted = crypto.Encrypt(plainText, null);
+            var decrypted = crypto.Decrypt(encrypted, null);
+
+            encrypted.Should().NotBe(plainText);
+            decrypted.Should().NotBe(encrypted);
+            decrypted.Should().Be(plainText);
+        }
+
+        [Test]
         public void CanCreateSymmetricCryptoByEncryptionSettings()
         {
             var builder = new ConfigurationBuilder();
