@@ -1,8 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using RockLib.Configuration;
+using RockLib.DataProtection;
 using RockLib.Encryption.Symmetric;
 
 namespace RockLib.Encryption.Tests
@@ -49,17 +55,27 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanCreateSymmetricCryptoByEncryptionSettings()
         {
-            var credentialMock = new Mock<ICredential>();
-            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-            credentialMock.Setup(cm => cm.IVSize).Returns(16);
-            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
+            var builder = new ConfigurationBuilder();
+            builder.AddInMemoryCollection(new Dictionary<string, string>
+            {
+                {"Section:Value", "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="}
+            });
 
             var crypto = new SymmetricCrypto();
             crypto.EncryptionSettings = new CryptoConfiguration
             {
-                Credentials = new List<ICredential>
+                Credentials = new List<Credential>
                 {
-                    credentialMock.Object
+                    new Credential
+                    {
+                        Algorithm = SymmetricAlgorithm.Aes,
+                        IVSize = 16,
+                        Key = new LateBoundConfigurationSection<IProtectedValue>
+                        {
+                            Type = "RockLib.DataProtection.UnprotectedBase64Value, RockLib.DataProtection",
+                            Value = builder.Build().GetSection("Section")
+                        }
+                    }
                 }
             };
 
@@ -69,17 +85,27 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptByRepoByEncryptionSettings()
         {
-            var credentialMock = new Mock<ICredential>();
-            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-            credentialMock.Setup(cm => cm.IVSize).Returns(16);
-            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
+            var builder = new ConfigurationBuilder();
+            builder.AddInMemoryCollection(new Dictionary<string, string>
+            {
+                {"Section:Value", "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="}
+            });
 
             var crypto = new SymmetricCrypto();
             crypto.EncryptionSettings = new CryptoConfiguration
             {
-                Credentials = new List<ICredential>
+                Credentials = new List<Credential> 
                 {
-                    credentialMock.Object
+                    new Credential
+                    {
+                        Algorithm = SymmetricAlgorithm.Aes,
+                        IVSize = 16,
+                        Key = new LateBoundConfigurationSection<IProtectedValue>
+                        {
+                            Type = "RockLib.DataProtection.UnprotectedBase64Value, RockLib.DataProtection",
+                            Value = builder.Build().GetSection("Section")
+                        }
+                    }
                 }
             };
 
@@ -174,10 +200,26 @@ namespace RockLib.Encryption.Tests
 
             for (var i = 0; i < size; i++)
             {
-                array[i] = BitConverter.GetBytes(size)[3];
+                array[i] = BitConverter.GetBytes(i)[3];
             }
 
             return array;
+        }
+
+        public string SerializeToString<T>(T item, Type type)
+        {
+            var serializer = new JsonSerializer();
+            var sb = new StringBuilder();
+
+            using (var stringWriter = new StringWriter())
+            {
+                using (var jsonWriter = new JsonTextWriter(stringWriter))
+                {
+                    serializer.Serialize(jsonWriter, item, type);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }
