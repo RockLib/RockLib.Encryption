@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 using Moq;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using RockLib.Configuration;
-using RockLib.DataProtection;
 using RockLib.Encryption.Symmetric;
 
 namespace RockLib.Encryption.Tests
@@ -91,26 +86,13 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanCreateSymmetricCryptoByEncryptionSettings()
         {
-            var builder = new ConfigurationBuilder();
-            builder.AddInMemoryCollection(new Dictionary<string, string>
+            var crypto = new SymmetricCrypto
             {
-                {"Section:Value", "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="}
-            });
-
-            var crypto = new SymmetricCrypto();
-            crypto.EncryptionSettings = new CryptoConfiguration
-            {
-                Credentials = new List<Credential>
+                EncryptionSettings = new CryptoConfiguration
                 {
-                    new Credential
+                    Credentials = new List<Credential>
                     {
-                        Algorithm = SymmetricAlgorithm.Aes,
-                        IVSize = 16,
-                        Key = new LateBoundConfigurationSection<IProtectedValue>
-                        {
-                            Type = "RockLib.DataProtection.UnprotectedBase64Value, RockLib.DataProtection",
-                            Value = builder.Build().GetSection("Section")
-                        }
+                        new Credential(SymmetricAlgorithm.Aes, 16, Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="))
                     }
                 }
             };
@@ -121,26 +103,13 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptByRepoByEncryptionSettings()
         {
-            var builder = new ConfigurationBuilder();
-            builder.AddInMemoryCollection(new Dictionary<string, string>
+            var crypto = new SymmetricCrypto
             {
-                {"Section:Value", "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="}
-            });
-
-            var crypto = new SymmetricCrypto();
-            crypto.EncryptionSettings = new CryptoConfiguration
-            {
-                Credentials = new List<Credential> 
+                EncryptionSettings = new CryptoConfiguration
                 {
-                    new Credential
+                    Credentials = new List<Credential>
                     {
-                        Algorithm = SymmetricAlgorithm.Aes,
-                        IVSize = 16,
-                        Key = new LateBoundConfigurationSection<IProtectedValue>
-                        {
-                            Type = "RockLib.DataProtection.UnprotectedBase64Value, RockLib.DataProtection",
-                            Value = builder.Build().GetSection("Section")
-                        }
+                        new Credential(SymmetricAlgorithm.Aes, 16, Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="))
                     }
                 }
             };
