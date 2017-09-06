@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using RockLib.Configuration;
 using RockLib.DataProtection;
 
@@ -32,6 +33,32 @@ namespace RockLib.Encryption.Symmetric
             _key = new Lazy<byte[]>(LoadKey);
             Algorithm = DefaultAlgorithm;
             IVSize = DefaultIVSize;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Credential"/> class.
+        /// </summary>
+        /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
+        /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
+        /// <param name="key">The symmetric key returned by the <see cref="GetKey()"/> method.</param>
+        public Credential(SymmetricAlgorithm algorithm, ushort ivSize, byte[] key)
+        {
+            if (ivSize <= 0) throw new ArgumentOutOfRangeException(nameof(ivSize), $"{nameof(ivSize)} must be greater than 0");
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
+            Algorithm = algorithm;
+            IVSize = ivSize;
+
+            var builder = new ConfigurationBuilder();
+            builder.AddInMemoryCollection(new Dictionary<string, string> { { "Section:Value", Convert.ToBase64String(key) } });
+
+            Key = new LateBoundConfigurationSection<IProtectedValue>
+            {
+                Type = "RockLib.DataProtection.UnprotectedBase64Value, RockLib.DataProtection",
+                Value = builder.Build().GetSection("Section")
+            };
+
+            _key = new Lazy<byte[]>(LoadKey);
         }
 
         /// <summary>

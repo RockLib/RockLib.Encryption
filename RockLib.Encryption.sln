@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption", "Rock.Encryption\RockLib.Encryption.csproj", "{6E80E23F-3AA5-43DB-ADEC-2918E1787062}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
