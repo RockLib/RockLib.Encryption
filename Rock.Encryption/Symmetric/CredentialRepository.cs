@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,8 +22,15 @@ namespace Rock.Encryption.Symmetric
         /// invoking the <see cref="TryGet"/> method.
         /// </param>
         public CredentialRepository(IEnumerable<ICredential> credentials)
-            : this(new CredentialCache<ICredential>(credentials.ToList()))
+            : this(GetCredentialCache(credentials))
         {
+        }
+
+        private static CredentialCache<ICredential> GetCredentialCache(IEnumerable<ICredential> credentials)
+        {
+            if (credentials == null) throw new ArgumentNullException(nameof(credentials));
+
+            return new CredentialCache<ICredential>(credentials.ToList());
         }
 
         /// <summary>
@@ -33,7 +41,7 @@ namespace Rock.Encryption.Symmetric
         /// </param>
         public CredentialRepository(CredentialCache<ICredential> cache)
         {
-            Cache = cache;
+            Cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
         /// <summary>
