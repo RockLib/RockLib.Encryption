@@ -120,7 +120,7 @@ namespace RockLib.Encryption.Symmetric
         {
             if (Key == null)
             {
-                throw new InvalidOperationException("The KeyFactory property (or <key> xml element) is required, but was not provided.");
+                throw new InvalidOperationException("The Key property (or rocklib.encryption:CryptoFactories:0:Value:EncryptionSettings:Credentials:0:Key:Value configuration element) is required, but was not provided.");
             }
 
             return Key.CreateInstance().GetValue();
