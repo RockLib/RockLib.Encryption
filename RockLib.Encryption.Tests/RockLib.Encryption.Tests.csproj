@@ -21,6 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="NoFactories.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MultiFactory.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SingleFactory.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="rocklib.config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
