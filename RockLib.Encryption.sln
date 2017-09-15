@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption", "Rock.Encryption\RockLib.Encryption.csproj", "{6E80E23F-3AA5-43DB-ADEC-2918E1787062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Encryption.DotNetFramework", "Example.Encryption.DotNetFramework\Example.Encryption.DotNetFramework.csproj", "{1445C693-FAE3-4285-9576-2097CFAC3749}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Encryption.DotNetCore", "Example.Encryption.DotNetCore\Example.Encryption.DotNetCore.csproj", "{EEA8BAD0-673E-4DE7-8C56-2A9B3B7B40D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +25,19 @@ Global
 		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1445C693-FAE3-4285-9576-2097CFAC3749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1445C693-FAE3-4285-9576-2097CFAC3749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1445C693-FAE3-4285-9576-2097CFAC3749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1445C693-FAE3-4285-9576-2097CFAC3749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEA8BAD0-673E-4DE7-8C56-2A9B3B7B40D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEA8BAD0-673E-4DE7-8C56-2A9B3B7B40D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEA8BAD0-673E-4DE7-8C56-2A9B3B7B40D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEA8BAD0-673E-4DE7-8C56-2A9B3B7B40D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68B67557-20B2-4F40-9FFB-19BCDBB9AA17}
 	EndGlobalSection
 EndGlobal
