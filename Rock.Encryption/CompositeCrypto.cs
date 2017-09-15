@@ -27,6 +27,8 @@ namespace Rock.Encryption
         /// </param>
         public CompositeCrypto(IEnumerable<ICrypto> cryptos)
         {
+            if (cryptos == null) throw new ArgumentNullException(nameof(cryptos));
+
             _cryptos = cryptos as List<ICrypto> ?? cryptos.ToList();
         }
 
@@ -129,7 +131,15 @@ namespace Rock.Encryption
         /// </returns>
         public bool CanEncrypt(object keyIdentifier)
         {
-            return GetEncryptCrypto(keyIdentifier) != null;
+            try
+            {
+                GetEncryptCrypto(keyIdentifier);
+            }
+            catch (KeyNotFoundException)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -143,7 +153,15 @@ namespace Rock.Encryption
         /// </returns>
         public bool CanDecrypt(object keyIdentifier)
         {
-            return GetDecryptCrypto(keyIdentifier) != null;
+            try
+            {
+                GetDecryptCrypto(keyIdentifier);
+            }
+            catch (KeyNotFoundException)
+            {
+                return false;
+            }
+            return true;
         }
 
         private ICrypto GetEncryptCrypto(object keyIdentifier)
@@ -158,14 +176,14 @@ namespace Rock.Encryption
 
         private ICrypto GetCrypto(object keyIdentifier, Func<ICrypto, object, bool> canGet)
         {
-            var crypto = _cryptos.Where(c => canGet(c, keyIdentifier)).GetEnumerator();
+            var crypto = _cryptos.FirstOrDefault(c => canGet(c, keyIdentifier));
 
-            if (!crypto.MoveNext())
+            if (crypto == null)
             {
                 throw new KeyNotFoundException($"Unable to locate implementation of ICrypto that can locate a credential using keyIdentifier: {keyIdentifier}");
             }
 
-            return crypto.Current;
+            return crypto;
         }
     }
 }
