@@ -4,7 +4,6 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using RockLib.Configuration;
-using RockLib.DataProtection;
 using RockLib.Encryption.Symmetric;
 
 namespace RockLib.Encryption.Tests
@@ -15,18 +14,11 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanGetKeyWithEmptyConstructor()
         {
-            var builder = new ConfigurationBuilder();
-            builder.AddInMemoryCollection(new Dictionary<string, string> { { "Section:Value", "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s=" } });
-
             var credential = new Credential
             {
                 Algorithm = SymmetricAlgorithm.Aes,
                 IVSize = 16,
-                Key = new LateBoundConfigurationSection<IProtectedValue>
-                {
-                    Type = "RockLib.DataProtection.UnprotectedBase64Value, RockLib.DataProtection",
-                    Value = builder.Build().GetSection("Section")
-                }
+                Key = "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="
             };
 
             var key = credential.GetKey();
@@ -56,7 +48,7 @@ namespace RockLib.Encryption.Tests
             };
 
             credential.Invoking(c => c.GetKey()).ShouldThrow<InvalidOperationException>()
-                .WithMessage("The Key property (or rocklib.encryption:CryptoFactories:0:Value:EncryptionSettings:Credentials:0:Key:Value configuration element) is required, but was not provided.");
+                .WithMessage("The Key property (or rocklib.encryption:CryptoFactories:0:Value:EncryptionSettings:Credentials:0:Key configuration element) is required, but was not provided.");
         }
 
         [Test]
