@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
-using RockLib.Configuration;
-using RockLib.DataProtection;
 
 namespace RockLib.Encryption.Symmetric
 {
@@ -23,14 +20,11 @@ namespace RockLib.Encryption.Symmetric
         /// </summary>
         public const ushort DefaultIVSize = 16;
 
-        private readonly Lazy<byte[]> _key;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Credential"/> class.
         /// </summary>
         public Credential()
         {
-            _key = new Lazy<byte[]>(LoadKey);
             Algorithm = DefaultAlgorithm;
             IVSize = DefaultIVSize;
         }
@@ -48,17 +42,7 @@ namespace RockLib.Encryption.Symmetric
 
             Algorithm = algorithm;
             IVSize = ivSize;
-
-            var builder = new ConfigurationBuilder();
-            builder.AddInMemoryCollection(new Dictionary<string, string> { { "Section:Value", Convert.ToBase64String(key) } });
-
-            Key = new LateBoundConfigurationSection<IProtectedValue>
-            {
-                Type = "RockLib.DataProtection.UnprotectedBase64Value, RockLib.DataProtection",
-                Value = builder.Build().GetSection("Section")
-            };
-
-            _key = new Lazy<byte[]>(LoadKey);
+            Key = Convert.ToBase64String(key);
         }
 
         /// <summary>
@@ -94,15 +78,9 @@ namespace RockLib.Encryption.Symmetric
         public ushort IVSize { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="LateBoundConfigurationSection{T}"/> that is used to create the an
-        /// instance of <see cref="IProtectedValue"/>, which in turn is responsible
-        /// for obtaining the actual symmetric key returned by the <see cref="GetKey()"/>
-        /// method.
+        /// Gets or sets the base-64 representation of the credential's symmetric key.
         /// </summary>
-        /// <remarks>
-        /// This method is not intended for direct use - it exists for xml serialization purposes only.
-        /// </remarks>
-        public LateBoundConfigurationSection<IProtectedValue> Key { get; set; }
+        public string Key { get; set; }
 
         /// <summary>
         /// Gets the plain-text value of the symmetric key that is used for encryption
@@ -111,19 +89,12 @@ namespace RockLib.Encryption.Symmetric
         /// <returns>The symmetric key.</returns>
         public byte[] GetKey()
         {
-            var key = new byte[_key.Value.Length];
-            _key.Value.CopyTo(key, 0);
-            return key;
-        }
-
-        private byte[] LoadKey()
-        {
             if (Key == null)
             {
-                throw new InvalidOperationException("The Key property (or rocklib.encryption:CryptoFactories:0:Value:EncryptionSettings:Credentials:0:Key:Value configuration element) is required, but was not provided.");
+                throw new InvalidOperationException("The Key property (or rocklib.encryption:CryptoFactories:0:Value:EncryptionSettings:Credentials:0:Key configuration element) is required, but was not provided.");
             }
 
-            return Key.CreateInstance().GetValue();
+            return Convert.FromBase64String(Key);
         }
     }
 }
