@@ -10,12 +10,7 @@
                                 "Name": "Default",
                                 "Algorithm": "Aes",
                                 "IVSize": "16",
-                                "Key": {
-                                    "Type": "RockLib.DataProtection.UnprotectedBase64Value, RockLib.DataProtection",
-                                    "Value": {
-                                        "Value": "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="
-                                    }
-                                }
+                                "Key": "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="
                             }
                         ]
                     }
