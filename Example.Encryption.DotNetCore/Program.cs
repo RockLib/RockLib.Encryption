@@ -1,5 +1,6 @@
 ﻿using System;
 using RockLib.Encryption;
+using System.Threading.Tasks;
 
 namespace Example.Encryption.DotNetCore
 {
@@ -8,18 +9,36 @@ namespace Example.Encryption.DotNetCore
         static void Main(string[] args)
         {
             var originalValue = "This is some string that we want to encrypt";
+            Example(originalValue);
+            Console.WriteLine();
+            ExampleAsync(originalValue).Wait();
+            Console.ReadLine();
+        }
 
-            Console.WriteLine($"Original Value: {originalValue}");
+        private static void Example(string plaintext)
+        {
+            Console.WriteLine($"Synchronous - Original: {plaintext}");
 
-            var encryptedValue = Crypto.Encrypt(originalValue);
+            var encryptedValue = Crypto.Encrypt(plaintext);
 
-            Console.WriteLine($"Encrypted Value: {encryptedValue}");
+            Console.WriteLine($"Synchronous - Encrypted: {encryptedValue}");
 
             var decryptedValue = Crypto.Decrypt(encryptedValue);
 
-            Console.WriteLine($"Decrypted Value: {decryptedValue}");
+            Console.WriteLine($"Synchronous - Decrypted: {decryptedValue}");
+        }
 
-            Console.ReadLine();
+        private static async Task ExampleAsync(string plaintext)
+        {
+            Console.WriteLine($"Asynchronous - Original: {plaintext}");
+
+            var encryptedValue = await Crypto.EncryptAsync(plaintext);
+
+            Console.WriteLine($"Asynchronous - Encrypted: {encryptedValue}");
+
+            var decryptedValue = await Crypto.DecryptAsync(encryptedValue);
+
+            Console.WriteLine($"Asynchronous - Decrypted: {decryptedValue}");
         }
     }
 }
