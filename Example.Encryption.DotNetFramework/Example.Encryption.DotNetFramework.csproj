@@ -78,7 +78,7 @@
       <HintPath>..\packages\RockLib.DataProtection.0.0.1-alpha02\lib\net451\RockLib.DataProtection.dll</HintPath>
     </Reference>
     <Reference Include="RockLib.Encryption, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RockLib.Encryption.0.0.1-alpha04\lib\net451\RockLib.Encryption.dll</HintPath>
+      <HintPath>..\packages\RockLib.Encryption.0.0.1-alpha05\lib\net451\RockLib.Encryption.dll</HintPath>
     </Reference>
     <Reference Include="RockLib.Immutable, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RockLib.Immutable.0.0.1-alpha02\lib\net45\RockLib.Immutable.dll</HintPath>
