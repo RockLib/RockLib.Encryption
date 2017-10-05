@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using RockLib.Encryption.Configuration;
 using RockLib.Configuration;
 using RockLib.Immutable;
+using RockLib.Encryption.Async;
+using System.Threading.Tasks;
 #else
 using Rock.Encryption.Configuration;
 using Rock.Immutable;
@@ -189,6 +191,150 @@ namespace Rock.Encryption
         {
             return Current.GetDecryptor(keyIdentifier);
         }
+
+#if ROCKLIB
+        /// <summary>
+        /// Asynchronously encrypts the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <returns>The encrypted value as a string.</returns>
+        public static Task<string> EncryptAsync(string plainText)
+        {
+            return EncryptAsync(plainText, null);
+        }
+
+        /// <summary>
+        /// Asynchronously wncrypts the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <param name="keyIdentifier">
+        /// An implementation-specific object used to identify the key for this
+        /// encryption operation.
+        /// </param>
+        /// <returns>The encrypted value as a string.</returns>
+        public static Task<string> EncryptAsync(string plainText, object keyIdentifier)
+        {
+            return Current.AsAsync().EncryptAsync(plainText, keyIdentifier);
+        }
+
+        /// <summary>
+        /// Asynchronously decrypts the specified cipher text.
+        /// </summary>
+        /// <param name="cipherText">The cipher text.</param>
+        /// <returns>The decrypted value as a string.</returns>
+        public static Task<string> DecryptAsync(string cipherText)
+        {
+            return DecryptAsync(cipherText, null);
+        }
+
+        /// <summary>
+        /// Asynchronously decrypts the specified cipher text.
+        /// </summary>
+        /// <param name="cipherText">The cipher text.</param>
+        /// <param name="keyIdentifier">
+        /// An implementation-specific object used to identify the key for this
+        /// encryption operation.
+        /// </param>
+        /// <returns>The decrypted value as a string.</returns>
+        public static Task<string> DecryptAsync(string cipherText, object keyIdentifier)
+        {
+            return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier);
+        }
+
+        /// <summary>
+        /// Asynchronously encrypts the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <returns>The encrypted value as a byte array.</returns>
+        public static Task<byte[]> EncryptAsync(byte[] plainText)
+        {
+            return EncryptAsync(plainText, null);
+        }
+
+        /// <summary>
+        /// Asynchronously encrypts the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <param name="keyIdentifier">
+        /// An implementation-specific object used to identify the key for this
+        /// encryption operation.
+        /// </param>
+        /// <returns>The encrypted value as a byte array.</returns>
+        public static Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier)
+        {
+            return Current.AsAsync().EncryptAsync(plainText, keyIdentifier);
+        }
+
+        /// <summary>
+        /// Asynchronously decrypts the specified cipher text.
+        /// </summary>
+        /// <param name="cipherText">The cipher text.</param>
+        /// <returns>The decrypted value as a byte array.</returns>
+        public static Task<byte[]> DecryptAsync(byte[] cipherText)
+        {
+            return DecryptAsync(cipherText, null);
+        }
+
+        /// <summary>
+        /// Asynchronously decrypts the specified cipher text.
+        /// </summary>
+        /// <param name="cipherText">The cipher text.</param>
+        /// <param name="keyIdentifier">
+        /// An implementation-specific object used to identify the key for this
+        /// encryption operation.
+        /// </param>
+        /// <returns>The decrypted value as a byte array.</returns>
+        public static Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier)
+        {
+            return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier);
+        }
+
+        /// <summary>
+        /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided encrypt key.
+        /// </summary>
+        /// <returns>An object that can be used for encryption operations.</returns>
+        public static Task<IAsyncEncryptor> GetEncryptorAsync()
+        {
+            return GetEncryptorAsync(null);
+        }
+
+        /// <summary>
+        /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided encrypt key.
+        /// </summary>
+        /// <param name="keyIdentifier">
+        /// An implementation-specific object used to identify the key for this
+        /// encryption operation.
+        /// </param>
+        /// <returns>An object that can be used for encryption operations.</returns>
+        public static Task<IAsyncEncryptor> GetEncryptorAsync(object keyIdentifier)
+        {
+            return Current.AsAsync().GetEncryptorAsync(keyIdentifier);
+        }
+
+        /// <summary>
+        /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
+        /// encrypt key.
+        /// </summary>
+        /// <returns>An object that can be used for decryption operations.</returns>
+        public static Task<IAsyncDecryptor> GetDecryptorAsync()
+        {
+            return GetDecryptorAsync(null);
+        }
+
+        /// <summary>
+        /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
+        /// encrypt key.
+        /// </summary>
+        /// <param name="keyIdentifier">
+        /// An implementation-specific object used to identify the key for this
+        /// encryption operation.
+        /// </param>
+        /// <returns>An object that can be used for decryption operations.</returns>
+        public static Task<IAsyncDecryptor> GetDecryptorAsync(object keyIdentifier)
+        {
+            return Current.AsAsync().GetDecryptorAsync(keyIdentifier);
+        }
+#endif
 
         private static ICrypto GetDefaultCrypto()
         {
