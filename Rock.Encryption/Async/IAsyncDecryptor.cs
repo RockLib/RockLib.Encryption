@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace RockLib.Encryption.Async
 {
@@ -11,14 +12,16 @@ namespace RockLib.Encryption.Async
         /// Asynchronously decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the decrypted value as a string.</returns>
-        Task<string> DecryptAsync(string cipherText);
+        Task<string> DecryptAsync(string cipherText, CancellationToken cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the decrypted value as a byte array.</returns>
-        Task<byte[]> DecryptAsync(byte[] cipherText);
+        Task<byte[]> DecryptAsync(byte[] cipherText, CancellationToken cancellationToken);
     }
 }

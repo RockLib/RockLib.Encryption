@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 #if ROCKLIB
 using Microsoft.Extensions.Configuration;
 using RockLib.Encryption.Configuration;
@@ -143,10 +144,11 @@ namespace Rock.Encryption
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>The encrypted value as a string.</returns>
-        public static Task<string> EncryptAsync(string plainText, object keyIdentifier = null)
+        public static Task<string> EncryptAsync(string plainText, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Current.AsAsync().EncryptAsync(plainText, keyIdentifier);
+            return Current.AsAsync().EncryptAsync(plainText, keyIdentifier, cancellationToken);
         }
 
         /// <summary>
@@ -157,10 +159,11 @@ namespace Rock.Encryption
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>The decrypted value as a string.</returns>
-        public static Task<string> DecryptAsync(string cipherText, object keyIdentifier = null)
+        public static Task<string> DecryptAsync(string cipherText, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier);
+            return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier, cancellationToken);
         }
 
         /// <summary>
@@ -171,10 +174,11 @@ namespace Rock.Encryption
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>The encrypted value as a byte array.</returns>
-        public static Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier = null)
+        public static Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Current.AsAsync().EncryptAsync(plainText, keyIdentifier);
+            return Current.AsAsync().EncryptAsync(plainText, keyIdentifier, cancellationToken);
         }
 
         /// <summary>
@@ -185,10 +189,11 @@ namespace Rock.Encryption
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>The decrypted value as a byte array.</returns>
-        public static Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier = null)
+        public static Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier);
+            return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier, cancellationToken);
         }
 
         /// <summary>

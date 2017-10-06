@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using RockLib.Encryption.Async;
 using System.Text;
+using System.Threading;
 
 namespace RockLib.Encryption.Tests.Async
 {
@@ -26,7 +27,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncEncryptor = new SynchronousAsyncEncryptor(_encryptorMock.Object);
 
-            var encryptTask = asyncEncryptor.EncryptAsync("stuff");
+            var encryptTask = asyncEncryptor.EncryptAsync("stuff", default(CancellationToken));
 
             Assert.That(encryptTask.IsCompleted, Is.True);
         }
@@ -38,7 +39,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncEncryptor = new SynchronousAsyncEncryptor(_encryptorMock.Object);
 
-            var encrypted = asyncEncryptor.EncryptAsync("stuff").Result;
+            var encrypted = asyncEncryptor.EncryptAsync("stuff", default(CancellationToken)).Result;
 
             Assert.That(encrypted, Is.EqualTo("EncryptedString : foo"));
         }
@@ -50,7 +51,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncEncryptor = new SynchronousAsyncEncryptor(_encryptorMock.Object);
 
-            var encryptTask = asyncEncryptor.EncryptAsync(new byte[0]);
+            var encryptTask = asyncEncryptor.EncryptAsync(new byte[0], default(CancellationToken));
 
             Assert.That(encryptTask.IsCompleted, Is.True);
         }
@@ -62,7 +63,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncEncryptor = new SynchronousAsyncEncryptor(_encryptorMock.Object);
 
-            var encrypted = asyncEncryptor.EncryptAsync(new byte[0]).Result;
+            var encrypted = asyncEncryptor.EncryptAsync(new byte[0], default(CancellationToken)).Result;
 
             Assert.That(encrypted, Is.EqualTo(Encoding.UTF8.GetBytes("foo")));
         }

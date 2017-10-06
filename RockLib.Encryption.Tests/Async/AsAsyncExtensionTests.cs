@@ -4,6 +4,7 @@ using RockLib.Encryption.Async;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RockLib.Encryption.Tests.Async
@@ -58,12 +59,12 @@ namespace RockLib.Encryption.Tests.Async
             public bool CanEncrypt(object keyIdentifier) => throw new NotImplementedException();
             public string Decrypt(string cipherText, object keyIdentifier) => throw new NotImplementedException();
             public byte[] Decrypt(byte[] cipherText, object keyIdentifier) => throw new NotImplementedException();
-            public Task<string> DecryptAsync(string cipherText, object keyIdentifier) => throw new NotImplementedException();
-            public Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier) => throw new NotImplementedException();
+            public Task<string> DecryptAsync(string cipherText, object keyIdentifier, CancellationToken cancellationToken) => throw new NotImplementedException();
+            public Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier, CancellationToken cancellationToken) => throw new NotImplementedException();
             public string Encrypt(string plainText, object keyIdentifier) => throw new NotImplementedException();
             public byte[] Encrypt(byte[] plainText, object keyIdentifier) => throw new NotImplementedException();
-            public Task<string> EncryptAsync(string plainText, object keyIdentifier) => throw new NotImplementedException();
-            public Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier) => throw new NotImplementedException();
+            public Task<string> EncryptAsync(string plainText, object keyIdentifier, CancellationToken cancellationToken) => throw new NotImplementedException();
+            public Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier, CancellationToken cancellationToken) => throw new NotImplementedException();
             public IDecryptor GetDecryptor(object keyIdentifier) => throw new NotImplementedException();
             public IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier) => throw new NotImplementedException();
             public IEncryptor GetEncryptor(object keyIdentifier) => throw new NotImplementedException();

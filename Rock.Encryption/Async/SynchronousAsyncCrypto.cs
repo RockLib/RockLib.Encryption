@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RockLib.Encryption.Async
@@ -38,8 +39,9 @@ namespace RockLib.Encryption.Async
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a string.</returns>
-        public Task<string> EncryptAsync(string plainText, object keyIdentifier)
+        public Task<string> EncryptAsync(string plainText, object keyIdentifier, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<string>();
             try
@@ -63,8 +65,9 @@ namespace RockLib.Encryption.Async
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the decrypted value as a string.</returns>
-        public Task<string> DecryptAsync(string cipherText, object keyIdentifier)
+        public Task<string> DecryptAsync(string cipherText, object keyIdentifier, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<string>();
             try
@@ -88,8 +91,9 @@ namespace RockLib.Encryption.Async
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a byte array.</returns>
-        public Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier)
+        public Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<byte[]>();
             try
@@ -113,8 +117,9 @@ namespace RockLib.Encryption.Async
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the decrypted value as a byte array.</returns>
-        public Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier)
+        public Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<byte[]>();
             try
