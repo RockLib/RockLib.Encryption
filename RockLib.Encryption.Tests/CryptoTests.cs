@@ -205,6 +205,7 @@ namespace RockLib.Encryption.Tests
         public void GetEncryptorAsyncGivenCurrentIsNotIAsyncCryptoCallsCryptoGetEncryptor()
         {
             var cryptoMock = new Mock<ICrypto>();
+            cryptoMock.Setup(cm => cm.GetEncryptor(It.IsAny<object>())).Returns(new Mock<IEncryptor>().Object);
 
             ResetCrypto();
             Crypto.SetCurrent(cryptoMock.Object);
@@ -239,6 +240,7 @@ namespace RockLib.Encryption.Tests
         public void GetDecryptorAsyncGivenCurrentIsNotIAsyncCryptoCallsCryptoGetDecryptor()
         {
             var cryptoMock = new Mock<ICrypto>();
+            cryptoMock.Setup(cm => cm.GetDecryptor(It.IsAny<object>())).Returns(new Mock<IDecryptor>().Object);
 
             ResetCrypto();
             Crypto.SetCurrent(cryptoMock.Object);
