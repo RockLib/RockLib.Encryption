@@ -20,7 +20,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         public SynchronousAsyncDecryptor(IDecryptor decryptor)
         {
-            Decryptor = decryptor;
+            Decryptor = decryptor ?? throw new ArgumentNullException(nameof(decryptor));
         }
 
         /// <summary>

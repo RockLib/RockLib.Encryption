@@ -20,7 +20,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         public SynchronousAsyncCrypto(ICrypto crypto)
         {
-            Crypto = crypto;
+            Crypto = crypto ?? throw new ArgumentNullException(nameof(crypto));
         }
 
         /// <summary>

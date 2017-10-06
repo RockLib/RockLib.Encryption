@@ -20,7 +20,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         public SynchronousAsyncEncryptor(IEncryptor encryptor)
         {
-            Encryptor = encryptor;
+            Encryptor = encryptor ?? throw new ArgumentNullException(nameof(encryptor));
         }
 
         /// <summary>
