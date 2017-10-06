@@ -56,34 +56,14 @@ namespace Rock.Encryption
         /// Encrypts the specified plain text.
         /// </summary>
         /// <param name="plainText">The plain text.</param>
-        /// <returns>The encrypted value as a string.</returns>
-        public static string Encrypt(string plainText)
-        {
-            return Encrypt(plainText, null);
-        }
-
-        /// <summary>
-        /// Encrypts the specified plain text.
-        /// </summary>
-        /// <param name="plainText">The plain text.</param>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
         /// <returns>The encrypted value as a string.</returns>
-        public static string Encrypt(string plainText, object keyIdentifier)
+        public static string Encrypt(string plainText, object keyIdentifier = null)
         {
             return Current.Encrypt(plainText, keyIdentifier);
-        }
-
-        /// <summary>
-        /// Decrypts the specified cipher text.
-        /// </summary>
-        /// <param name="cipherText">The cipher text.</param>
-        /// <returns>The decrypted value as a string.</returns>
-        public static string Decrypt(string cipherText)
-        {
-            return Decrypt(cipherText, null);
         }
 
         /// <summary>
@@ -95,19 +75,9 @@ namespace Rock.Encryption
         /// encryption operation.
         /// </param>
         /// <returns>The decrypted value as a string.</returns>
-        public static string Decrypt(string cipherText, object keyIdentifier)
+        public static string Decrypt(string cipherText, object keyIdentifier = null)
         {
             return Current.Decrypt(cipherText, keyIdentifier);
-        }
-
-        /// <summary>
-        /// Encrypts the specified plain text.
-        /// </summary>
-        /// <param name="plainText">The plain text.</param>
-        /// <returns>The encrypted value as a byte array.</returns>
-        public static byte[] Encrypt(byte[] plainText)
-        {
-            return Encrypt(plainText, null);
         }
 
         /// <summary>
@@ -119,7 +89,7 @@ namespace Rock.Encryption
         /// encryption operation.
         /// </param>
         /// <returns>The encrypted value as a byte array.</returns>
-        public static byte[] Encrypt(byte[] plainText, object keyIdentifier)
+        public static byte[] Encrypt(byte[] plainText, object keyIdentifier = null)
         {
             return Current.Encrypt(plainText, keyIdentifier);
         }
@@ -128,22 +98,12 @@ namespace Rock.Encryption
         /// Decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
-        /// <returns>The decrypted value as a byte array.</returns>
-        public static byte[] Decrypt(byte[] cipherText)
-        {
-            return Decrypt(cipherText, null);
-        }
-
-        /// <summary>
-        /// Decrypts the specified cipher text.
-        /// </summary>
-        /// <param name="cipherText">The cipher text.</param>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
         /// <returns>The decrypted value as a byte array.</returns>
-        public static byte[] Decrypt(byte[] cipherText, object keyIdentifier)
+        public static byte[] Decrypt(byte[] cipherText, object keyIdentifier = null)
         {
             return Current.Decrypt(cipherText, keyIdentifier);
         }
@@ -151,21 +111,12 @@ namespace Rock.Encryption
         /// <summary>
         /// Gets an instance of <see cref="IEncryptor"/> for the provided encrypt key.
         /// </summary>
-        /// <returns>An object that can be used for encryption operations.</returns>
-        public static IEncryptor GetEncryptor()
-        {
-            return GetEncryptor(null);
-        }
-
-        /// <summary>
-        /// Gets an instance of <see cref="IEncryptor"/> for the provided encrypt key.
-        /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
         /// <returns>An object that can be used for encryption operations.</returns>
-        public static IEncryptor GetEncryptor(object keyIdentifier)
+        public static IEncryptor GetEncryptor(object keyIdentifier = null)
         {
             return Current.GetEncryptor(keyIdentifier);
         }
@@ -173,36 +124,17 @@ namespace Rock.Encryption
         /// <summary>
         /// Gets an instance of <see cref="IDecryptor"/> for the provided encrypt key.
         /// </summary>
-        /// <returns>An object that can be used for decryption operations.</returns>
-        public static IDecryptor GetDecryptor()
-        {
-            return GetDecryptor(null);
-        }
-
-        /// <summary>
-        /// Gets an instance of <see cref="IDecryptor"/> for the provided encrypt key.
-        /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
-        public static IDecryptor GetDecryptor(object keyIdentifier)
+        public static IDecryptor GetDecryptor(object keyIdentifier = null)
         {
             return Current.GetDecryptor(keyIdentifier);
         }
 
 #if ROCKLIB
-        /// <summary>
-        /// Asynchronously encrypts the specified plain text.
-        /// </summary>
-        /// <param name="plainText">The plain text.</param>
-        /// <returns>The encrypted value as a string.</returns>
-        public static Task<string> EncryptAsync(string plainText)
-        {
-            return EncryptAsync(plainText, null);
-        }
-
         /// <summary>
         /// Asynchronously wncrypts the specified plain text.
         /// </summary>
@@ -212,19 +144,9 @@ namespace Rock.Encryption
         /// encryption operation.
         /// </param>
         /// <returns>The encrypted value as a string.</returns>
-        public static Task<string> EncryptAsync(string plainText, object keyIdentifier)
+        public static Task<string> EncryptAsync(string plainText, object keyIdentifier = null)
         {
             return Current.AsAsync().EncryptAsync(plainText, keyIdentifier);
-        }
-
-        /// <summary>
-        /// Asynchronously decrypts the specified cipher text.
-        /// </summary>
-        /// <param name="cipherText">The cipher text.</param>
-        /// <returns>The decrypted value as a string.</returns>
-        public static Task<string> DecryptAsync(string cipherText)
-        {
-            return DecryptAsync(cipherText, null);
         }
 
         /// <summary>
@@ -236,7 +158,7 @@ namespace Rock.Encryption
         /// encryption operation.
         /// </param>
         /// <returns>The decrypted value as a string.</returns>
-        public static Task<string> DecryptAsync(string cipherText, object keyIdentifier)
+        public static Task<string> DecryptAsync(string cipherText, object keyIdentifier = null)
         {
             return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier);
         }
@@ -245,22 +167,12 @@ namespace Rock.Encryption
         /// Asynchronously encrypts the specified plain text.
         /// </summary>
         /// <param name="plainText">The plain text.</param>
-        /// <returns>The encrypted value as a byte array.</returns>
-        public static Task<byte[]> EncryptAsync(byte[] plainText)
-        {
-            return EncryptAsync(plainText, null);
-        }
-
-        /// <summary>
-        /// Asynchronously encrypts the specified plain text.
-        /// </summary>
-        /// <param name="plainText">The plain text.</param>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
         /// <returns>The encrypted value as a byte array.</returns>
-        public static Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier)
+        public static Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier = null)
         {
             return Current.AsAsync().EncryptAsync(plainText, keyIdentifier);
         }
@@ -269,22 +181,12 @@ namespace Rock.Encryption
         /// Asynchronously decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
-        /// <returns>The decrypted value as a byte array.</returns>
-        public static Task<byte[]> DecryptAsync(byte[] cipherText)
-        {
-            return DecryptAsync(cipherText, null);
-        }
-
-        /// <summary>
-        /// Asynchronously decrypts the specified cipher text.
-        /// </summary>
-        /// <param name="cipherText">The cipher text.</param>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
         /// <returns>The decrypted value as a byte array.</returns>
-        public static Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier)
+        public static Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier = null)
         {
             return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier);
         }
