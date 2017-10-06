@@ -65,9 +65,9 @@ namespace RockLib.Encryption.Tests.Async
             public Task<string> EncryptAsync(string plainText, object keyIdentifier) => throw new NotImplementedException();
             public Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier) => throw new NotImplementedException();
             public IDecryptor GetDecryptor(object keyIdentifier) => throw new NotImplementedException();
-            public Task<IAsyncDecryptor> GetDecryptorAsync(object keyIdentifier) => throw new NotImplementedException();
+            public IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier) => throw new NotImplementedException();
             public IEncryptor GetEncryptor(object keyIdentifier) => throw new NotImplementedException();
-            public Task<IAsyncEncryptor> GetEncryptorAsync(object keyIdentifier) => throw new NotImplementedException();
+            public IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier) => throw new NotImplementedException();
         }
     }
 }

@@ -62,7 +62,7 @@ namespace RockLib.Encryption.Async
         /// <returns>
         /// A task whose result represents an object that can be used for encryption operations.
         /// </returns>
-        Task<IAsyncEncryptor> GetEncryptorAsync(object keyIdentifier);
+        IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier);
 
         /// <summary>
         /// Asynchronously ets an instance of <see cref="IAsyncDecryptor"/> for the provided
@@ -75,7 +75,7 @@ namespace RockLib.Encryption.Async
         /// <returns>
         /// A task whose result represents an object that can be used for decryption operations.
         /// </returns>
-        Task<IAsyncDecryptor> GetDecryptorAsync(object keyIdentifier);
+        IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier);
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>

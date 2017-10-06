@@ -129,10 +129,8 @@ namespace RockLib.Encryption.Async
         }
 
         /// <summary>
-        /// Synchronously gets an instance of <see cref="IAsyncEncryptor"/> for the provided
+        /// Gets an instance of <see cref="SynchronousAsyncEncryptor"/> for the provided
         /// encrypt key.
-        /// <para>The <see cref="Task{TResult}"/> returned by this method is guaranteed
-        /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -141,25 +139,14 @@ namespace RockLib.Encryption.Async
         /// <returns>
         /// A completed task whose result represents an object that can be used for encryption operations.
         /// </returns>
-        public Task<IAsyncEncryptor> GetEncryptorAsync(object keyIdentifier)
+        public IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier)
         {
-            var completion = new TaskCompletionSource<IAsyncEncryptor>();
-            try
-            {
-                completion.SetResult(new SynchronousAsyncEncryptor(Crypto.GetEncryptor(keyIdentifier)));
-            }
-            catch (Exception ex)
-            {
-                completion.SetException(ex);
-            }
-            return completion.Task;
+            return new SynchronousAsyncEncryptor(Crypto.GetEncryptor(keyIdentifier));
         }
 
         /// <summary>
-        /// Synchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
+        /// Gets an instance of <see cref="SynchronousAsyncDecryptor"/> for the provided
         /// encrypt key.
-        /// <para>The <see cref="Task{TResult}"/> returned by this method is guaranteed
-        /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -168,18 +155,9 @@ namespace RockLib.Encryption.Async
         /// <returns>
         /// A completed task whose result represents an object that can be used for decryption operations.
         /// </returns>
-        public Task<IAsyncDecryptor> GetDecryptorAsync(object keyIdentifier)
+        public IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier)
         {
-            var completion = new TaskCompletionSource<IAsyncDecryptor>();
-            try
-            {
-                completion.SetResult(new SynchronousAsyncDecryptor(Crypto.GetDecryptor(keyIdentifier)));
-            }
-            catch (Exception ex)
-            {
-                completion.SetException(ex);
-            }
-            return completion.Task;
+            return new SynchronousAsyncDecryptor(Crypto.GetDecryptor(keyIdentifier));
         }
 
         /// <summary>

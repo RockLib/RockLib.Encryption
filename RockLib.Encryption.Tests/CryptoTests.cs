@@ -193,11 +193,11 @@ namespace RockLib.Encryption.Tests
             
             var identifier = new object();
 
-            Crypto.GetEncryptorAsync().Wait();
-            Crypto.GetEncryptorAsync(identifier).Wait();
+            Crypto.GetAsyncEncryptor();
+            Crypto.GetAsyncEncryptor(identifier);
 
-            cryptoMock.Verify(cm => cm.GetEncryptorAsync(null));
-            cryptoMock.Verify(cm => cm.GetEncryptorAsync(It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.GetAsyncEncryptor(null));
+            cryptoMock.Verify(cm => cm.GetAsyncEncryptor(It.Is<object>(o => o == identifier)));
         }
 
         [Test]
@@ -210,8 +210,8 @@ namespace RockLib.Encryption.Tests
 
             var identifier = new object();
 
-            Crypto.GetEncryptorAsync().Wait();
-            Crypto.GetEncryptorAsync(identifier).Wait();
+            Crypto.GetAsyncEncryptor();
+            Crypto.GetAsyncEncryptor(identifier);
 
             cryptoMock.Verify(cm => cm.GetEncryptor(null));
             cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<object>(o => o == identifier)));
@@ -227,11 +227,11 @@ namespace RockLib.Encryption.Tests
 
             var identifier = new object();
 
-            Crypto.GetDecryptorAsync().Wait();
-            Crypto.GetDecryptorAsync(identifier).Wait();
+            Crypto.GetAsyncDecryptor();
+            Crypto.GetAsyncDecryptor(identifier);
 
-            cryptoMock.Verify(cm => cm.GetDecryptorAsync(null));
-            cryptoMock.Verify(cm => cm.GetDecryptorAsync(It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.GetAsyncDecryptor(null));
+            cryptoMock.Verify(cm => cm.GetAsyncDecryptor(It.Is<object>(o => o == identifier)));
         }
 
         [Test]
@@ -244,8 +244,8 @@ namespace RockLib.Encryption.Tests
 
             var identifier = new object();
 
-            Crypto.GetDecryptorAsync().Wait();
-            Crypto.GetDecryptorAsync(identifier).Wait();
+            Crypto.GetAsyncDecryptor();
+            Crypto.GetAsyncDecryptor(identifier);
 
             cryptoMock.Verify(cm => cm.GetDecryptor(null));
             cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<object>(o => o == identifier)));
@@ -421,9 +421,9 @@ namespace RockLib.Encryption.Tests
             public abstract Task<string> EncryptAsync(string plainText, object keyIdentifier);
             public abstract Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier);
             public abstract IDecryptor GetDecryptor(object keyIdentifier);
-            public abstract Task<IAsyncDecryptor> GetDecryptorAsync(object keyIdentifier);
+            public abstract IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier);
             public abstract IEncryptor GetEncryptor(object keyIdentifier);
-            public abstract Task<IAsyncEncryptor> GetEncryptorAsync(object keyIdentifier);
+            public abstract IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier);
         }
     }
 }

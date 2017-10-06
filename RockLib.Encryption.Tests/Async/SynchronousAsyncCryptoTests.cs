@@ -138,25 +138,13 @@ namespace RockLib.Encryption.Tests.Async
         }
 
         [Test]
-        public void GetEncryptorAsync_ReturnsACompletedTask()
-        {
-            Setup("foo");
-
-            var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
-
-            var encryptorTask = asyncCrypto.GetEncryptorAsync("foo");
-
-            Assert.That(encryptorTask.IsCompleted, Is.True);
-        }
-
-        [Test]
         public void GetEncryptorAsync_ReturnsASynchronousAsyncEncryptor()
         {
             Setup("foo");
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encryptor = asyncCrypto.GetEncryptorAsync("foo").Result;
+            var encryptor = asyncCrypto.GetAsyncEncryptor("foo");
 
             Assert.That(encryptor, Is.InstanceOf<SynchronousAsyncEncryptor>());
         }
@@ -168,21 +156,9 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encryptor = (SynchronousAsyncEncryptor)asyncCrypto.GetEncryptorAsync("foo").Result;
+            var encryptor = (SynchronousAsyncEncryptor)asyncCrypto.GetAsyncEncryptor("foo");
 
             Assert.That(encryptor.Encryptor, Is.SameAs(_encryptor));
-        }
-
-        [Test]
-        public void GetDecryptorAsync_ReturnsACompletedTask()
-        {
-            Setup("foo");
-
-            var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
-
-            var decryptorTask = asyncCrypto.GetDecryptorAsync("foo");
-
-            Assert.That(decryptorTask.IsCompleted, Is.True);
         }
 
         [Test]
@@ -192,7 +168,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var decryptor = asyncCrypto.GetDecryptorAsync("foo").Result;
+            var decryptor = asyncCrypto.GetAsyncDecryptor("foo");
 
             Assert.That(decryptor, Is.InstanceOf<SynchronousAsyncDecryptor>());
         }
@@ -204,7 +180,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var decryptor = (SynchronousAsyncDecryptor)asyncCrypto.GetDecryptorAsync("foo").Result;
+            var decryptor = (SynchronousAsyncDecryptor)asyncCrypto.GetAsyncDecryptor("foo");
 
             Assert.That(decryptor.Decryptor, Is.SameAs(_decryptor));
         }

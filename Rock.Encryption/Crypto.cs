@@ -293,9 +293,9 @@ namespace Rock.Encryption
         /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided encrypt key.
         /// </summary>
         /// <returns>An object that can be used for encryption operations.</returns>
-        public static Task<IAsyncEncryptor> GetEncryptorAsync()
+        public static IAsyncEncryptor GetAsyncEncryptor()
         {
-            return GetEncryptorAsync(null);
+            return GetAsyncEncryptor(null);
         }
 
         /// <summary>
@@ -306,9 +306,9 @@ namespace Rock.Encryption
         /// encryption operation.
         /// </param>
         /// <returns>An object that can be used for encryption operations.</returns>
-        public static Task<IAsyncEncryptor> GetEncryptorAsync(object keyIdentifier)
+        public static IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier)
         {
-            return Current.AsAsync().GetEncryptorAsync(keyIdentifier);
+            return Current.AsAsync().GetAsyncEncryptor(keyIdentifier);
         }
 
         /// <summary>
@@ -316,9 +316,9 @@ namespace Rock.Encryption
         /// encrypt key.
         /// </summary>
         /// <returns>An object that can be used for decryption operations.</returns>
-        public static Task<IAsyncDecryptor> GetDecryptorAsync()
+        public static IAsyncDecryptor GetAsyncDecryptor()
         {
-            return GetDecryptorAsync(null);
+            return GetAsyncDecryptor(null);
         }
 
         /// <summary>
@@ -330,9 +330,9 @@ namespace Rock.Encryption
         /// encryption operation.
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
-        public static Task<IAsyncDecryptor> GetDecryptorAsync(object keyIdentifier)
+        public static IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier)
         {
-            return Current.AsAsync().GetDecryptorAsync(keyIdentifier);
+            return Current.AsAsync().GetAsyncDecryptor(keyIdentifier);
         }
 #endif
 
