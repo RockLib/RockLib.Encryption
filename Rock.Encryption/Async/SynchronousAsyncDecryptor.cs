@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RockLib.Encryption.Async
@@ -19,7 +20,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         public SynchronousAsyncDecryptor(IDecryptor decryptor)
         {
-            Decryptor = decryptor;
+            Decryptor = decryptor ?? throw new ArgumentNullException(nameof(decryptor));
         }
 
         /// <summary>
@@ -34,8 +35,9 @@ namespace RockLib.Encryption.Async
         /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the decrypted value as a string.</returns>
-        public Task<string> DecryptAsync(string cipherText)
+        public Task<string> DecryptAsync(string cipherText, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<string>();
             try
@@ -55,8 +57,9 @@ namespace RockLib.Encryption.Async
         /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the decrypted value as a byte array.</returns>
-        public Task<byte[]> DecryptAsync(byte[] cipherText)
+        public Task<byte[]> DecryptAsync(byte[] cipherText, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<byte[]>();
             try

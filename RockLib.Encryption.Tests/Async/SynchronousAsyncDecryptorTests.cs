@@ -3,6 +3,7 @@ using NUnit.Framework;
 using RockLib.Encryption;
 using RockLib.Encryption.Async;
 using System.Text;
+using System.Threading;
 
 namespace RockLib.Decryption.Tests.Async
 {
@@ -27,7 +28,7 @@ namespace RockLib.Decryption.Tests.Async
 
             var asyncDecryptor = new SynchronousAsyncDecryptor(_decryptorMock.Object);
 
-            var decryptTask = asyncDecryptor.DecryptAsync("stuff");
+            var decryptTask = asyncDecryptor.DecryptAsync("stuff", default(CancellationToken));
 
             Assert.That(decryptTask.IsCompleted, Is.True);
         }
@@ -39,7 +40,7 @@ namespace RockLib.Decryption.Tests.Async
 
             var asyncDecryptor = new SynchronousAsyncDecryptor(_decryptorMock.Object);
 
-            var decrypted = asyncDecryptor.DecryptAsync("stuff").Result;
+            var decrypted = asyncDecryptor.DecryptAsync("stuff", default(CancellationToken)).Result;
 
             Assert.That(decrypted, Is.EqualTo("DecryptedString : foo"));
         }
@@ -51,7 +52,7 @@ namespace RockLib.Decryption.Tests.Async
 
             var asyncDecryptor = new SynchronousAsyncDecryptor(_decryptorMock.Object);
 
-            var decryptTask = asyncDecryptor.DecryptAsync(new byte[0]);
+            var decryptTask = asyncDecryptor.DecryptAsync(new byte[0], default(CancellationToken));
 
             Assert.That(decryptTask.IsCompleted, Is.True);
         }
@@ -63,7 +64,7 @@ namespace RockLib.Decryption.Tests.Async
 
             var asyncDecryptor = new SynchronousAsyncDecryptor(_decryptorMock.Object);
 
-            var decrypted = asyncDecryptor.DecryptAsync(new byte[0]).Result;
+            var decrypted = asyncDecryptor.DecryptAsync(new byte[0], default(CancellationToken)).Result;
 
             Assert.That(decrypted, Is.EqualTo(Encoding.UTF8.GetBytes("foo")));
         }

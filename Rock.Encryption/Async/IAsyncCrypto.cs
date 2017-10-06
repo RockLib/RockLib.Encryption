@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace RockLib.Encryption.Async
 {
@@ -15,8 +16,9 @@ namespace RockLib.Encryption.Async
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the encrypted value as a string.</returns>
-        Task<string> EncryptAsync(string plainText, object keyIdentifier);
+        Task<string> EncryptAsync(string plainText, object keyIdentifier, CancellationToken cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the specified cipher text.
@@ -26,8 +28,9 @@ namespace RockLib.Encryption.Async
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the decrypted value as a string.</returns>
-        Task<string> DecryptAsync(string cipherText, object keyIdentifier);
+        Task<string> DecryptAsync(string cipherText, object keyIdentifier, CancellationToken cancellationToken);
 
         /// <summary>
         /// Asynchronously encrypts the specified plain text.
@@ -37,8 +40,9 @@ namespace RockLib.Encryption.Async
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the encrypted value as a byte array.</returns>
-        Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier);
+        Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier, CancellationToken cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the specified cipher text.
@@ -48,8 +52,9 @@ namespace RockLib.Encryption.Async
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the decrypted value as a byte array.</returns>
-        Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier);
+        Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier, CancellationToken cancellationToken);
 
         /// <summary>
         /// Asynchronously gets an instance of <see cref="IAsyncEncryptor"/> for the provided
@@ -62,7 +67,7 @@ namespace RockLib.Encryption.Async
         /// <returns>
         /// A task whose result represents an object that can be used for encryption operations.
         /// </returns>
-        Task<IAsyncEncryptor> GetEncryptorAsync(object keyIdentifier);
+        IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier);
 
         /// <summary>
         /// Asynchronously ets an instance of <see cref="IAsyncDecryptor"/> for the provided
@@ -75,7 +80,7 @@ namespace RockLib.Encryption.Async
         /// <returns>
         /// A task whose result represents an object that can be used for decryption operations.
         /// </returns>
-        Task<IAsyncDecryptor> GetDecryptorAsync(object keyIdentifier);
+        IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier);
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>

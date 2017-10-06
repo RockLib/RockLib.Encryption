@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RockLib.Encryption.Async
@@ -19,7 +20,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         public SynchronousAsyncEncryptor(IEncryptor encryptor)
         {
-            Encryptor = encryptor;
+            Encryptor = encryptor ?? throw new ArgumentNullException(nameof(encryptor));
         }
 
         /// <summary>
@@ -34,8 +35,9 @@ namespace RockLib.Encryption.Async
         /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="plainText">The plain text.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a string.</returns>
-        public Task<string> EncryptAsync(string plainText)
+        public Task<string> EncryptAsync(string plainText, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<string>();
             try
@@ -55,8 +57,9 @@ namespace RockLib.Encryption.Async
         /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="plainText">The plain text.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a byte array.</returns>
-        public Task<byte[]> EncryptAsync(byte[] plainText)
+        public Task<byte[]> EncryptAsync(byte[] plainText, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<byte[]>();
             try

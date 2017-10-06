@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using RockLib.Encryption.Async;
 using System.Text;
+using System.Threading;
 
 namespace RockLib.Encryption.Tests.Async
 {
@@ -48,7 +49,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encryptTask = asyncCrypto.EncryptAsync("stuff", "foo");
+            var encryptTask = asyncCrypto.EncryptAsync("stuff", "foo", default(CancellationToken));
 
             Assert.That(encryptTask.IsCompleted, Is.True);
         }
@@ -60,7 +61,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encrypted = asyncCrypto.EncryptAsync("stuff", "foo").Result;
+            var encrypted = asyncCrypto.EncryptAsync("stuff", "foo", default(CancellationToken)).Result;
 
             Assert.That(encrypted, Is.EqualTo("EncryptedString : foo"));
         }
@@ -72,7 +73,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encryptTask = asyncCrypto.EncryptAsync(new byte[0], "foo");
+            var encryptTask = asyncCrypto.EncryptAsync(new byte[0], "foo", default(CancellationToken));
 
             Assert.That(encryptTask.IsCompleted, Is.True);
         }
@@ -84,7 +85,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encrypted = asyncCrypto.EncryptAsync(new byte[0], "foo").Result;
+            var encrypted = asyncCrypto.EncryptAsync(new byte[0], "foo", default(CancellationToken)).Result;
 
             Assert.That(encrypted, Is.EqualTo(Encoding.UTF8.GetBytes("foo")));
         }
@@ -96,7 +97,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encryptTask = asyncCrypto.DecryptAsync("stuff", "foo");
+            var encryptTask = asyncCrypto.DecryptAsync("stuff", "foo", default(CancellationToken));
 
             Assert.That(encryptTask.IsCompleted, Is.True);
         }
@@ -108,7 +109,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encrypted = asyncCrypto.DecryptAsync("stuff", "foo").Result;
+            var encrypted = asyncCrypto.DecryptAsync("stuff", "foo", default(CancellationToken)).Result;
 
             Assert.That(encrypted, Is.EqualTo("DecryptedString : foo"));
         }
@@ -120,7 +121,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encryptTask = asyncCrypto.DecryptAsync(new byte[0], "foo");
+            var encryptTask = asyncCrypto.DecryptAsync(new byte[0], "foo", default(CancellationToken));
 
             Assert.That(encryptTask.IsCompleted, Is.True);
         }
@@ -132,21 +133,9 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encrypted = asyncCrypto.DecryptAsync(new byte[0], "foo").Result;
+            var encrypted = asyncCrypto.DecryptAsync(new byte[0], "foo", default(CancellationToken)).Result;
 
             Assert.That(encrypted, Is.EqualTo(Encoding.UTF8.GetBytes("foo")));
-        }
-
-        [Test]
-        public void GetEncryptorAsync_ReturnsACompletedTask()
-        {
-            Setup("foo");
-
-            var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
-
-            var encryptorTask = asyncCrypto.GetEncryptorAsync("foo");
-
-            Assert.That(encryptorTask.IsCompleted, Is.True);
         }
 
         [Test]
@@ -156,7 +145,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encryptor = asyncCrypto.GetEncryptorAsync("foo").Result;
+            var encryptor = asyncCrypto.GetAsyncEncryptor("foo");
 
             Assert.That(encryptor, Is.InstanceOf<SynchronousAsyncEncryptor>());
         }
@@ -168,21 +157,9 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var encryptor = (SynchronousAsyncEncryptor)asyncCrypto.GetEncryptorAsync("foo").Result;
+            var encryptor = (SynchronousAsyncEncryptor)asyncCrypto.GetAsyncEncryptor("foo");
 
             Assert.That(encryptor.Encryptor, Is.SameAs(_encryptor));
-        }
-
-        [Test]
-        public void GetDecryptorAsync_ReturnsACompletedTask()
-        {
-            Setup("foo");
-
-            var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
-
-            var decryptorTask = asyncCrypto.GetDecryptorAsync("foo");
-
-            Assert.That(decryptorTask.IsCompleted, Is.True);
         }
 
         [Test]
@@ -192,7 +169,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var decryptor = asyncCrypto.GetDecryptorAsync("foo").Result;
+            var decryptor = asyncCrypto.GetAsyncDecryptor("foo");
 
             Assert.That(decryptor, Is.InstanceOf<SynchronousAsyncDecryptor>());
         }
@@ -204,7 +181,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var asyncCrypto = new SynchronousAsyncCrypto(_cryptoMock.Object);
 
-            var decryptor = (SynchronousAsyncDecryptor)asyncCrypto.GetDecryptorAsync("foo").Result;
+            var decryptor = (SynchronousAsyncDecryptor)asyncCrypto.GetAsyncDecryptor("foo");
 
             Assert.That(decryptor.Decryptor, Is.SameAs(_decryptor));
         }
