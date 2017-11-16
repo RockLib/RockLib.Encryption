@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 #if ROCKLIB
-using Microsoft.Extensions.Configuration;
+using RockLib.Configuration.ObjectFactory;
 using RockLib.Encryption.Configuration;
 using RockLib.Configuration;
 using RockLib.Immutable;
@@ -246,12 +246,12 @@ namespace Rock.Encryption
         private static ICrypto GetDefaultCrypto()
         {
 #if ROCKLIB
-            var section = Config.Root.GetSection("rocklib.encryption").Get<EncryptionSection>();
+            var section = Config.Root.GetSection("rocklib.encryption").Create<EncryptionSection>();
 #else
             var section = (RockEncryptionSection)ConfigurationManager.GetSection("rock.encryption");
 #endif
 
-            if (section == null || section.CryptoFactories.Count == 0)
+            if (section == null || section.CryptoFactories == null || section.CryptoFactories.Count == 0)
             {
                 throw new InvalidOperationException("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration.");
             }
@@ -262,14 +262,16 @@ namespace Rock.Encryption
 #if !ROCKLIB
                     .Cast<CryptoElement>()
 #endif
-                    .First().CreateInstance();
+                    .First();
             }
 
-            return new CompositeCrypto(section.CryptoFactories
-#if !ROCKLIB
-                .Cast<CryptoElement>()
+
+#if ROCKLIB
+                return new CompositeCrypto(section.CryptoFactories);
+#else
+                return new CompositeCrypto(section.CryptoFactories.Cast<CryptoElement>().Select(c => c.CreateInstance()));
 #endif
-                .Select(c => c.CreateInstance()));
+
         }
     }
 }
