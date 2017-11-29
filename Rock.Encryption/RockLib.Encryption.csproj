@@ -29,7 +29,7 @@
         <DocumentationFile>bin\Release\net451\RockLib.Encryption.xml</DocumentationFile>
     </PropertyGroup>
 
-    <ItemGroup><!--<PackageReference Include="RockLib.Threading" Version="0.0.1-alpha01" />-->
+    <ItemGroup>
     
       <Compile Remove="linqpad-samples\**" />
       <Compile Remove="Symmetric\Xml\**" />
@@ -51,9 +51,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="RockLib.Configuration" Version="0.0.1-alpha05" />
-      <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="0.0.1-alpha03" />
-      <PackageReference Include="RockLib.Immutable" Version="0.0.1-alpha02" />
+      <PackageReference Include="RockLib.Configuration" Version="1.0.0" />
+      <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="1.0.0" />
+      <PackageReference Include="RockLib.Immutable" Version="1.0.0" />
     </ItemGroup>
 
 </Project>
