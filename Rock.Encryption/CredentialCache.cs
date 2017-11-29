@@ -28,7 +28,8 @@ namespace Rock.Encryption
         /// <param name="credentials">The backing collection of credentials.</param>
         public CredentialCache(IReadOnlyCollection<TCredentialInfo> credentials)
         {
-            _credentials = credentials ?? throw new ArgumentNullException(nameof(credentials));
+            if (credentials == null) throw new ArgumentNullException(nameof(credentials));
+            _credentials = credentials;
 
             _defaultCredential = new Lazy<TCredentialInfo>(() => _credentials.FirstOrDefault(x => string.IsNullOrEmpty(x.Name) || x.Name.ToLower() == "default"));
         }

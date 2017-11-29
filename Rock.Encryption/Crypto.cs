@@ -261,6 +261,7 @@ namespace Rock.Encryption
                 return section.CryptoFactories
 #if !ROCKLIB
                     .Cast<CryptoElement>()
+                    .Select(c => c.CreateInstance())
 #endif
                     .First();
             }
