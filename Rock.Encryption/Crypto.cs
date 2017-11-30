@@ -1,17 +1,17 @@
 using System;
-using System.Linq;
-using System.Threading;
 #if ROCKLIB
 using RockLib.Configuration.ObjectFactory;
-using RockLib.Encryption.Configuration;
 using RockLib.Configuration;
 using RockLib.Immutable;
 using RockLib.Encryption.Async;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 #else
 using Rock.Encryption.Configuration;
 using Rock.Immutable;
 using System.Configuration;
+using System.Linq;
 #endif
 
 #if ROCKLIB
@@ -246,10 +246,21 @@ namespace Rock.Encryption
         private static ICrypto GetDefaultCrypto()
         {
 #if ROCKLIB
-            var section = Config.Root.GetSection("rocklib.encryption").Create<EncryptionSection>();
+            var cryptos = Config.Root.GetSection("rocklib.encryption").Create<List<ICrypto>>();
+
+            if (cryptos == null || cryptos.Count == 0)
+            {
+                throw new InvalidOperationException("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration.");
+            }
+
+            if (cryptos.Count == 1)
+            {
+                return cryptos[0];
+            }
+
+            return new CompositeCrypto(cryptos);
 #else
             var section = (RockEncryptionSection)ConfigurationManager.GetSection("rock.encryption");
-#endif
 
             if (section == null || section.CryptoFactories == null || section.CryptoFactories.Count == 0)
             {
@@ -259,20 +270,13 @@ namespace Rock.Encryption
             if (section.CryptoFactories.Count == 1)
             {
                 return section.CryptoFactories
-#if !ROCKLIB
                     .Cast<CryptoElement>()
                     .Select(c => c.CreateInstance())
-#endif
                     .First();
             }
 
-
-#if ROCKLIB
-                return new CompositeCrypto(section.CryptoFactories);
-#else
-                return new CompositeCrypto(section.CryptoFactories.Cast<CryptoElement>().Select(c => c.CreateInstance()));
+            return new CompositeCrypto(section.CryptoFactories.Cast<CryptoElement>().Select(c => c.CreateInstance()));
 #endif
-
         }
     }
 }

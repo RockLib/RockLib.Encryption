@@ -40,10 +40,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Configuration\CryptoElement.cs" />
-      <Compile Remove="Configuration\CryptoElementCollection.cs" />
-      <Compile Remove="Configuration\RockEncryptionSection.cs" />
+      <Compile Remove="Configuration\*.cs" />
       <Compile Remove="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="packages.config" />
+      <None Remove="Rock.Encryption.nuspec" />
     </ItemGroup>
 
     <ItemGroup>
