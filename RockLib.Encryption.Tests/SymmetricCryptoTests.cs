@@ -90,7 +90,7 @@ namespace RockLib.Encryption.Tests
                 {
                     Credentials =
                     {
-                        new Credential(SymmetricAlgorithm.Aes, 16, Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="))
+                        new Credential(Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 16)
                     }
                 }
             );
@@ -105,7 +105,7 @@ namespace RockLib.Encryption.Tests
                 {
                     Credentials =
                     {
-                        new Credential(SymmetricAlgorithm.Aes, 16, Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="))
+                        new Credential(Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 16)
                     }
                 }
             );
