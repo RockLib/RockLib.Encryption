@@ -86,16 +86,14 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanCreateSymmetricCryptoByEncryptionSettings()
         {
-            var crypto = new SymmetricCrypto
-            {
-                EncryptionSettings = new CryptoConfiguration
+            var crypto = new SymmetricCrypto(new CryptoConfiguration
                 {
-                    Credentials = new List<Credential>
+                    Credentials =
                     {
-                        new Credential(SymmetricAlgorithm.Aes, 16, Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="))
+                        new Credential(Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 16)
                     }
                 }
-            };
+            );
 
             crypto.Should().NotBe(null);
         }
@@ -103,16 +101,14 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptByRepoByEncryptionSettings()
         {
-            var crypto = new SymmetricCrypto
-            {
-                EncryptionSettings = new CryptoConfiguration
+            var crypto = new SymmetricCrypto(new CryptoConfiguration
                 {
-                    Credentials = new List<Credential>
+                    Credentials =
                     {
-                        new Credential(SymmetricAlgorithm.Aes, 16, Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="))
+                        new Credential(Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 16)
                     }
                 }
-            };
+            );
 
             var plainText = "This is just some random text to encrypt/decrypt";
             var encrypted = crypto.Encrypt(plainText, null);

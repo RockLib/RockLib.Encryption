@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace RockLib.Encryption.Symmetric
 {
@@ -12,6 +13,11 @@ namespace RockLib.Encryption.Symmetric
         /// Gets the collection of credentials that will be available for encryption or
         /// decryption operations.
         /// </summary>
-        public List<Credential> Credentials { get; set; } = new List<Credential>();
+        public List<Credential> Credentials { get; } = new List<Credential>();
+
+        /// <summary>
+        /// Gets or sets the <see cref="System.Text.Encoding"/> to be used to for string/binary conversions.
+        /// </summary>
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
     }
 }

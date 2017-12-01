@@ -1,6 +1,4 @@
 ﻿{
-    "rocklib.encryption": {
-        "CryptoFactories": []
-    }
+    "RockLib.Encryption": []
 }
   

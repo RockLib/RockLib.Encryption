@@ -17,7 +17,7 @@ namespace Rock.Encryption.Symmetric
             {
                 case SymmetricAlgorithm.Aes:
                     return Aes.Create();
-#if !ROCKLIB
+#if !NETSTANDARD1_6
                 case SymmetricAlgorithm.DES:
                     return DES.Create();
                 case SymmetricAlgorithm.RC2:

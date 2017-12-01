@@ -41,7 +41,9 @@ namespace Rock.Encryption.Symmetric
         /// </param>
         public CredentialRepository(CredentialCache<ICredential> cache)
         {
-            Cache = cache ?? throw new ArgumentNullException(nameof(cache));
+            if (cache == null) throw new ArgumentNullException(nameof(cache));
+
+            Cache = cache;
         }
 
         /// <summary>

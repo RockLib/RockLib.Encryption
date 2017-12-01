@@ -15,7 +15,7 @@ namespace Rock.Encryption.Symmetric
         /// </summary>
         Aes,
 
-#if !ROCKLIB
+#if !NETSTANDARD1_6
         /// <summary>
         /// The Data Encryption Standard (DES) algorithm. Corresponds to the
         /// <see cref="System.Security.Cryptography.DES"/> class.
