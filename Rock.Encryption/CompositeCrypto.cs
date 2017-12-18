@@ -95,7 +95,7 @@ namespace Rock.Encryption
         }
 
         /// <summary>
-        /// Gets an instance of <see cref="IEncryptor"/> for the provided encrypt key.
+        /// Gets an instance of <see cref="IEncryptor"/> for the provided key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -108,7 +108,7 @@ namespace Rock.Encryption
         }
 
         /// <summary>
-        /// Gets an instance of <see cref="IDecryptor"/> for the provided encrypt key.
+        /// Gets an instance of <see cref="IDecryptor"/> for the provided key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
