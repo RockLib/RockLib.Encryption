@@ -199,36 +199,18 @@ namespace Rock.Encryption
         /// <summary>
         /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided encrypt key.
         /// </summary>
-        /// <returns>An object that can be used for encryption operations.</returns>
-        public static IAsyncEncryptor GetAsyncEncryptor()
-        {
-            return GetAsyncEncryptor(null);
-        }
-
-        /// <summary>
-        /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided encrypt key.
-        /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
         /// encryption operation.
         /// </param>
         /// <returns>An object that can be used for encryption operations.</returns>
-        public static IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier)
+        public static IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier = null)
         {
             return Current.AsAsync().GetAsyncEncryptor(keyIdentifier);
         }
 
         /// <summary>
         /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
-        /// encrypt key.
-        /// </summary>
-        /// <returns>An object that can be used for decryption operations.</returns>
-        public static IAsyncDecryptor GetAsyncDecryptor()
-        {
-            return GetAsyncDecryptor(null);
-        }
-
-        /// <summary>
         /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
         /// encrypt key.
         /// </summary>
@@ -237,7 +219,7 @@ namespace Rock.Encryption
         /// encryption operation.
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
-        public static IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier)
+        public static IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier = null)
         {
             return Current.AsAsync().GetAsyncDecryptor(keyIdentifier);
         }
