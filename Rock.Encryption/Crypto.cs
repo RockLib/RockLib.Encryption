@@ -46,7 +46,7 @@ namespace Rock.Encryption
         /// <param name="crypto"></param>
         /// <remarks>
         /// Each method of the <see cref="Crypto"/> class ultimately uses the value
-        /// of this property and calls one of its methods.
+        /// of the <see cref="Current"/> property and calls one of its methods.
         /// </remarks>
         public static void SetCurrent(ICrypto crypto)
         {
@@ -110,7 +110,7 @@ namespace Rock.Encryption
         }
 
         /// <summary>
-        /// Gets an instance of <see cref="IEncryptor"/> for the provided encrypt key.
+        /// Gets an instance of <see cref="IEncryptor"/> for the provided key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -123,7 +123,7 @@ namespace Rock.Encryption
         }
 
         /// <summary>
-        /// Gets an instance of <see cref="IDecryptor"/> for the provided encrypt key.
+        /// Gets an instance of <see cref="IDecryptor"/> for the provided key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -197,7 +197,7 @@ namespace Rock.Encryption
         }
 
         /// <summary>
-        /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided encrypt key.
+        /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -211,8 +211,7 @@ namespace Rock.Encryption
 
         /// <summary>
         /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
-        /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
-        /// encrypt key.
+        /// key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this

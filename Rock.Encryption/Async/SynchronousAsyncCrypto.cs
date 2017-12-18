@@ -135,7 +135,7 @@ namespace RockLib.Encryption.Async
 
         /// <summary>
         /// Gets an instance of <see cref="SynchronousAsyncEncryptor"/> for the provided
-        /// encrypt key.
+        /// key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -151,7 +151,7 @@ namespace RockLib.Encryption.Async
 
         /// <summary>
         /// Gets an instance of <see cref="SynchronousAsyncDecryptor"/> for the provided
-        /// encrypt key.
+        /// key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this

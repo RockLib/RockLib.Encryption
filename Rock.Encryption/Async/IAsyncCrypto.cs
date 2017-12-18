@@ -58,7 +58,7 @@ namespace RockLib.Encryption.Async
 
         /// <summary>
         /// Asynchronously gets an instance of <see cref="IAsyncEncryptor"/> for the provided
-        /// encrypt key.
+        /// key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -70,8 +70,8 @@ namespace RockLib.Encryption.Async
         IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier);
 
         /// <summary>
-        /// Asynchronously ets an instance of <see cref="IAsyncDecryptor"/> for the provided
-        /// encrypt key.
+        /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
+        /// key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
