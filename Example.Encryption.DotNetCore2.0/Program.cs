@@ -2,7 +2,7 @@
 using RockLib.Encryption;
 using System.Threading.Tasks;
 
-namespace Example.Encryption.DotNetCore
+namespace Example.Encryption.DotNetCore20
 {
     public class Program
     {
