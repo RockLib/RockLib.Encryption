@@ -71,9 +71,6 @@
     <Reference Include="RockLib.Configuration.ObjectFactory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RockLib.Configuration.ObjectFactory.1.0.0\lib\net451\RockLib.Configuration.ObjectFactory.dll</HintPath>
     </Reference>
-    <Reference Include="RockLib.DataProtection, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RockLib.DataProtection.0.0.1-alpha02\lib\net451\RockLib.DataProtection.dll</HintPath>
-    </Reference>
     <Reference Include="RockLib.Encryption, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RockLib.Encryption.1.0.0\lib\net451\RockLib.Encryption.dll</HintPath>
     </Reference>
