@@ -401,7 +401,7 @@ namespace RockLib.Encryption.Tests
         private static void ResetConfig()
         {
             var rootField = typeof(Config).GetField("_root", BindingFlags.NonPublic | BindingFlags.Static);
-            var root = (Semimutable<IConfigurationRoot>)rootField.GetValue(null);
+            var root = (Semimutable<IConfiguration>)rootField.GetValue(null);
             root.GetUnlockValueMethod().Invoke(root, null);
         }
         private static void ResetCrypto()
