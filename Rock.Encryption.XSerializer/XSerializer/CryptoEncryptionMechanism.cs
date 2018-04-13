@@ -1,7 +1,11 @@
 ﻿using XSerializer;
 using XSerializer.Encryption;
 
+#if ROCKLIB
+namespace RockLib.Encryption.XSerializer
+#else
 namespace Rock.Encryption.XSerializer
+#endif
 {
     /// <summary>
     /// An implementation of XSerializer's <see cref="IEncryptionMechanism"/> interface

@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net451;</TargetFrameworks>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>RockLib.Encryption.XSerializer</PackageId>
+        <PackageVersion>1.0.0-alpha01</PackageVersion>
+        <Authors>Quicken Loans</Authors>
+        <Description>Extension to RockLib.Encryption - allows properties marked with the [Encrypt] attribute to be encrypted during an XSerializer serialization operation.</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes></PackageReleaseNotes>
+        <Copyright>Copyright 2018 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
+        <PackageTags>rocklib encryption crypto field-level</PackageTags>
+        <Version>1.0.0-alpha01</Version>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DefineConstants>ROCKLIB</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RockLib.Encryption.XSerializer.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="linqpad-samples\**" />
+      <EmbeddedResource Remove="linqpad-samples\**" />
+      <None Remove="linqpad-samples\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="packages.config" />
+      <None Remove="Rock.Encryption.XSerializer.nuspec" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RockLib.Encryption" Version="1.0.1" />
+      <PackageReference Include="XSerializer" Version="0.3.9-alpha02" />
+    </ItemGroup>
+
+</Project>
