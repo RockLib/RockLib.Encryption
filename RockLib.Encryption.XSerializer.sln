@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer", "Rock.Encryption.XSerializer\RockLib.Encryption.XSerializer.csproj", "{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RockLib.Encryption.XSerializer.Tests", "RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.shproj", "{0BA5120D-5606-4919-BBDA-4DAF66B331DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests.net451", "RockLib.Encryption.XSerializer.Tests\net451\RockLib.Encryption.XSerializer.Tests.net451.csproj", "{96546D7F-3A0A-409C-B013-61F53A1FFDAD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests.netcoreapp2.0", "RockLib.Encryption.XSerializer.Tests\netcoreapp2.0\RockLib.Encryption.XSerializer.Tests.netcoreapp2.0.csproj", "{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{0ba5120d-5606-4919-bbda-4daf66b331df}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96546D7F-3A0A-409C-B013-61F53A1FFDAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96546D7F-3A0A-409C-B013-61F53A1FFDAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96546D7F-3A0A-409C-B013-61F53A1FFDAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96546D7F-3A0A-409C-B013-61F53A1FFDAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68B67557-20B2-4F40-9FFB-19BCDBB9AA17}
+	EndGlobalSection
+EndGlobal
