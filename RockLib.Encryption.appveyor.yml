@@ -6,7 +6,7 @@ only_commits:
   - Rock.Encryption/
   - RockLib.Encryption.Tests/
   - RockLib.Encryption.sln
-  - appveyor.yml
+  - RockLib.Encryption.appveyor.yml
 before_build:
 - ps: |
     # The path to the solution to restore.
