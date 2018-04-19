@@ -5,11 +5,8 @@ only_commits:
   files:
   - Rock.Encryption/
   - RockLib.Encryption.Tests/
-  - Example.Encryption.DotNetCore1.1/
-  - Example.Encryption.DotNetCore2.0/
-  - Example.Encryption.DotNetFramework/
   - RockLib.Encryption.sln
-  - appveyor.yml
+  - RockLib.Encryption.appveyor.yml
 before_build:
 - ps: |
     # The path to the solution to restore.
