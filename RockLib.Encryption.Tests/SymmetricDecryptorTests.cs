@@ -18,13 +18,13 @@ namespace RockLib.Encryption.Tests
             credentialMock.Setup(cm => cm.IVSize).Returns(16);
             credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
 
-            var symmetricEncryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
+            var symmetricDecryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
 
-            var unencrypted = "ARAAR0wt0bewMNdNByQ5OuJmKj6AfWMNWYSIrPaLR0h/bBF4fcSjCXwJrxZ1upPDByFp";
-            var encrypted = symmetricEncryptor.Decrypt(unencrypted);
+            var encrypted = "ARAAR0wt0bewMNdNByQ5OuJmKj6AfWMNWYSIrPaLR0h/bBF4fcSjCXwJrxZ1upPDByFp";
+            var decrypted = symmetricDecryptor.Decrypt(encrypted);
 
-            encrypted.Should().NotBeNullOrEmpty();
-            encrypted.Should().NotBe(unencrypted);
+            decrypted.Should().NotBeNullOrEmpty();
+            decrypted.Should().NotBe(encrypted);
         }
 
         [Test]
@@ -35,33 +35,114 @@ namespace RockLib.Encryption.Tests
             credentialMock.Setup(cm => cm.IVSize).Returns(16);
             credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
 
-            var symmetricEncryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
+            var symmetricDecryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
 
-            var unencryptedString = "ARAAR0wt0bewMNdNByQ5OuJmKj6AfWMNWYSIrPaLR0h/bBF4fcSjCXwJrxZ1upPDByFp";
-            var unencrypted = Convert.FromBase64String(unencryptedString);
-            var encrypted = symmetricEncryptor.Decrypt(unencrypted);
-            var encryptedString = Encoding.UTF8.GetString(encrypted);
+            var encryptedString = "ARAAR0wt0bewMNdNByQ5OuJmKj6AfWMNWYSIrPaLR0h/bBF4fcSjCXwJrxZ1upPDByFp";
+            var encrypted = Convert.FromBase64String(encryptedString);
+            var decrypted = symmetricDecryptor.Decrypt(encrypted);
+            var decryptedString = Encoding.UTF8.GetString(decrypted);
 
-            encrypted.Should().NotBeEmpty();
-            encryptedString.Should().NotBeNullOrEmpty();
-            encryptedString.Should().NotBe(unencryptedString);
+            decrypted.Should().NotBeEmpty();
+            decryptedString.Should().NotBeNullOrEmpty();
+            decryptedString.Should().NotBe(encryptedString);
         }
 
-        //[Test]
-        //public void CanDispose()
-        //{
-        //    var credentialMock = new Mock<ICredential>();
-        //    credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-        //    credentialMock.Setup(cm => cm.IVSize).Returns(16);
-        //    credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
+        [Test]
+        public void DecryptByStringReturnsTheCipherTextParameterWhenItIsNotBase64Encoded()
+        {
+            var credentialMock = new Mock<ICredential>();
+            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
+            credentialMock.Setup(cm => cm.IVSize).Returns(16);
+            credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
 
-        //    var symmetricEncryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
-        //    symmetricEncryptor.Decrypt("This should not fail");
+            var symmetricDecryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
 
-        //    symmetricEncryptor.Dispose();
+            var plaintext = "This is not a base-64 encoded string.";
+            var decrypted = symmetricDecryptor.Decrypt(plaintext);
 
-        //    Action action = () => symmetricEncryptor.Decrypt("This should fail");
-        //    action.ShouldThrow<SomeException>();
-        //}
+            decrypted.Should().BeSameAs(plaintext);
+        }
+
+        [Test]
+        public void DecryptByByteArrayReturnsTheCipherTextParameterWhenItIsNotLongEnoughForTheHeader()
+        {
+            var credentialMock = new Mock<ICredential>();
+            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
+            credentialMock.Setup(cm => cm.IVSize).Returns(16);
+            credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
+
+            var symmetricDecryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
+
+            var plaintext = new byte[] { 1, 16 };
+            var decrypted = symmetricDecryptor.Decrypt(plaintext);
+
+            decrypted.Should().BeSameAs(plaintext);
+        }
+
+        [Test]
+        public void DecryptByByteArrayReturnsTheCipherTextParameterWhenTheVersionIsNot1()
+        {
+            var credentialMock = new Mock<ICredential>();
+            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
+            credentialMock.Setup(cm => cm.IVSize).Returns(16);
+            credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
+
+            var symmetricDecryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i == 1) continue;
+
+                var plaintext = new byte[] { (byte)i, 16, 0, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+                var decrypted = symmetricDecryptor.Decrypt(plaintext);
+
+                decrypted.Should().BeSameAs(plaintext);
+            }
+        }
+
+        [Test]
+        public void DecryptByByteArrayReturnsTheCipherTextParameterWhenTheIVSizeIsNot8Or16()
+        {
+            var credentialMock = new Mock<ICredential>();
+            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
+            credentialMock.Setup(cm => cm.IVSize).Returns(16);
+            credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
+
+            var symmetricDecryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
+
+            for (int i = 0; i < 256; i++)
+            {
+                for (int j = 0; j < 256; j++)
+                {
+                    if ((i == 8 || i == 16) && j == 0) continue;
+
+                    var plaintext = new byte[] { 1, (byte)i, (byte)j, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+                    var decrypted = symmetricDecryptor.Decrypt(plaintext);
+
+                    decrypted.Should().BeSameAs(plaintext);
+                }
+            }
+        }
+
+        [Test]
+        public void DecryptByByteArrayReturnsTheCipherTextParameterWhenItIsNotLongEnoughForTheHeaderAndIV()
+        {
+            var credentialMock = new Mock<ICredential>();
+            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
+            credentialMock.Setup(cm => cm.IVSize).Returns(16);
+            credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
+
+            var symmetricDecryptor = new SymmetricDecryptor(credentialMock.Object, Encoding.UTF8);
+
+            var plaintext = new byte[] { 1, 16, 0, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+            var decrypted = symmetricDecryptor.Decrypt(plaintext);
+
+            decrypted.Should().BeSameAs(plaintext);
+
+            plaintext = new byte[] { 1, 8, 0, 6, 5, 4, 3, 2, 1, 0 };
+            decrypted = symmetricDecryptor.Decrypt(plaintext);
+
+            decrypted.Should().BeSameAs(plaintext);
+        }
     }
 }

@@ -36,5 +36,22 @@ namespace Rock.Encryption.Symmetric
             stream.Read(iv, 0, ivSize);
             return iv;
         }
+
+        public static bool IsEncrypted(this byte[] cipherText)
+        {
+            if (cipherText.Length < 3 || cipherText[0] != 1)
+                return false;
+
+            var ivSize = (ushort)(cipherText[1] | (cipherText[2] << 8));
+
+            switch (ivSize)
+            {
+                case 8:
+                case 16:
+                    return cipherText.Length >= 3 + ivSize;
+            }
+
+            return false;
+        }
     }
 }

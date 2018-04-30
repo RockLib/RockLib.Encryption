@@ -45,22 +45,5 @@ namespace RockLib.Encryption.Tests
             encryptedString.Should().NotBeNullOrEmpty();
             encryptedString.Should().NotBe(unencryptedString);
         }
-
-        //[Test]
-        //public void CanDispose()
-        //{
-        //    var credentialMock = new Mock<ICredential>();
-        //    credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-        //    credentialMock.Setup(cm => cm.IVSize).Returns(16);
-        //    credentialMock.Setup(cm => cm.GetKey()).Returns(new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15 });
-
-        //    var symmetricEncryptor = new SymmetricEncryptor(credentialMock.Object, Encoding.UTF8);
-        //    symmetricEncryptor.Encrypt("This should not fail");
-
-        //    symmetricEncryptor.Dispose();
-
-        //    Action action = () => symmetricEncryptor.Encrypt("This should fail");
-        //    action.ShouldThrow<SomeException>();
-        //}
     }
 }
