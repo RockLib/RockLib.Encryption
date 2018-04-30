@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 #if ROCKLIB
 namespace RockLib.Encryption.Symmetric
@@ -56,6 +57,9 @@ namespace Rock.Encryption.Symmetric
         /// <returns>The decrypted value as a string.</returns>
         public string Decrypt(string cipherText)
         {
+            if (!IsBase64(cipherText))
+                return cipherText;
+
             var cipherTextData = Convert.FromBase64String(cipherText);
             var plainTextData = Decrypt(cipherTextData);
             var plainText = _encoding.GetString(plainTextData);
@@ -69,6 +73,9 @@ namespace Rock.Encryption.Symmetric
         /// <returns>The decrypted value as a byte array.</returns>
         public byte[] Decrypt(byte[] cipherText)
         {
+            if (!cipherText.IsEncrypted())
+                return cipherText;
+
             var decrypted = new List<byte>(cipherText.Length);
 
             using (var stream = new MemoryStream(cipherText))
@@ -99,6 +106,16 @@ namespace Rock.Encryption.Symmetric
             }
 
             return decrypted.ToArray();
+        }
+
+        private static readonly Regex SpaceRegex = new Regex(@"\s");
+        private static readonly Regex Base64Regex = new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$");
+
+        private static bool IsBase64(string base64)
+        {
+            if (SpaceRegex.IsMatch(base64)) base64 = SpaceRegex.Replace(base64, "");
+            if (base64.Length % 4 != 0) return false;
+            return Base64Regex.IsMatch(base64);
         }
     }
 }
