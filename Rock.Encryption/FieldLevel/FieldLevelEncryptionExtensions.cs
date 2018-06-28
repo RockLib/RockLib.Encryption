@@ -2,6 +2,7 @@
 using RockLib.Encryption.Async;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -493,7 +494,7 @@ namespace RockLib.Encryption.FieldLevel
 
                 anyPaths = true;
 
-                foreach (var match in token.SelectTokens(jsonPath))
+                foreach (var match in token.SelectTokens(jsonPath).ToArray())
                 {
                     var encryptedToken = JToken.Parse("\"" + encryptor.Value.Encrypt(match.ToString(Formatting.None)) + "\"");
 
@@ -594,7 +595,7 @@ namespace RockLib.Encryption.FieldLevel
 
                 anyPaths = true;
 
-                foreach (var match in token.SelectTokens(jsonPath))
+                foreach (var match in token.SelectTokens(jsonPath).ToArray())
                 {
                     var encryptedToken = JToken.Parse("\"" + await encryptor.Value.EncryptAsync(match.ToString(Formatting.None), cancellationToken) + "\"");
 
@@ -691,7 +692,7 @@ namespace RockLib.Encryption.FieldLevel
 
                 anyPaths = true;
 
-                foreach (var match in token.SelectTokens(jsonPath))
+                foreach (var match in token.SelectTokens(jsonPath).ToArray())
                 {
                     var decryptedToken = JToken.Parse(decryptor.Value.Decrypt(match.Value<string>()));
 
@@ -795,7 +796,7 @@ namespace RockLib.Encryption.FieldLevel
 
                 anyPaths = true;
 
-                foreach (var match in token.SelectTokens(jsonPath))
+                foreach (var match in token.SelectTokens(jsonPath).ToArray())
                 {
                     var decryptedToken = JToken.Parse(await decryptor.Value.DecryptAsync(match.Value<string>(), cancellationToken));
 
