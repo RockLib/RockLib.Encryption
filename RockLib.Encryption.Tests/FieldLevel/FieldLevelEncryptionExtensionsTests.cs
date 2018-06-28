@@ -169,6 +169,73 @@ namespace RockLib.Encryption.Tests.FieldLevel
         }
 
         [Test]
+        [TestCase("null")]
+        [TestCase("true")]
+        [TestCase("false")]
+        [TestCase("123")]
+        [TestCase("123.45")]
+        [TestCase("\"foo \\\"bar\\\"\"")]
+        [TestCase("[1,2,3]")]
+        [TestCase("{\"foo\":123}")]
+        public void EncryptJsonAndDecryptJsonWithRootJsonPathTargetTheWholeInputString(string json)
+        {
+            var mockEncryptor = new Mock<IEncryptor>();
+            var mockDecryptor = new Mock<IDecryptor>();
+            var mockCrypto = new Mock<ICrypto>();
+
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
+
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string cipherText) => Base64.Decrypt(cipherText));
+            
+            var root = "$";
+            var keyIdentifier = new object();
+
+            var encryptedJson = mockCrypto.Object.EncryptJson(json, root, keyIdentifier);
+
+            Assert.That(encryptedJson, Is.EqualTo("\"" + Base64.Encrypt(json) + "\""));
+
+            var decryptedJson = mockCrypto.Object.DecryptJson(encryptedJson, root, keyIdentifier);
+
+            Assert.That(decryptedJson, Is.EqualTo(json));
+        }
+
+        [Test]
+        [TestCase("null")]
+        [TestCase("true")]
+        [TestCase("false")]
+        [TestCase("123")]
+        [TestCase("123.45")]
+        [TestCase("\"foo \\\"bar\\\"\"")]
+        [TestCase("[1,2,3]")]
+        [TestCase("{\"foo\":123}")]
+        public async Task EncryptJsonAsyncAndDecryptJsonAsyncWithRootJsonPathTargetTheWholeInputString(string json)
+        {
+            var mockAsyncEncryptor = new Mock<IAsyncEncryptor>();
+            var mockAsyncDecryptor = new Mock<IAsyncDecryptor>();
+            var mockCrypto = new Mock<ICrypto>();
+            var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
+
+            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<object>())).Returns(mockAsyncEncryptor.Object);
+            mockAsyncEncryptor.Setup(m => m.EncryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Encrypt(plainText)));
+
+            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<object>())).Returns(mockAsyncDecryptor.Object);
+            mockAsyncDecryptor.Setup(m => m.DecryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string cipherText, CancellationToken token) => Task.FromResult(Base64.Decrypt(cipherText)));
+
+            var root = "$";
+            var keyIdentifier = new object();
+
+            var encryptedJson = await mockCrypto.Object.EncryptJsonAsync(json, root, keyIdentifier);
+
+            Assert.That(encryptedJson, Is.EqualTo("\"" + Base64.Encrypt(json) + "\""));
+
+            var decryptedJson = await mockCrypto.Object.DecryptJsonAsync(encryptedJson, root, keyIdentifier);
+
+            Assert.That(decryptedJson, Is.EqualTo(json));
+        }
+
+        [Test]
         public void EncryptXmlThrowsWhenCryptoIsNull()
         {
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";

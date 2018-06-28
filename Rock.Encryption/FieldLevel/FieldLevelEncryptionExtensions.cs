@@ -1,11 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RockLib.Encryption.Async;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.XPath;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace RockLib.Encryption.FieldLevel
 {
@@ -248,7 +251,7 @@ namespace RockLib.Encryption.FieldLevel
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
             if (jsonPathsToEncrypt == null) throw new ArgumentNullException(nameof(jsonPathsToEncrypt));
 
-            var jObject = JObject.Parse(jsonString);
+            var token = JToken.Parse(jsonString);
 
             var encryptor = new Lazy<IEncryptor>(() => crypto.GetEncryptor(keyIdentifier));
 
@@ -261,17 +264,20 @@ namespace RockLib.Encryption.FieldLevel
 
                 anyPaths = true;
 
-                foreach (var match in jObject.SelectTokens(jsonPath))
+                foreach (var match in token.SelectTokens(jsonPath))
                 {
+                    if (ReferenceEquals(token, match))
+                        return "\"" + encryptor.Value.Encrypt(token.ToString(Formatting.None)) + "\"";
+
                     var property = (JProperty)match.Parent;
-                    property.Value = encryptor.Value.Encrypt(match.ToString(Newtonsoft.Json.Formatting.None));
+                    property.Value = encryptor.Value.Encrypt(match.ToString(Formatting.None));
                 }
             }
 
             if (!anyPaths)
                 throw new ArgumentException($"{nameof(jsonPathsToEncrypt)} must have at least one item.", nameof(jsonPathsToEncrypt));
 
-            return jObject.ToString(Newtonsoft.Json.Formatting.None);
+            return token.ToString(Formatting.None);
         }
 
         public static Task<string> EncryptJsonAsync(this string jsonString, string jsonPathToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
@@ -289,7 +295,7 @@ namespace RockLib.Encryption.FieldLevel
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
             if (jsonPathsToEncrypt == null) throw new ArgumentNullException(nameof(jsonPathsToEncrypt));
 
-            var jObject = JObject.Parse(jsonString);
+            var token = JToken.Parse(jsonString);
 
             var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.AsAsync().GetAsyncEncryptor(keyIdentifier));
 
@@ -302,17 +308,20 @@ namespace RockLib.Encryption.FieldLevel
 
                 anyPaths = true;
 
-                foreach (var match in jObject.SelectTokens(jsonPath))
+                foreach (var match in token.SelectTokens(jsonPath))
                 {
+                    if (ReferenceEquals(token, match))
+                        return "\"" + await encryptor.Value.EncryptAsync(token.ToString(Formatting.None), cancellationToken).ConfigureAwait(false) + "\"";
+
                     var property = (JProperty)match.Parent;
-                    property.Value = await encryptor.Value.EncryptAsync(match.ToString(Newtonsoft.Json.Formatting.None), cancellationToken).ConfigureAwait(false);
+                    property.Value = await encryptor.Value.EncryptAsync(match.ToString(Formatting.None), cancellationToken).ConfigureAwait(false);
                 }
             }
 
             if (!anyPaths)
                 throw new ArgumentException($"{nameof(jsonPathsToEncrypt)} must have at least one item.", nameof(jsonPathsToEncrypt));
 
-            return jObject.ToString(Newtonsoft.Json.Formatting.None);
+            return token.ToString(Formatting.None);
         }
 
         public static string DecryptJson(this string jsonString, string jsonPathToDecrypt, object keyIdentifier = null) =>
@@ -330,7 +339,7 @@ namespace RockLib.Encryption.FieldLevel
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
             if (jsonPathsToDecrypt == null) throw new ArgumentNullException(nameof(jsonPathsToDecrypt));
 
-            var jObject = JObject.Parse(jsonString);
+            var token = JToken.Parse(jsonString);
 
             var decryptor = new Lazy<IDecryptor>(() => crypto.GetDecryptor(keyIdentifier));
 
@@ -343,17 +352,29 @@ namespace RockLib.Encryption.FieldLevel
 
                 anyPaths = true;
 
-                foreach (var match in jObject.SelectTokens(jsonPath))
+                foreach (var match in token.SelectTokens(jsonPath))
                 {
+                    string decrypted;
+
+                    if (ReferenceEquals(token, match))
+                    {
+                        decrypted = decryptor.Value.Decrypt(token.Value<string>());
+                        token = JToken.Parse(decrypted);
+                        continue;
+                    }
+
                     var property = (JProperty)match.Parent;
-                    property.Value = JToken.Parse(decryptor.Value.Decrypt(match.Value<string>()));
+                    var value = match.Value<string>();
+                    decrypted = decryptor.Value.Decrypt(value);
+                    if (decrypted != value)
+                        property.Value = JToken.Parse(decrypted);
                 }
             }
 
             if (!anyPaths)
                 throw new ArgumentException($"{nameof(jsonPathsToDecrypt)} must have at least one item.", nameof(jsonPathsToDecrypt));
 
-            return jObject.ToString(Newtonsoft.Json.Formatting.None);
+            return token.ToString(Formatting.None);
         }
 
         public static Task<string> DecryptJsonAsync(this string jsonString, string jsonPathToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
@@ -371,7 +392,7 @@ namespace RockLib.Encryption.FieldLevel
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
             if (jsonPathsToDecrypt == null) throw new ArgumentNullException(nameof(jsonPathsToDecrypt));
 
-            var jObject = JObject.Parse(jsonString);
+            var token = JToken.Parse(jsonString);
 
             var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.AsAsync().GetAsyncDecryptor(keyIdentifier));
 
@@ -384,17 +405,29 @@ namespace RockLib.Encryption.FieldLevel
 
                 anyPaths = true;
 
-                foreach (var match in jObject.SelectTokens(jsonPath))
+                foreach (var match in token.SelectTokens(jsonPath))
                 {
+                    string decrypted;
+
+                    if (ReferenceEquals(token, match))
+                    {
+                        decrypted = await decryptor.Value.DecryptAsync(token.Value<string>(), cancellationToken).ConfigureAwait(false);
+                        token = JToken.Parse(decrypted);
+                        continue;
+                    }
+
                     var property = (JProperty)match.Parent;
-                    property.Value = JToken.Parse(await decryptor.Value.DecryptAsync(match.Value<string>(), cancellationToken).ConfigureAwait(false));
+                    var value = match.Value<string>();
+                    decrypted = await decryptor.Value.DecryptAsync(value, cancellationToken).ConfigureAwait(false);
+                    if (decrypted != value)
+                        property.Value = JToken.Parse(decrypted);
                 }
             }
 
             if (!anyPaths)
                 throw new ArgumentException($"{nameof(jsonPathsToDecrypt)} must have at least one item.", nameof(jsonPathsToDecrypt));
 
-            return jObject.ToString(Newtonsoft.Json.Formatting.None);
+            return token.ToString(Formatting.None);
         }
     }
 }
