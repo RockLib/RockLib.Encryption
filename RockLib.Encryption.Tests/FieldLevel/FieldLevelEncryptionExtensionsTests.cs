@@ -236,6 +236,59 @@ namespace RockLib.Encryption.Tests.FieldLevel
         }
 
         [Test]
+        public void EncryptJsonAndDecryptJsonCanTargetSpecificArrayElements()
+        {
+            var mockEncryptor = new Mock<IEncryptor>();
+            var mockDecryptor = new Mock<IDecryptor>();
+            var mockCrypto = new Mock<ICrypto>();
+
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
+
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string cipherText) => Base64.Decrypt(cipherText));
+
+            var json = "{\"foo\":[\"abc\",\"xyz\"]}";
+            var foo1 = "$.foo[1]";
+            var keyIdentifier = new object();
+
+            var encryptedJson = mockCrypto.Object.EncryptJson(json, foo1, keyIdentifier);
+
+            Assert.That(encryptedJson, Is.EqualTo($"{{\"foo\":[\"abc\",\"{Base64.Encrypt("\"xyz\"")}\"]}}"));
+
+            var decryptedJson = mockCrypto.Object.DecryptJson(encryptedJson, foo1, keyIdentifier);
+
+            Assert.That(decryptedJson, Is.EqualTo(json));
+        }
+
+        [Test]
+        public async Task EncryptJsonAsyncAndDecryptJsonAsyncCanTargetSpecificArrayElements()
+        {
+            var mockAsyncEncryptor = new Mock<IAsyncEncryptor>();
+            var mockAsyncDecryptor = new Mock<IAsyncDecryptor>();
+            var mockCrypto = new Mock<ICrypto>();
+            var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
+
+            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<object>())).Returns(mockAsyncEncryptor.Object);
+            mockAsyncEncryptor.Setup(m => m.EncryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Encrypt(plainText)));
+
+            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<object>())).Returns(mockAsyncDecryptor.Object);
+            mockAsyncDecryptor.Setup(m => m.DecryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string cipherText, CancellationToken token) => Task.FromResult(Base64.Decrypt(cipherText)));
+
+            var json = "{\"foo\":[\"abc\",\"xyz\"]}";
+            var foo1 = "$.foo[1]";
+            var keyIdentifier = new object();
+
+            var encryptedJson = await mockCrypto.Object.EncryptJsonAsync(json, foo1, keyIdentifier);
+
+            Assert.That(encryptedJson, Is.EqualTo($"{{\"foo\":[\"abc\",\"{Base64.Encrypt("\"xyz\"")}\"]}}"));
+
+            var decryptedJson = await mockCrypto.Object.DecryptJsonAsync(encryptedJson, foo1, keyIdentifier);
+
+            Assert.That(decryptedJson, Is.EqualTo(json));
+        }
+
+        [Test]
         public void EncryptXmlThrowsWhenCryptoIsNull()
         {
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";

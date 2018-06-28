@@ -266,11 +266,20 @@ namespace RockLib.Encryption.FieldLevel
 
                 foreach (var match in token.SelectTokens(jsonPath))
                 {
-                    if (ReferenceEquals(token, match))
-                        return "\"" + encryptor.Value.Encrypt(token.ToString(Formatting.None)) + "\"";
+                    var encryptedToken = JToken.Parse("\"" + encryptor.Value.Encrypt(match.ToString(Formatting.None)) + "\"");
 
-                    var property = (JProperty)match.Parent;
-                    property.Value = encryptor.Value.Encrypt(match.ToString(Formatting.None));
+                    if (ReferenceEquals(token, match))
+                        return encryptedToken.ToString(Formatting.None);
+
+                    switch (match.Parent)
+                    {
+                        case JProperty property:
+                            property.Value = encryptedToken;
+                            break;
+                        case JArray array:
+                            array[array.IndexOf(match)] = encryptedToken;
+                            break;
+                    }
                 }
             }
 
@@ -310,11 +319,20 @@ namespace RockLib.Encryption.FieldLevel
 
                 foreach (var match in token.SelectTokens(jsonPath))
                 {
-                    if (ReferenceEquals(token, match))
-                        return "\"" + await encryptor.Value.EncryptAsync(token.ToString(Formatting.None), cancellationToken).ConfigureAwait(false) + "\"";
+                    var encryptedToken = JToken.Parse("\"" + await encryptor.Value.EncryptAsync(match.ToString(Formatting.None), cancellationToken) + "\"");
 
-                    var property = (JProperty)match.Parent;
-                    property.Value = await encryptor.Value.EncryptAsync(match.ToString(Formatting.None), cancellationToken).ConfigureAwait(false);
+                    if (ReferenceEquals(token, match))
+                        return encryptedToken.ToString(Formatting.None);
+
+                    switch (match.Parent)
+                    {
+                        case JProperty property:
+                            property.Value = encryptedToken;
+                            break;
+                        case JArray array:
+                            array[array.IndexOf(match)] = encryptedToken;
+                            break;
+                    }
                 }
             }
 
@@ -354,20 +372,23 @@ namespace RockLib.Encryption.FieldLevel
 
                 foreach (var match in token.SelectTokens(jsonPath))
                 {
-                    string decrypted;
+                    var decryptedToken = JToken.Parse(decryptor.Value.Decrypt(match.Value<string>()));
 
                     if (ReferenceEquals(token, match))
                     {
-                        decrypted = decryptor.Value.Decrypt(token.Value<string>());
-                        token = JToken.Parse(decrypted);
+                        token = decryptedToken;
                         continue;
                     }
 
-                    var property = (JProperty)match.Parent;
-                    var value = match.Value<string>();
-                    decrypted = decryptor.Value.Decrypt(value);
-                    if (decrypted != value)
-                        property.Value = JToken.Parse(decrypted);
+                    switch (match.Parent)
+                    {
+                        case JProperty property:
+                            property.Value = decryptedToken;
+                            break;
+                        case JArray array:
+                            array[array.IndexOf(match)] = decryptedToken;
+                            break;
+                    }
                 }
             }
 
@@ -407,20 +428,23 @@ namespace RockLib.Encryption.FieldLevel
 
                 foreach (var match in token.SelectTokens(jsonPath))
                 {
-                    string decrypted;
+                    var decryptedToken = JToken.Parse(await decryptor.Value.DecryptAsync(match.Value<string>(), cancellationToken));
 
                     if (ReferenceEquals(token, match))
                     {
-                        decrypted = await decryptor.Value.DecryptAsync(token.Value<string>(), cancellationToken).ConfigureAwait(false);
-                        token = JToken.Parse(decrypted);
+                        token = decryptedToken;
                         continue;
                     }
 
-                    var property = (JProperty)match.Parent;
-                    var value = match.Value<string>();
-                    decrypted = await decryptor.Value.DecryptAsync(value, cancellationToken).ConfigureAwait(false);
-                    if (decrypted != value)
-                        property.Value = JToken.Parse(decrypted);
+                    switch (match.Parent)
+                    {
+                        case JProperty property:
+                            property.Value = decryptedToken;
+                            break;
+                        case JArray array:
+                            array[array.IndexOf(match)] = decryptedToken;
+                            break;
+                    }
                 }
             }
 
