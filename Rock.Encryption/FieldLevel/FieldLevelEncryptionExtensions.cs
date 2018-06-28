@@ -30,7 +30,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var encryptor = new Lazy<IEncryptor>(() => Crypto.GetEncryptor(keyIdentifier));
+            var encryptor = new Lazy<IEncryptor>(() => crypto.GetEncryptor(keyIdentifier));
 
             var anyPaths = false;
 
@@ -146,7 +146,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var decryptor = new Lazy<IDecryptor>(() => Crypto.GetDecryptor(keyIdentifier));
+            var decryptor = new Lazy<IDecryptor>(() => crypto.GetDecryptor(keyIdentifier));
 
             var anyPaths = false;
 
@@ -158,7 +158,20 @@ namespace RockLib.Encryption.FieldLevel
                 anyPaths = true;
 
                 foreach (XPathNavigator match in navigator.Select(xpath))
-                    match.InnerXml = decryptor.Value.Decrypt(match.InnerXml);
+                {
+                    var decrypted = decryptor.Value.Decrypt(match.InnerXml);
+                    if (decrypted != match.InnerXml)
+                    {
+                        try
+                        {
+                            match.InnerXml = decrypted;
+                        }
+                        catch
+                        {
+                            match.SetValue(decrypted);
+                        }
+                    }
+                }
             }
 
             if (!anyPaths)
@@ -186,7 +199,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var decryptor = new Lazy<IAsyncDecryptor>(() => Crypto.GetAsyncDecryptor(keyIdentifier));
+            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.AsAsync().GetAsyncDecryptor(keyIdentifier));
 
             var anyPaths = false;
 
@@ -198,7 +211,20 @@ namespace RockLib.Encryption.FieldLevel
                 anyPaths = true;
 
                 foreach (XPathNavigator match in navigator.Select(xpath))
-                    match.InnerXml = await decryptor.Value.DecryptAsync(match.InnerXml, cancellationToken).ConfigureAwait(false);
+                {
+                    var decrypted = await decryptor.Value.DecryptAsync(match.InnerXml, cancellationToken).ConfigureAwait(false);
+                    if (decrypted != match.InnerXml)
+                    {
+                        try
+                        {
+                            match.InnerXml = decrypted;
+                        }
+                        catch
+                        {
+                            match.SetValue(decrypted);
+                        }
+                    }
+                }
             }
 
             if (!anyPaths)
