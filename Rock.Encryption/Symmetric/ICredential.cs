@@ -1,9 +1,5 @@
 
-#if ROCKLIB
 namespace RockLib.Encryption.Symmetric
-#else
-namespace Rock.Encryption.Symmetric
-#endif
 {
     /// <summary>
     /// Represents the information required to perform a symmetric encryption or

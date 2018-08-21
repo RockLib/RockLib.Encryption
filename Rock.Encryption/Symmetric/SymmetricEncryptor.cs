@@ -3,11 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-#if ROCKLIB
 namespace RockLib.Encryption.Symmetric
-#else
-namespace Rock.Encryption.Symmetric
-# endif
 {
     /// <summary>
     /// Defines an object that is capable of encrypting <c>string</c> values and

@@ -1,8 +1,4 @@
-#if ROCKLIB
 namespace RockLib.Encryption.Symmetric
-#else
-namespace Rock.Encryption.Symmetric
-# endif
 {
     /// <summary>
     /// Defines the supported symmetric algorithms.

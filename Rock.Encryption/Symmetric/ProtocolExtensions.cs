@@ -1,11 +1,7 @@
 using System;
 using System.IO;
 
-#if ROCKLIB
 namespace RockLib.Encryption.Symmetric
-#else
-namespace Rock.Encryption.Symmetric
-# endif
 {
     internal static class ProtocolExtensions
     {

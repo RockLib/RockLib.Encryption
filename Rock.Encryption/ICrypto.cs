@@ -1,8 +1,4 @@
-﻿#if ROCKLIB
-namespace RockLib.Encryption
-#else
-namespace Rock.Encryption
-#endif
+﻿namespace RockLib.Encryption
 {
     /// <summary>
     /// Defines various encryption and decryption methods.

@@ -1,17 +1,8 @@
-﻿#if ROCKLIB
-using RockLib.Encryption.XSerializer;
+﻿using RockLib.Encryption.XSerializer;
 using RockLib.Immutable;
-#else
-using Rock.Encryption.XSerializer;
-using Rock.Immutable;
-#endif
 using XSerializer;
 
-#if ROCKLIB
 namespace RockLib.Encryption
-#else
-namespace Rock.Encryption
-#endif
 {
     /// <summary>
     /// Provides a set of static methods used for doing field-level encryption

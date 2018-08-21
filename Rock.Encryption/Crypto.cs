@@ -1,5 +1,4 @@
 using System;
-#if ROCKLIB
 using RockLib.Configuration.ObjectFactory;
 using RockLib.Configuration;
 using RockLib.Immutable;
@@ -7,18 +6,8 @@ using RockLib.Encryption.Async;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-#else
-using Rock.Encryption.Configuration;
-using Rock.Immutable;
-using System.Configuration;
-using System.Linq;
-#endif
 
-#if ROCKLIB
 namespace RockLib.Encryption
-#else
-namespace Rock.Encryption
-#endif
 {
     /// <summary>
     /// Provides a set of static methods used for encryption and decryption
@@ -135,7 +124,6 @@ namespace Rock.Encryption
             return Current.GetDecryptor(keyIdentifier);
         }
 
-#if ROCKLIB
         /// <summary>
         /// Asynchronously wncrypts the specified plain text.
         /// </summary>
@@ -222,11 +210,9 @@ namespace Rock.Encryption
         {
             return Current.AsAsync().GetAsyncDecryptor(keyIdentifier);
         }
-#endif
 
         private static ICrypto GetDefaultCrypto()
         {
-#if ROCKLIB
             var cryptos = Config.Root.GetSection("rocklib.encryption").Create<List<ICrypto>>();
 
             if (cryptos == null || cryptos.Count == 0)
@@ -240,24 +226,6 @@ namespace Rock.Encryption
             }
 
             return new CompositeCrypto(cryptos);
-#else
-            var section = (RockEncryptionSection)ConfigurationManager.GetSection("rock.encryption");
-
-            if (section == null || section.CryptoFactories == null || section.CryptoFactories.Count == 0)
-            {
-                throw new InvalidOperationException("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration.");
-            }
-
-            if (section.CryptoFactories.Count == 1)
-            {
-                return section.CryptoFactories
-                    .Cast<CryptoElement>()
-                    .Select(c => c.CreateInstance())
-                    .First();
-            }
-
-            return new CompositeCrypto(section.CryptoFactories.Cast<CryptoElement>().Select(c => c.CreateInstance()));
-#endif
         }
     }
 }

@@ -1,11 +1,7 @@
 using System.Security.Cryptography;
 using System.Threading;
 
-#if ROCKLIB
 namespace RockLib.Encryption.Symmetric
-#else
-namespace Rock.Encryption.Symmetric
-# endif
 {
     internal static class RNG
     {

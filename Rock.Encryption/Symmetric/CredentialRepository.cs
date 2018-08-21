@@ -2,11 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-#if ROCKLIB
 namespace RockLib.Encryption.Symmetric
-#else
-namespace Rock.Encryption.Symmetric
-#endif
 {
     /// <summary>
     /// An implementation of <see cref="ICredentialRepository"/> that is backed by a list

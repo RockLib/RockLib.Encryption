@@ -6,11 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-#if ROCKLIB
 namespace RockLib.Encryption.Symmetric
-#else
-namespace Rock.Encryption.Symmetric
-# endif
 {
     /// <summary>
     /// Defines an object that is capable of decrypting <c>string</c> values and
