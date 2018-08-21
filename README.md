@@ -192,28 +192,94 @@ class Program
 
 ## Configuration
 
-The easiest way to configure RockLib.Encryption is through a `app.config` or `web.config`. When you add a custom `rock.encryption` section to your configuration as shown below, the [`Crypto`](#crypto-static-class) class will discover it and set its `Current` property according to your configuration.
+By default, the `Crypto` static class configures itself using the `RockLib.Configuration.Config` static class. Specifically, it loads the instance (or instances) of the `ICrypto` interface specified in this configuration section: `Config.Root.GetSection("rocklib.encryption")`. This is an example `appsettings.json` file, for .NET Core projects:
+
+```json
+{
+	"rocklib.encryption": {
+		"type": "Some.Assembly.Qualified.Name, SomeAssembly",
+		"value": {
+			"settings": {
+				"specific": "to",
+				"the": "type"
+			},
+			"specified": "above"
+		}
+	}
+}
+```
+
+This is an equivalent app.config/web.config (applicable only to .NET Framework applications):
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <configSections>
-    <!-- Declare a section with a name of "rock.encryption" -->
-    <section name="rock.encryption" type="Rock.Encryption.Configuration.RockEncryptionSection, Rock.Encryption" />
+		<!-- Declare this exact section -->
+    <section name="rocklib.encryption" type="RockLib.Configuration.RockLibConfigurationSection, RockLib.Configuration" />
   </configSections>
-  
-  <!-- Define the section -->
-  <rock.encryption>
-    <settings>
-      <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
-        <!-- settings specific to the type specified above -->
-      </crypto>
-    </settings>
-  </rock.encryption>
+
+  <rocklib.encryption>
+    <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
+			<value>
+				<settings specific="to" the="type" />
+				<specified>above</specified>
+			</value>
+		</crypto>
+  </rocklib.encryption>
 </configuration>
 ```
 
-Your configuration can define one or more `crypto` elements. Each of these elements describe an implementation of the `ICrypto` interface, and will be transformed into an item in the collection of an instance of [`CompositeCrypto`](#compositecrypto-class).
+Your configuration can define one or more implementation/instance of the `ICrypto` in config. Each of these elements describe an implementation of the `ICrypto` interface, and will be transformed into an item in the collection of an instance of [`CompositeCrypto`](#compositecrypto-class).
+
+appsettings.json:
+
+```json
+{
+	"rocklib.encryption": [
+		{
+			"type": "Some.Assembly.Qualified.Name, SomeAssembly",
+			"value": {
+				"setting1": 123,
+				"setting2": false
+			}
+		},
+		{
+			"type": "Another.Assembly.Qualified.Name, AnotherAssembly",
+			"value": {
+				"settingA": "abc",
+				"settingB": 123.45
+			}
+		}
+}
+```
+
+app.config/web.config:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+		<!-- Declare this exact section -->
+    <section name="rocklib.encryption" type="RockLib.Configuration.RockLibConfigurationSection, RockLib.Configuration" />
+  </configSections>
+
+  <rocklib.encryption>
+    <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
+			<value>
+				<setting1>123<setting1/>
+				<setting2>false<setting2/>
+			</value>
+		</crypto>
+    <crypto type="Another.Assembly.Qualified.Name, AnotherAssembly">
+			<value>
+				<settingA>abc<settingA/>
+				<settingB>123.45<settingB/>
+			</value>
+		</crypto>
+  </rocklib.encryption>
+</configuration>
+```
 
 ## `ICrypto` implementations
 
@@ -221,28 +287,55 @@ Your configuration can define one or more `crypto` elements. Each of these eleme
 
 RockLib.Encryption provides an implementation of `ICrypto` that uses the various symmetric encryption implementations that are provided by .NET. The supported algorithms are: `AES`, `DES`, `RC2`, `Rijndael`, and `Triple DES`.
 
+appsettings.json:
+
+```json
+{
+	"rocklib.encryption": {
+		"type": "RockLib.Encryption.Symmetric.SymmetricCrypto, RockLib.Encryption",
+		"value": {
+			"encryptionSettings": {
+				"credentials": [
+					{
+						"name": "default",
+						"algorithm": "Rijndael",
+						"ivsize": 16,
+						"key": "bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4="
+					},
+					{
+						"name": "triple_des",
+						"algorithm": "TripleDES",
+						"ivsize": 8,
+						"key": "bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m"
+					}
+				]
+			}
+	}
+}
+```
+
+app.config/web.config:
+
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <configSections>
-    <section name="rock.encryption" type="Rock.Encryption.Configuration.RockEncryptionSection, Rock.Encryption" />
+		<!-- Declare this exact section -->
+    <section name="rocklib.encryption" type="RockLib.Configuration.RockLibConfigurationSection, RockLib.Configuration" />
   </configSections>
-  <rock.encryption>
-    <settings>
-      <crypto type="Rock.Encryption.Symmetric.SymmetricCrypto, Rock.Encryption">
-        <encryptionSettings>
+
+  <rocklib.encryption>
+    <crypto type="RockLib.Encryption.Symmetric.SymmetricCrypto, RockLib.Encryption">
+			<value>
+				<encryptionSettings>
           <credentials>
-            <credential name="default" algorithm="Rijndael" ivsize="16">
-              <key value="bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4=" />
-            </credential>
-            <credential name="triple_des" algorithm="TripleDES" ivsize="8">
-              <key value="bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m" />
-            </credential>
+            <credential name="default" algorithm="Rijndael" ivsize="16" key="bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4=" />
+            <credential name="triple_des" algorithm="TripleDES" ivsize="8" key="bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m" />
           </credentials>
         </encryptionSettings>
-      </crypto>
-    </settings>
-  </rock.encryption>
+			</value>
+		</crypto>
+  </rocklib.encryption>
 </configuration>
 ```
 
