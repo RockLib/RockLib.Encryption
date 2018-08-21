@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RockLib.Encryption\RockLib.Encryption.csproj" />
+    <ProjectReference Include="..\..\RockLib.Encryption\RockLib.Encryption.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,5 +31,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Import Project="..\RockLib.Encryption.Tests.projitems" Label="Shared" />
 
 </Project>

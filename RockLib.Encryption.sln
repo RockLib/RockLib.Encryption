@@ -5,9 +5,16 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption", "RockLib.Encryption\RockLib.Encryption.csproj", "{6E80E23F-3AA5-43DB-ADEC-2918E1787062}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.shproj", "{A6E0B138-9266-41D3-8DA5-570C3535E49D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests.net451", "RockLib.Encryption.Tests\net451\RockLib.Encryption.Tests.net451.csproj", "{79E0F5EC-B824-4375-A127-CB19F1AB04A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests.netcoreapp2.0", "RockLib.Encryption.Tests\netcoreapp2.0\RockLib.Encryption.Tests.netcoreapp2.0.csproj", "{85BDFFFE-5F0E-409C-A68E-CF43BD07F54D}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		RockLib.Encryption.Tests\RockLib.Encryption.Tests.projitems*{a6e0b138-9266-41d3-8da5-570c3535e49d}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -17,10 +24,14 @@ Global
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79E0F5EC-B824-4375-A127-CB19F1AB04A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79E0F5EC-B824-4375-A127-CB19F1AB04A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79E0F5EC-B824-4375-A127-CB19F1AB04A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79E0F5EC-B824-4375-A127-CB19F1AB04A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85BDFFFE-5F0E-409C-A68E-CF43BD07F54D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85BDFFFE-5F0E-409C-A68E-CF43BD07F54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85BDFFFE-5F0E-409C-A68E-CF43BD07F54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85BDFFFE-5F0E-409C-A68E-CF43BD07F54D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
