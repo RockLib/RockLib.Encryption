@@ -19,9 +19,10 @@ _An easy-to-use, easy-to-configure crypto API._
 - [`ICrypto` implementations](#icrypto-implementations)
   - [`SymmetricCrypto` class](#symmetriccrypto-class)
   - [`CompositeCrypto` class](#compositecrypto-class)
-- [RockLib.Encryption.XSerializer](#rocklibencryptionxserializer)
-  - [Background](#background)
-  - [SerializingCrypto Usage](#serializingcrypto-usage)
+- [Field-level encryption](#field-level-encryption)
+  - [XPath / JSONPath](#xpath--jsonpath)
+  - [RockLib.Encryption.XSerializer](#rocklibencryptionxserializer)
+    - [SerializingCrypto Usage](#serializingcrypto-usage)
 
 ------
 
@@ -252,17 +253,89 @@ _Note that it is an **exceedingly** bad idea to store symmetric keys in configur
 If your application needs to support more than one implementation of the `ICrypto` interface, you can use the `CompositeCrypto` class.
 It does so by implementing the [_composite_](http://www.blackwasp.co.uk/Composite.aspx) pattern. The constructor of this class takes a collection of `ICrypto` objects. Each method of the `CompositeCrypto` class is implemented by iterating through that collection. The first item in the collection that returns `true` from its `CanEncrypt` or `CanDecrypt` method is the `ICrypto` that is used for the current encryption operation.
 
-## RockLib.Encryption.XSerializer
+## Field-level encryption
 
-### Background
+Sometime sensitive information exists within an XML or JSON document in specific fields. For example the following documents contain a clear text SSN:
 
-XSerializer includes a feature where it encrypts/decrypts properties marked with its `[Encrypt]` attribute in-line during JSON and XML serialization operations. RockLib.Encryption.XSerializer marries XSerializer's field-level encryption mechanism with RockLib.Encryption's standardized crypto API.
+```xml
+<client>
+	<first_name>John</first_name>
+	<middle_initial>Q</middle_initial>
+	<last_name>Public</last_name>
+	<ssn>123-45-6789</ssn>
+</client>
+```
 
-### SerializingCrypto class
+```json
+{
+	"first_name": "Public",
+	"middle_initial": "Q",
+	"last_name": "Public",
+	"ssn": "123-45-6789"
+}
+```
+
+The goal is to keep most of the document plain-text while encrypting just the SSN:
+
+```xml
+<client>
+	<first_name>John</first_name>
+	<middle_initial>Q</middle_initial>
+	<last_name>Public</last_name>
+	<ssn>MTIzLTQ1LTY3ODk=</ssn>
+</client>
+```
+
+```json
+{
+	"first_name": "Public",
+	"middle_initial": "Q",
+	"last_name": "Public",
+	"ssn": "MTIzLTQ1LTY3ODk="
+}
+```
+
+RockLib.Encryption provides two mechanism for encrypting/decrypting just the fields that are sensitive: via XPath/JSONPath and using XSerializer and its `[Encrypt]` attribute to identify the sensitive fields.
+
+### XPath / JSONPath
+
+RockLib.Encryption provides extension methods under the `RockLib.Encryption.FieldLevel` namespace. There are many overloads with the same variation: take a string containing an XML/JSON document and provide one or more XPath/JSONPath strings, and they encrypt/decrypt just the fields specified by XPath/JSONPath.
+
+The easiest extensions to use extend `string` and use `Crypto.Current` as the backing source of encryption:
+
+```c#
+string xml = // Use first XML example above
+string xmlWithSsnEncrypted = xml.EncryptXml("/client/ssn"); // Should be similar to second XML example above
+string xmlWithSsnDecrypted = xml.DecryptXml("/client/ssn"); // Round-trip should be same as original
+
+string json = // Use first JSON example above
+string jsonWithSsnEncrypted = json.EncryptJson("$.ssn"); // Should be similar to second JSON example above
+string jsonWithSsnDecrypted = json.DecryptJson("$.ssn"); // Round-trip should be same as original
+```
+
+There are also extension methods that extend `ICrypto` - these are useful if your app is injecting instances of `ICrypto` (i.e. it isn't using the static `Crypto` class).
+
+```c#
+ICrypto crypto = // Get from somewhere
+
+string xml = // Use first XML example above
+string xmlWithSsnEncrypted = crypto.EncryptXml(xml, "/client/ssn"); // Should be similar to second XML example above
+string xmlWithSsnDecrypted = crypto.DecryptXml(xml, "/client/ssn"); // Round-trip should be same as original
+
+string json = // Use first JSON example above
+string jsonWithSsnEncrypted = crypto.EncryptJson(json, "$.ssn"); // Should be similar to second JSON example above
+string jsonWithSsnDecrypted = crypto.DecryptJson(json, "$.ssn"); // Round-trip should be same as original
+```
+
+### RockLib.Encryption.XSerializer
+
+[XSerializer](https://github.com/QuickenLoans/XSerializer) includes a feature where it encrypts/decrypts properties marked with its `[Encrypt]` attribute in-line during JSON and XML serialization operations. RockLib.Encryption.XSerializer marries XSerializer's field-level encryption mechanism with RockLib.Encryption's standardized crypto API.
+
+#### SerializingCrypto class
 
 The RockLib.Encryption.XSerializer package contains the
 
-### SerializingCrypto Usage
+#### SerializingCrypto Usage
 
 Start by configuring your application as usual for use with RockLib.Encryption, then add the RockLib.Encryption.XSerializer nuget package. Then access the serializing crypto functionality through the `SerializingCrypto` class.
 
