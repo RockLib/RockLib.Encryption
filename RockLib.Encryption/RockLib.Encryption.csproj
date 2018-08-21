@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard1.6;netstandard2.0;net451;</TargetFrameworks>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>RockLib.Encryption</PackageId>
+        <PackageVersion>1.0.3</PackageVersion>
+        <Authors>Quicken Loans</Authors>
+        <Description>An easy-to-use crypto API.</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes></PackageReleaseNotes>
+        <Copyright>Copyright 2017 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
+        <PackageTags>rocklib encryption crypto</PackageTags>
+        <Version>1.0.3</Version>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RockLib.Encryption.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RockLib.Configuration" Version="2.0.0" />
+      <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="1.1.2" />
+      <PackageReference Include="RockLib.Immutable" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.6'">
+      <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
+    </ItemGroup>
+
+</Project>

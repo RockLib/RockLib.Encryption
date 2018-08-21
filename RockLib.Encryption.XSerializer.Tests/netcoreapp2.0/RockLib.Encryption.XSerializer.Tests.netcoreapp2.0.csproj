@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Rock.Encryption.XSerializer\RockLib.Encryption.XSerializer.csproj" />
+    <ProjectReference Include="..\..\RockLib.Encryption.XSerializer\RockLib.Encryption.XSerializer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

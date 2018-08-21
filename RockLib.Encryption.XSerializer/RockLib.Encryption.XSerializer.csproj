@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net451;</TargetFrameworks>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>RockLib.Encryption.XSerializer</PackageId>
+        <PackageVersion>1.0.2</PackageVersion>
+        <Authors>Quicken Loans</Authors>
+        <Description>Extension to RockLib.Encryption - allows properties marked with the [Encrypt] attribute to be encrypted during an XSerializer serialization operation.</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes></PackageReleaseNotes>
+        <Copyright>Copyright 2018 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
+        <PackageTags>rocklib encryption crypto field-level</PackageTags>
+        <Version>1.0.2</Version>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RockLib.Encryption.XSerializer.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RockLib.Encryption" Version="1.0.3" />
+      <PackageReference Include="XSerializer" Version="0.4.2" />
+    </ItemGroup>
+
+</Project>
