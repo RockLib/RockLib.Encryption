@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption", "RockLib.Encryption\RockLib.Encryption.csproj", "{6E80E23F-3AA5-43DB-ADEC-2918E1787062}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Encryption.DotNetFramework", "Example.Encryption.DotNetFramework\Example.Encryption.DotNetFramework.csproj", "{1445C693-FAE3-4285-9576-2097CFAC3749}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Encryption.DotNetCore1.1", "Example.Encryption.DotNetCore1.1\Example.Encryption.DotNetCore1.1.csproj", "{EEA8BAD0-673E-4DE7-8C56-2A9B3B7B40D1}"
@@ -21,9 +19,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSeriali
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests.netcoreapp2.0", "RockLib.Encryption.XSerializer.Tests\netcoreapp2.0\RockLib.Encryption.XSerializer.Tests.netcoreapp2.0.csproj", "{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests.net451", "RockLib.Encryption.Tests\net451\RockLib.Encryption.Tests.net451.csproj", "{383F059D-1007-49F4-B090-564DC5CF3997}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests.netcoreapp2.0", "RockLib.Encryption.Tests\netcoreapp2.0\RockLib.Encryption.Tests.netcoreapp2.0.csproj", "{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.shproj", "{A6E0B138-9266-41D3-8DA5-570C3535E49D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{0ba5120d-5606-4919-bbda-4daf66b331df}*SharedItemsImports = 13
+		RockLib.Encryption.Tests\RockLib.Encryption.Tests.projitems*{a6e0b138-9266-41d3-8da5-570c3535e49d}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +39,6 @@ Global
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E80E23F-3AA5-43DB-ADEC-2918E1787062}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F22FADDD-3B4B-4BFC-A2AC-2CBDBB39A557}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1445C693-FAE3-4285-9576-2097CFAC3749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1445C693-FAE3-4285-9576-2097CFAC3749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1445C693-FAE3-4285-9576-2097CFAC3749}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,6 +63,14 @@ Global
 		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{383F059D-1007-49F4-B090-564DC5CF3997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{383F059D-1007-49F4-B090-564DC5CF3997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{383F059D-1007-49F4-B090-564DC5CF3997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{383F059D-1007-49F4-B090-564DC5CF3997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

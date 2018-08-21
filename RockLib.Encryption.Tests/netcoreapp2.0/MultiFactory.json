@@ -1,0 +1,33 @@
+﻿{
+    "RockLib.Encryption": [
+        {
+            "Type": "RockLib.Encryption.Symmetric.SymmetricCrypto, RockLib.Encryption",
+            "Value": {
+                "EncryptionSettings": {
+                    "Encoding": "ascii",
+                    "Credentials": {
+                        "Name": "Default",
+                        "Algorithm": "Aes",
+                        "IVSize": "16",
+                        "Key": "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="
+                    }
+                }
+            }
+        },
+        {
+            "Type": "RockLib.Encryption.Symmetric.SymmetricCrypto, RockLib.Encryption",
+            "Value": {
+                "EncryptionSettings": {
+                    "Encoding": "utf-16",
+                    "Credentials": {
+                        "Name": "Default",
+                        "Algorithm": "Aes",
+                        "IVSize": "16",
+                        "Key": "1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="
+                    }
+                }
+            }
+        }
+    ]
+}
+  
