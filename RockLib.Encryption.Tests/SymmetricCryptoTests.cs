@@ -193,16 +193,13 @@ namespace RockLib.Encryption.Tests
             crypto.Invoking(c => c.GetDecryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: something");
         }
 
-        private byte[] GetSequentialByteArray(int size)
+        private byte[] GetSequentialByteArray(int size, int seed = 12345)
         {
-            if (size > 255) throw new InvalidOperationException("This uses only the first byte, so it cannot be over size 255");
+            var random = new Random(seed);
 
             var array = new byte[size];
 
-            for (var i = 0; i < size; i++)
-            {
-                array[i] = BitConverter.GetBytes(i)[3];
-            }
+            random.NextBytes(array);
 
             return array;
         }
