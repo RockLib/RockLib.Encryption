@@ -22,26 +22,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-    
-      <Compile Remove="linqpad-samples\**" />
-      <Compile Remove="Symmetric\Xml\**" />
-      <EmbeddedResource Remove="linqpad-samples\**" />
-      <EmbeddedResource Remove="Symmetric\Xml\**" />
-      <None Remove="linqpad-samples\**" />
-      <None Remove="Symmetric\Xml\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Configuration\*.cs" />
-      <Compile Remove="Properties\AssemblyInfo.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="packages.config" />
-      <None Remove="Rock.Encryption.nuspec" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Properties\" />
     </ItemGroup>
 
