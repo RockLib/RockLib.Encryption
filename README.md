@@ -1,4 +1,4 @@
-# Rock.Encryption
+# RockLib.Encryption
 
 _An easy-to-use, easy-to-configure crypto API._
 
@@ -19,7 +19,7 @@ _An easy-to-use, easy-to-configure crypto API._
 - [`ICrypto` implementations](#icrypto-implementations)
   - [`SymmetricCrypto` class](#symmetriccrypto-class)
   - [`CompositeCrypto` class](#compositecrypto-class)
-- [Rock.Encryption.XSerializer](#rockencryptionxserializer)
+- [RockLib.Encryption.XSerializer](#rocklibencryptionxserializer)
   - [Background](#background)
   - [SerializingCrypto Usage](#serializingcrypto-usage)
 
@@ -28,21 +28,21 @@ _An easy-to-use, easy-to-configure crypto API._
 
 ## Nuget
 
-Rock.Encryption is available via [nuget](http://www.nuget.org/packages/Rock.Encryption). From the package manager console:
+RockLib.Encryption is available via [nuget](http://www.nuget.org/packages/RockLib.Encryption). From the package manager console:
 
 ```
-PM> Install-Package Rock.Encryption
+PM> Install-Package RockLib.Encryption
 ```
 
-[Rock.Encryption.XSerializer](#rockencryptionxserializer) is also available via [nuget](http://www.nuget.org/packages/Rock.Encryption.XSerializer). From the package manager console:
+[RockLib.Encryption.XSerializer](#rocklibencryptionxserializer) is also available via [nuget](http://www.nuget.org/packages/RockLib.Encryption.XSerializer). From the package manager console:
 
 ```
-PM> Install-Package Rock.Encryption.XSerializer
+PM> Install-Package RockLib.Encryption.XSerializer
 ```
 
 ## Simple Usage
 
-Once [configured](#configuration) in your App.config or Web.config, use the static `Crypto` class to encrypt your sensitive data:
+Once [configured](#configuration), use the static `Crypto` class to encrypt your sensitive data:
 
 ```c#
 // Our sensitive data is a "social security number".
@@ -59,7 +59,7 @@ string decryptedSsn = Crypto.Decrypt(encryptedSsn);
 
 ### `ICrypto` interface
 
-`ICrypto` is the main abstraction in Rock.Encryption. Here is its definition:
+`ICrypto` is the main abstraction in RockLib.Encryption. Here is its definition:
 
 ```c#
 public interface ICrypto
@@ -127,7 +127,7 @@ byte[] baz = encryptor.Encrypt(new byte[] { 1, 2, 3 });
 
 ### `Crypto` static class
 
-For convenience, Rock.Encryption defines a static `Crypto` class with these public members:
+For convenience, RockLib.Encryption defines a static `Crypto` class with these public members:
 
 ```c#
 public static class Crypto
@@ -191,7 +191,7 @@ class Program
 
 ## Configuration
 
-The easiest way to configure Rock.Encryption is through a `app.config` or `web.config`. When you add a custom `rock.encryption` section to your configuration as shown below, the [`Crypto`](#crypto-static-class) class will discover it and set its `Current` property according to your configuration.
+The easiest way to configure RockLib.Encryption is through a `app.config` or `web.config`. When you add a custom `rock.encryption` section to your configuration as shown below, the [`Crypto`](#crypto-static-class) class will discover it and set its `Current` property according to your configuration.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -218,7 +218,7 @@ Your configuration can define one or more `crypto` elements. Each of these eleme
 
 ### `SymmetricCrypto` class
 
-Rock.Encryption provides an implementation of `ICrypto` that uses the various symmetric encryption implementations that are provided by .NET. The supported algorithms are: `AES`, `DES`, `RC2`, `Rijndael`, and `Triple DES`.
+RockLib.Encryption provides an implementation of `ICrypto` that uses the various symmetric encryption implementations that are provided by .NET. The supported algorithms are: `AES`, `DES`, `RC2`, `Rijndael`, and `Triple DES`.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -245,28 +245,26 @@ Rock.Encryption provides an implementation of `ICrypto` that uses the various sy
 </configuration>
 ```
 
-_Note that it is an **exceedingly** bad idea to store symmetric keys in configuration plaintext as shown above. Rock.Core provides a mechanism for securing configuration data. That topic will be added here at a later date._
-
-**TODO: flesh out the documentation for this section**
+_Note that it is an **exceedingly** bad idea to store symmetric keys in configuration plaintext as shown above._
 
 ### `CompositeCrypto` class
 
 If your application needs to support more than one implementation of the `ICrypto` interface, you can use the `CompositeCrypto` class.
 It does so by implementing the [_composite_](http://www.blackwasp.co.uk/Composite.aspx) pattern. The constructor of this class takes a collection of `ICrypto` objects. Each method of the `CompositeCrypto` class is implemented by iterating through that collection. The first item in the collection that returns `true` from its `CanEncrypt` or `CanDecrypt` method is the `ICrypto` that is used for the current encryption operation.
 
-## Rock.Encryption.XSerializer
+## RockLib.Encryption.XSerializer
 
 ### Background
 
-XSerializer includes a feature where it encrypts/decrypts properties marked with its `[Encrypt]` attribute in-line during JSON and XML serialization operations. Rock.Encryption.XSerializer marries XSerializer's field-level encryption mechanism with Rock.Encryption's standardized crypto API.
+XSerializer includes a feature where it encrypts/decrypts properties marked with its `[Encrypt]` attribute in-line during JSON and XML serialization operations. RockLib.Encryption.XSerializer marries XSerializer's field-level encryption mechanism with RockLib.Encryption's standardized crypto API.
 
 ### SerializingCrypto class
 
-The Rock.Encryption.XSerializer package contains the
+The RockLib.Encryption.XSerializer package contains the
 
 ### SerializingCrypto Usage
 
-Start by configuring your application as usual for use with Rock.Encryption, then add the Rock.Encryption.XSerializer nuget package. Then access the serializing crypto functionality through the `SerializingCrypto` class.
+Start by configuring your application as usual for use with RockLib.Encryption, then add the RockLib.Encryption.XSerializer nuget package. Then access the serializing crypto functionality through the `SerializingCrypto` class.
 
 ```c#
 static void Main(string[] args)
