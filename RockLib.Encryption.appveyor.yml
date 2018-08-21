@@ -3,7 +3,7 @@ image: Visual Studio 2017
 configuration: Release
 only_commits:
   files:
-  - Rock.Encryption/
+  - RockLib.Encryption/
   - RockLib.Encryption.Tests/
   - RockLib.Encryption.sln
   - RockLib.Encryption.appveyor.yml
@@ -13,7 +13,7 @@ before_build:
     $sln_path = "RockLib.Encryption.sln"
     
     # The path to the main csproj file. It will be patched during the build.
-    $csproj_path = "Rock.Encryption\RockLib.Encryption.csproj"
+    $csproj_path = "RockLib.Encryption\RockLib.Encryption.csproj"
     
     # The version of the build artifact's nuget package when created by CI builds.
     $ci_package_version = "$Env:appveyor_build_number.0.0-ci"
