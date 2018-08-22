@@ -371,7 +371,7 @@ Sometime sensitive information exists within an XML or JSON document in specific
 }
 ```
 
-The goal is to keep most of the document plain-text while encrypting just the SSN:
+This is what we want - to keep most of the document plain-text while encrypting just the sensitive fields:
 
 ```xml
 <client>
@@ -391,11 +391,11 @@ The goal is to keep most of the document plain-text while encrypting just the SS
 }
 ```
 
-RockLib.Encryption provides two mechanism for encrypting/decrypting just the fields that are sensitive: via XPath/JSONPath and using XSerializer and its `[Encrypt]` attribute to identify the sensitive fields.
+There are two mechanisms for identifying and then encrypting/decrypting just the fields that are sensitive: [XPath/JSONPath extension methods](#xpath--jsonpath) and [the RockLib.Encryption.XSerializer package](#rocklibencryptionxserializer).
 
 ### XPath / JSONPath
 
-RockLib.Encryption provides extension methods under the `RockLib.Encryption.FieldLevel` namespace. There are many overloads with the same variation: take a string containing an XML/JSON document and provide one or more XPath/JSONPath strings, and they encrypt/decrypt just the fields specified by XPath/JSONPath.
+The main RockLib.Encryption package provides extension methods under the `RockLib.Encryption.FieldLevel` namespace that use either [XPath](https://msdn.microsoft.com/en-us/library/ms256086.aspx) or [JSONPath](http://goessner.net/articles/JsonPath/) to identify which fields need to be encrypted. There are many overloads with the same variation: take a string containing an XML/JSON document and provide one or more XPath/JSONPath strings, and they encrypt/decrypt just the fields specified by XPath/JSONPath.
 
 The easiest extensions to use extend `string` and use `Crypto.Current` as the backing source of encryption:
 
