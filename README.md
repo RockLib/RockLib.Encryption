@@ -81,7 +81,7 @@ public interface ICrypto
 These methods each take a `keyIdentifier` object as their parameter and return a boolean value indicating whether the instance of `ICrypto` is able to "recognize" the specified `keyIdentifier`. A `keyIdentifier` object is also used by each other `ICrypto` method to retrieve the key for the given encryption operation. For example, an implementation of the `ICrypto` interface might have, as part of its implementation, a symmetric key registered with a `"foo"` string. In that case, we would expect that `CanEncrypt` and `CanDecrypt` would return true if we passed them a parameter with a value of `"foo"`.
 
 ```c#
-ICrypto crypto = // TODO: initialize with an implementation of ICrypto that recognizes "foo" but not "bar".
+ICrypto crypto = // Assume you have an implementation of ICrypto that recognizes "foo" but not "bar".
 bool canEncryptFoo = crypto.CanEncrypt("foo"); // Should return true.
 bool canEncryptBar = crypto.CanEncrypt("bar"); // Should return false.
 ```
@@ -89,8 +89,8 @@ bool canEncryptBar = crypto.CanEncrypt("bar"); // Should return false.
 NOTE: If we want use the "default" key (as defined by the particular implementation of `ICrypto`), pass `null` as the value for the `keyIdentifier` parameter.
 
 ```c#
-ICrypto cryptoA = // TODO: initialize with an implementation of ICrypto that has a default key.
-ICrypto cryptoB = // TODO: initialize with an implementation of ICrypto that does NOT have a default key.
+ICrypto cryptoA = // Assume you have an implementation of ICrypto that has a default key.
+ICrypto cryptoB = // Assume you have an implementation of ICrypto that does NOT have a default key.
 bool canEncryptFoo = cryptoA.CanEncrypt(null); // Should return true.
 bool canEncryptBar = cryptoB.CanEncrypt(null); // Should return false.
 ```
@@ -100,7 +100,7 @@ bool canEncryptBar = cryptoB.CanEncrypt(null); // Should return false.
 These are the main methods of the interface. Each of the `Encrypt` and `Decrypt` methods take two parameters. The first one is the value to be operated upon, and has a type of either `string` or `byte[]`. Note that this type determines the return type of the method. The second parameter is a `keyIdentifier` object, as described above.
 
 ```c#
-ICrypto crypto = // TODO: initialize with an implementation of ICrypto that has a default key.
+ICrypto crypto = // Assume you have an implementation of ICrypto that has a default key.
 
 // String-based API
 string plainTextString = "Hello, world!";
@@ -118,7 +118,7 @@ byte[] decryptedByteArray = crypto.Decrypt(cipherTextByteArray, null);
 These methods are intended to be used when the lookup and/or retrieval of a key is expensive, and multiple related encryption operations need to be performed. In this situation, the result of the lookup/retrieval is cached in the returned `IEncryptor` or `IDecryptor` object. The object can then be used for multiple encryption operations.
 
 ```c#
-ICrypto crypto = // TODO: initialize with an implementation of ICrypto that has a default key.
+ICrypto crypto = // Assume you have an implementation of ICrypto that has a default key.
 
 IEncryptor encryptor = crypto.GetEncryptor(null);
 string foo = encryptor.Encrypt("foo");
@@ -182,10 +182,10 @@ class Program
 {
     static void Main(string[] args)
     {
-        ICrypto defaultCrypto = // TODO: get an instance of ICrypto
+        ICrypto defaultCrypto = // Assume you have an instance of ICrypto
         Crypto.SetCurrent(defaultCrypto);
 
-        // TODO: The rest of your application
+        // The rest of your application
     }
 }
 ```
