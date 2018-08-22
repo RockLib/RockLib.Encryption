@@ -196,16 +196,16 @@ By default, the `Crypto` static class configures itself using the `RockLib.Confi
 
 ```json
 {
-	"rocklib.encryption": {
-		"type": "Some.Assembly.Qualified.Name, SomeAssembly",
-		"value": {
-			"settings": {
-				"specific": "to",
-				"the": "type"
-			},
-			"specified": "above"
-		}
-	}
+  "rocklib.encryption": {
+    "type": "Some.Assembly.Qualified.Name, SomeAssembly",
+    "value": {
+      "settings": {
+        "specific": "to",
+        "the": "type"
+      },
+      "specified": "above"
+    }
+  }
 }
 ```
 
@@ -215,17 +215,16 @@ This is an equivalent app.config/web.config (applicable only to .NET Framework a
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <configSections>
-		<!-- Declare this exact section -->
     <section name="rocklib.encryption" type="RockLib.Configuration.RockLibConfigurationSection, RockLib.Configuration" />
   </configSections>
 
   <rocklib.encryption>
     <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
-			<value>
-				<settings specific="to" the="type" />
-				<specified>above</specified>
-			</value>
-		</crypto>
+      <value>
+        <settings specific="to" the="type" />
+        <specified>above</specified>
+      </value>
+    </crypto>
   </rocklib.encryption>
 </configuration>
 ```
@@ -236,21 +235,22 @@ appsettings.json:
 
 ```json
 {
-	"rocklib.encryption": [
-		{
-			"type": "Some.Assembly.Qualified.Name, SomeAssembly",
-			"value": {
-				"setting1": 123,
-				"setting2": false
-			}
-		},
-		{
-			"type": "Another.Assembly.Qualified.Name, AnotherAssembly",
-			"value": {
-				"settingA": "abc",
-				"settingB": 123.45
-			}
-		}
+  "rocklib.encryption": [
+    {
+      "type": "Some.Assembly.Qualified.Name, SomeAssembly",
+      "value": {
+        "setting1": 123,
+        "setting2": false
+      }
+    },
+    {
+      "type": "Another.Assembly.Qualified.Name, AnotherAssembly",
+      "value": {
+        "settingA": "abc",
+        "settingB": 123.45
+      }
+    }
+  ]
 }
 ```
 
@@ -260,23 +260,22 @@ app.config/web.config:
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <configSections>
-		<!-- Declare this exact section -->
     <section name="rocklib.encryption" type="RockLib.Configuration.RockLibConfigurationSection, RockLib.Configuration" />
   </configSections>
 
   <rocklib.encryption>
     <crypto type="Some.Assembly.Qualified.Name, SomeAssembly">
-			<value>
-				<setting1>123<setting1/>
-				<setting2>false<setting2/>
-			</value>
-		</crypto>
+      <value>
+        <setting1>123<setting1/>
+        <setting2>false<setting2/>
+      </value>
+    </crypto>
     <crypto type="Another.Assembly.Qualified.Name, AnotherAssembly">
-			<value>
-				<settingA>abc<settingA/>
-				<settingB>123.45<settingB/>
-			</value>
-		</crypto>
+      <value>
+        <settingA>abc<settingA/>
+        <settingB>123.45<settingB/>
+      </value>
+    </crypto>
   </rocklib.encryption>
 </configuration>
 ```
@@ -291,26 +290,27 @@ appsettings.json:
 
 ```json
 {
-	"rocklib.encryption": {
-		"type": "RockLib.Encryption.Symmetric.SymmetricCrypto, RockLib.Encryption",
-		"value": {
-			"encryptionSettings": {
-				"credentials": [
-					{
-						"name": "default",
-						"algorithm": "Rijndael",
-						"ivsize": 16,
-						"key": "bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4="
-					},
-					{
-						"name": "triple_des",
-						"algorithm": "TripleDES",
-						"ivsize": 8,
-						"key": "bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m"
-					}
-				]
-			}
-	}
+  "rocklib.encryption": {
+    "type": "RockLib.Encryption.Symmetric.SymmetricCrypto, RockLib.Encryption",
+    "value": {
+      "encryptionSettings": {
+        "credentials": [
+          {
+            "name": "default",
+            "algorithm": "Rijndael",
+            "ivsize": 16,
+            "key": "bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4="
+          },
+          {
+            "name": "triple_des",
+            "algorithm": "TripleDES",
+            "ivsize": 8,
+            "key": "bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m"
+          }
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -320,21 +320,24 @@ app.config/web.config:
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <configSections>
-		<!-- Declare this exact section -->
     <section name="rocklib.encryption" type="RockLib.Configuration.RockLibConfigurationSection, RockLib.Configuration" />
   </configSections>
 
   <rocklib.encryption>
     <crypto type="RockLib.Encryption.Symmetric.SymmetricCrypto, RockLib.Encryption">
-			<value>
-				<encryptionSettings>
-          <credentials>
-            <credential name="default" algorithm="Rijndael" ivsize="16" key="bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4=" />
-            <credential name="triple_des" algorithm="TripleDES" ivsize="8" key="bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m" />
-          </credentials>
+      <value>
+        <encryptionSettings>
+          <credentials name="default"
+                       algorithm="Rijndael"
+                       ivsize="16"
+                       key="bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4=" />
+          <credentials name="triple_des"
+                       algorithm="TripleDES"
+                       ivsize="8"
+                       key="bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m" />
         </encryptionSettings>
-			</value>
-		</crypto>
+      </value>
+    </crypto>
   </rocklib.encryption>
 </configuration>
 ```
@@ -352,19 +355,19 @@ Sometime sensitive information exists within an XML or JSON document in specific
 
 ```xml
 <client>
-	<first_name>John</first_name>
-	<middle_initial>Q</middle_initial>
-	<last_name>Public</last_name>
-	<ssn>123-45-6789</ssn>
+  <first_name>John</first_name>
+  <middle_initial>Q</middle_initial>
+  <last_name>Public</last_name>
+  <ssn>123-45-6789</ssn>
 </client>
 ```
 
 ```json
 {
-	"first_name": "Public",
-	"middle_initial": "Q",
-	"last_name": "Public",
-	"ssn": "123-45-6789"
+  "first_name": "Public",
+  "middle_initial": "Q",
+  "last_name": "Public",
+  "ssn": "123-45-6789"
 }
 ```
 
@@ -372,19 +375,19 @@ The goal is to keep most of the document plain-text while encrypting just the SS
 
 ```xml
 <client>
-	<first_name>John</first_name>
-	<middle_initial>Q</middle_initial>
-	<last_name>Public</last_name>
-	<ssn>MTIzLTQ1LTY3ODk=</ssn>
+  <first_name>John</first_name>
+  <middle_initial>Q</middle_initial>
+  <last_name>Public</last_name>
+  <ssn>MTIzLTQ1LTY3ODk=</ssn>
 </client>
 ```
 
 ```json
 {
-	"first_name": "Public",
-	"middle_initial": "Q",
-	"last_name": "Public",
-	"ssn": "MTIzLTQ1LTY3ODk="
+  "first_name": "Public",
+  "middle_initial": "Q",
+  "last_name": "Public",
+  "ssn": "MTIzLTQ1LTY3ODk="
 }
 ```
 
@@ -452,7 +455,7 @@ public class Foo
 {
     public int Bar { get; set; }
     
-	[Encrypt]
-	public int Baz { get; set; }
+    [Encrypt]
+    public int Baz { get; set; }
 }
 ```
