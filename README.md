@@ -5,6 +5,7 @@ _An easy-to-use, easy-to-configure crypto API._
 ------
 
 ##### Table of Contents
+- [Build status](#build-status)
 - [Nuget](#nuget)
 - [Simple Usage](#simple-usage)
 - [Concepts](#concepts)
@@ -26,6 +27,11 @@ _An easy-to-use, easy-to-configure crypto API._
 
 ------
 
+## Build Status
+
+### RockLib.Encryption [![Build status](https://ci.appveyor.com/api/projects/status/lgnokx2h198x19i8?svg=true)](https://ci.appveyor.com/project/bfriesen/rocklib-encryption)
+
+### RockLib.Encryption.XSerializer [![Build status](https://ci.appveyor.com/api/projects/status/v3jhqxxyx2w5ls9u?svg=true)](https://ci.appveyor.com/project/bfriesen/rocklib-encryption-d2ct4)
 
 ## Nuget
 
