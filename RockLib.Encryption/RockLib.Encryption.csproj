@@ -11,6 +11,8 @@
         <Description>An easy-to-use crypto API.</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes></PackageReleaseNotes>
+        <PackageProjectUrl>https://github.com/RockLib/RockLib.Encryption</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/RockLib/RockLib.Encryption/blob/master/LICENSE</PackageLicenseUrl>
         <Copyright>Copyright 2017 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
         <PackageTags>rocklib encryption crypto</PackageTags>
         <Version>1.0.3</Version>
