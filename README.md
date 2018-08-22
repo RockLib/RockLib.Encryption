@@ -429,7 +429,7 @@ string jsonWithSsnDecrypted = crypto.DecryptJson(json, "$.ssn"); // Round-trip s
 
 #### SerializingCrypto class
 
-The RockLib.Encryption.XSerializer package contains the
+The main class in the RockLib.Encryption.XSerializer package is the `SerializingCrypto` class. This class behaves very similar to the `Crypto` class, and exposes methods for doing XML and JSON field-level encryption during serialization with XSerializer.
 
 #### SerializingCrypto Usage
 
