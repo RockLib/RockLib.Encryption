@@ -173,9 +173,9 @@ public static string Encrypt(string plainText)
 
 #### `Current` property and `SetCurrent` method
 
-The `Crypto` class will attempt to set its `Current` property by reading from your [App.config or Web.config](#configuration). If your application does not have a App.config or Web.config, or you wish to override what is in your App.config or Web.config, you can programmatically set the value of the `Current` property at the "beginning" of your application, e.g. `Program.Main` or global.asax's `application_start` by calling the `SetCurrent` method.
+The `Crypto` class will attempt to set its `Current` property using the [`RockLib.Configuration.Config` static class](#configuration). If you do not wish to use the `Config` static class, you can programmatically set the value of the `Crypto.Current` property at the "beginning" of your application by calling the `Crypto.SetCurrent` method.
 
-**If you wish to programmatically set the value of the `Current` property, you must do so at the "beginnning" of your application, e.g. `Program.Main` or global.asax's `application_start` method by calling the `SetCurrent` method. Once the `Current` property has been read, its value is "locked" - any calls to `SetCurrent` will not succeed.**
+**NOTE: Once the `Crypto.Current` property has been read, its value is "locked" - any calls to `SetCurrent` will not succeed.**
 
 ```c#
 class Program
@@ -192,7 +192,7 @@ class Program
 
 ## Configuration
 
-By default, the `Crypto` static class configures itself using the `RockLib.Configuration.Config` static class. Specifically, it loads the instance (or instances) of the `ICrypto` interface specified in this configuration section: `Config.Root.GetSection("rocklib.encryption")`. This is an example `appsettings.json` file, for .NET Core projects:
+By default, the `Crypto` static class sets its `Current` property using the `RockLib.Configuration.Config` static class. Specifically, it loads the instance (or instances) of the `ICrypto` interface specified in this configuration section: `Config.Root.GetSection("rocklib.encryption")`. This is an example `appsettings.json` file, for .NET Core projects:
 
 ```json
 {
