@@ -57,8 +57,7 @@ namespace RockLib.Encryption.Async
         Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Asynchronously gets an instance of <see cref="IAsyncEncryptor"/> for the provided
-        /// key identifier.
+        /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
@@ -70,8 +69,7 @@ namespace RockLib.Encryption.Async
         IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier);
 
         /// <summary>
-        /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
-        /// key identifier.
+        /// Gets an instance of <see cref="IAsyncDecryptor"/> for the provided key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
