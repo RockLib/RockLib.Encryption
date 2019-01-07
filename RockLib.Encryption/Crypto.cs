@@ -125,7 +125,7 @@ namespace RockLib.Encryption
         }
 
         /// <summary>
-        /// Asynchronously wncrypts the specified plain text.
+        /// Asynchronously encrypts the specified plain text.
         /// </summary>
         /// <param name="plainText">The plain text.</param>
         /// <param name="keyIdentifier">
@@ -198,8 +198,7 @@ namespace RockLib.Encryption
         }
 
         /// <summary>
-        /// Asynchronously gets an instance of <see cref="IAsyncDecryptor"/> for the provided
-        /// key identifier.
+        /// Gets an instance of <see cref="IAsyncDecryptor"/> for the provided key identifier.
         /// </summary>
         /// <param name="keyIdentifier">
         /// An implementation-specific object used to identify the key for this
