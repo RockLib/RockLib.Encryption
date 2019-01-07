@@ -65,8 +65,6 @@ namespace RockLib.Encryption.Tests
                 Name = name;
             }
             public string Name { get; }
-            public IEnumerable<string> Types { get; }
-            public IEnumerable<string> Namespaces { get; }
             public SymmetricAlgorithm Algorithm { get; }
             public ushort IVSize { get; }
             public byte[] GetKey() => new byte[0];

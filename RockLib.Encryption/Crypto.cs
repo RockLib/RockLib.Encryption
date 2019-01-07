@@ -32,7 +32,10 @@ namespace RockLib.Encryption
         /// <summary>
         /// Sets the value of the <see cref="Current"/> property.
         /// </summary>
-        /// <param name="crypto"></param>
+        /// <param name="crypto">
+        /// The new value for the <see cref="Current"/> property, or null to set
+        /// to the default <see cref="ICrypto"/>.
+        /// </param>
         /// <remarks>
         /// Each method of the <see cref="Crypto"/> class ultimately uses the value
         /// of the <see cref="Current"/> property and calls one of its methods.
@@ -46,168 +49,168 @@ namespace RockLib.Encryption
         /// Encrypts the specified plain text.
         /// </summary>
         /// <param name="plainText">The plain text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The encrypted value as a string.</returns>
-        public static string Encrypt(string plainText, object keyIdentifier = null)
+        public static string Encrypt(string plainText, string credentialName = null)
         {
-            return Current.Encrypt(plainText, keyIdentifier);
+            return Current.Encrypt(plainText, credentialName);
         }
 
         /// <summary>
         /// Decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The decrypted value as a string.</returns>
-        public static string Decrypt(string cipherText, object keyIdentifier = null)
+        public static string Decrypt(string cipherText, string credentialName = null)
         {
-            return Current.Decrypt(cipherText, keyIdentifier);
+            return Current.Decrypt(cipherText, credentialName);
         }
 
         /// <summary>
         /// Encrypts the specified plain text.
         /// </summary>
         /// <param name="plainText">The plain text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The encrypted value as a byte array.</returns>
-        public static byte[] Encrypt(byte[] plainText, object keyIdentifier = null)
+        public static byte[] Encrypt(byte[] plainText, string credentialName = null)
         {
-            return Current.Encrypt(plainText, keyIdentifier);
+            return Current.Encrypt(plainText, credentialName);
         }
 
         /// <summary>
         /// Decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The decrypted value as a byte array.</returns>
-        public static byte[] Decrypt(byte[] cipherText, object keyIdentifier = null)
+        public static byte[] Decrypt(byte[] cipherText, string credentialName = null)
         {
-            return Current.Decrypt(cipherText, keyIdentifier);
+            return Current.Decrypt(cipherText, credentialName);
         }
 
         /// <summary>
         /// Gets an instance of <see cref="IEncryptor"/> for the provided key identifier.
         /// </summary>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>An object that can be used for encryption operations.</returns>
-        public static IEncryptor GetEncryptor(object keyIdentifier = null)
+        public static IEncryptor GetEncryptor(string credentialName = null)
         {
-            return Current.GetEncryptor(keyIdentifier);
+            return Current.GetEncryptor(credentialName);
         }
 
         /// <summary>
         /// Gets an instance of <see cref="IDecryptor"/> for the provided key identifier.
         /// </summary>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
-        public static IDecryptor GetDecryptor(object keyIdentifier = null)
+        public static IDecryptor GetDecryptor(string credentialName = null)
         {
-            return Current.GetDecryptor(keyIdentifier);
+            return Current.GetDecryptor(credentialName);
         }
 
         /// <summary>
         /// Asynchronously encrypts the specified plain text.
         /// </summary>
         /// <param name="plainText">The plain text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>The encrypted value as a string.</returns>
-        public static Task<string> EncryptAsync(string plainText, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<string> EncryptAsync(string plainText, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Current.AsAsync().EncryptAsync(plainText, keyIdentifier, cancellationToken);
+            return Current.AsAsync().EncryptAsync(plainText, credentialName, cancellationToken);
         }
 
         /// <summary>
         /// Asynchronously decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>The decrypted value as a string.</returns>
-        public static Task<string> DecryptAsync(string cipherText, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<string> DecryptAsync(string cipherText, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier, cancellationToken);
+            return Current.AsAsync().DecryptAsync(cipherText, credentialName, cancellationToken);
         }
 
         /// <summary>
         /// Asynchronously encrypts the specified plain text.
         /// </summary>
         /// <param name="plainText">The plain text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>The encrypted value as a byte array.</returns>
-        public static Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<byte[]> EncryptAsync(byte[] plainText, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Current.AsAsync().EncryptAsync(plainText, keyIdentifier, cancellationToken);
+            return Current.AsAsync().EncryptAsync(plainText, credentialName, cancellationToken);
         }
 
         /// <summary>
         /// Asynchronously decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>The decrypted value as a byte array.</returns>
-        public static Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Current.AsAsync().DecryptAsync(cipherText, keyIdentifier, cancellationToken);
+            return Current.AsAsync().DecryptAsync(cipherText, credentialName, cancellationToken);
         }
 
         /// <summary>
         /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided key identifier.
         /// </summary>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>An object that can be used for encryption operations.</returns>
-        public static IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier = null)
+        public static IAsyncEncryptor GetAsyncEncryptor(string credentialName = null)
         {
-            return Current.AsAsync().GetAsyncEncryptor(keyIdentifier);
+            return Current.AsAsync().GetAsyncEncryptor(credentialName);
         }
 
         /// <summary>
         /// Gets an instance of <see cref="IAsyncDecryptor"/> for the provided key identifier.
         /// </summary>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
-        public static IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier = null)
+        public static IAsyncDecryptor GetAsyncDecryptor(string credentialName = null)
         {
-            return Current.AsAsync().GetAsyncDecryptor(keyIdentifier);
+            return Current.AsAsync().GetAsyncDecryptor(credentialName);
         }
 
         private static ICrypto GetDefaultCrypto()

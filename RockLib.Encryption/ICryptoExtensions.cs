@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Defines extension methods for the <see cref="ICrypto"/> interface that allow
-    /// the user to omit the <c>keyIdentifier</c> parameter from its methods.
+    /// the user to omit the <c>credentialName</c> parameter from its methods.
     /// </summary>
     public static class ICryptoExtensions
     {

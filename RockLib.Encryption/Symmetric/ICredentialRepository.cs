@@ -8,10 +8,10 @@ namespace RockLib.Encryption.Symmetric
     {
         /// <summary>
         /// Attempts to retrieve a <see cref="ICredential"/> using the specified
-        /// <paramref name="keyIdentifier"/> object.
+        /// <paramref name="credentialName"/> object.
         /// </summary>
-        /// <param name="keyIdentifier">
-        /// An <see cref="object"/> used to look up a <see cref="ICredential"/>
+        /// <param name="credentialName">
+        /// The name of the credential used to look up a <see cref="ICredential"/>.
         /// </param>
         /// <param name="credential">
         /// The object that will contain the retrieved <see cref="ICredential"/>. If the method returns
@@ -21,6 +21,6 @@ namespace RockLib.Encryption.Symmetric
         /// <returns>
         /// <c>true</c> if a <see cref="ICredential"/> was successfullly retrieved; otherwise, <c>false</c>.
         /// </returns>
-        bool TryGet(object keyIdentifier, out ICredential credential);
+        bool TryGet(string credentialName, out ICredential credential);
     }
 }

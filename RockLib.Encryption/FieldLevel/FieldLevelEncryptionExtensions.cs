@@ -21,24 +21,26 @@ namespace RockLib.Encryption.FieldLevel
         /// </summary>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathToEncrypt">The XPath of the field to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same xml document, except with the specified fields encrypted.</returns>
-        public static string EncryptXml(this string xmlString, string xpathToEncrypt, object keyIdentifier = null) =>
-            Crypto.Current.EncryptXml(xmlString, xpathToEncrypt, keyIdentifier);
+        public static string EncryptXml(this string xmlString, string xpathToEncrypt, string credentialName = null) =>
+            Crypto.Current.EncryptXml(xmlString, xpathToEncrypt, credentialName);
 
         /// <summary>
         /// Encrypts the fields, specified by XPath, that are contained in the given xml document string.
         /// </summary>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathsToEncrypt">One or more XPaths of the fields to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same xml document, except with the specified fields encrypted.</returns>
-        public static string EncryptXml(this string xmlString, IEnumerable<string> xpathsToEncrypt, object keyIdentifier = null) =>
-            Crypto.Current.EncryptXml(xmlString, xpathsToEncrypt, keyIdentifier);
+        public static string EncryptXml(this string xmlString, IEnumerable<string> xpathsToEncrypt, string credentialName = null) =>
+            Crypto.Current.EncryptXml(xmlString, xpathsToEncrypt, credentialName);
 
         /// <summary>
         /// Encrypts the fields, specified by XPath, that are contained in the given xml document string.
@@ -49,12 +51,13 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathToEncrypt">The XPath of the field to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same xml document, except with the specified fields encrypted.</returns>
-        public static string EncryptXml(this ICrypto crypto, string xmlString, string xpathToEncrypt, object keyIdentifier = null) =>
-            crypto.EncryptXml(xmlString, new[] { xpathToEncrypt }, keyIdentifier);
+        public static string EncryptXml(this ICrypto crypto, string xmlString, string xpathToEncrypt, string credentialName = null) =>
+            crypto.EncryptXml(xmlString, new[] { xpathToEncrypt }, credentialName);
 
         /// <summary>
         /// Encrypts the fields, specified by XPath, that are contained in the given xml document string.
@@ -65,11 +68,12 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathsToEncrypt">One or more XPaths of the fields to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same xml document, except with the specified fields encrypted.</returns>
-        public static string EncryptXml(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToEncrypt, object keyIdentifier = null)
+        public static string EncryptXml(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToEncrypt, string credentialName = null)
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (xmlString == null) throw new ArgumentNullException(nameof(xmlString));
@@ -79,7 +83,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var encryptor = new Lazy<IEncryptor>(() => crypto.GetEncryptor(keyIdentifier));
+            var encryptor = new Lazy<IEncryptor>(() => crypto.GetEncryptor(credentialName));
 
             var anyPaths = false;
 
@@ -123,26 +127,28 @@ namespace RockLib.Encryption.FieldLevel
         /// </summary>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathToEncrypt">The XPath of the field to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields encrypted.</returns>
-        public static Task<string> EncryptXmlAsync(this string xmlString, string xpathToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            Crypto.Current.EncryptXmlAsync(xmlString, xpathToEncrypt, keyIdentifier, cancellationToken);
+        public static Task<string> EncryptXmlAsync(this string xmlString, string xpathToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Crypto.Current.EncryptXmlAsync(xmlString, xpathToEncrypt, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously encrypts the fields, specified by XPath, that are contained in the given xml document string.
         /// </summary>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathsToEncrypt">One or more XPaths of the fields to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields encrypted.</returns>
-        public static Task<string> EncryptXmlAsync(this string xmlString, IEnumerable<string> xpathsToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            Crypto.Current.EncryptXmlAsync(xmlString, xpathsToEncrypt, keyIdentifier, cancellationToken);
+        public static Task<string> EncryptXmlAsync(this string xmlString, IEnumerable<string> xpathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Crypto.Current.EncryptXmlAsync(xmlString, xpathsToEncrypt, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously encrypts the fields, specified by XPath, that are contained in the given xml document string.
@@ -153,13 +159,14 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathToEncrypt">The XPath of the field to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields encrypted.</returns>
-        public static Task<string> EncryptXmlAsync(this ICrypto crypto, string xmlString, string xpathToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            crypto.EncryptXmlAsync(xmlString, new[] { xpathToEncrypt }, keyIdentifier, cancellationToken);
+        public static Task<string> EncryptXmlAsync(this ICrypto crypto, string xmlString, string xpathToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.EncryptXmlAsync(xmlString, new[] { xpathToEncrypt }, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously encrypts the fields, specified by XPath, that are contained in the given xml document string.
@@ -170,12 +177,13 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathsToEncrypt">One or more XPaths of the fields to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields encrypted.</returns>
-        public static async Task<string> EncryptXmlAsync(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<string> EncryptXmlAsync(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (xmlString == null) throw new ArgumentNullException(nameof(xmlString));
@@ -185,7 +193,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.AsAsync().GetAsyncEncryptor(keyIdentifier));
+            var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.AsAsync().GetAsyncEncryptor(credentialName));
 
             var anyPaths = false;
 
@@ -229,24 +237,26 @@ namespace RockLib.Encryption.FieldLevel
         /// </summary>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathToDecrypt">The XPath of the field to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same xml document, except with the specified fields decrypted.</returns>
-        public static string DecryptXml(this string xmlString, string xpathToDecrypt, object keyIdentifier = null) =>
-            Crypto.Current.DecryptXml(xmlString, xpathToDecrypt, keyIdentifier);
+        public static string DecryptXml(this string xmlString, string xpathToDecrypt, string credentialName = null) =>
+            Crypto.Current.DecryptXml(xmlString, xpathToDecrypt, credentialName);
 
         /// <summary>
         /// Decrypts the fields, specified by XPath, that are contained in the given xml document string.
         /// </summary>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathsToDecrypt">One or more XPaths of the fields to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same xml document, except with the specified fields decrypted.</returns>
-        public static string DecryptXml(this string xmlString, IEnumerable<string> xpathsToDecrypt, object keyIdentifier = null) =>
-            Crypto.Current.DecryptXml(xmlString, xpathsToDecrypt, keyIdentifier);
+        public static string DecryptXml(this string xmlString, IEnumerable<string> xpathsToDecrypt, string credentialName = null) =>
+            Crypto.Current.DecryptXml(xmlString, xpathsToDecrypt, credentialName);
 
         /// <summary>
         /// Decrypts the fields, specified by XPath, that are contained in the given xml document string.
@@ -257,12 +267,13 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathToDecrypt">The XPath of the field to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same xml document, except with the specified fields decrypted.</returns>
-        public static string DecryptXml(this ICrypto crypto, string xmlString, string xpathToDecrypt, object keyIdentifier = null) =>
-            crypto.DecryptXml(xmlString, new[] { xpathToDecrypt }, keyIdentifier);
+        public static string DecryptXml(this ICrypto crypto, string xmlString, string xpathToDecrypt, string credentialName = null) =>
+            crypto.DecryptXml(xmlString, new[] { xpathToDecrypt }, credentialName);
 
         /// <summary>
         /// Decrypts the fields, specified by XPath, that are contained in the given xml document string.
@@ -273,11 +284,12 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathsToDecrypt">One or more XPaths of the fields to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same xml document, except with the specified fields decrypted.</returns>
-        public static string DecryptXml(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToDecrypt, object keyIdentifier = null)
+        public static string DecryptXml(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToDecrypt, string credentialName = null)
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (xmlString == null) throw new ArgumentNullException(nameof(xmlString));
@@ -287,7 +299,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var decryptor = new Lazy<IDecryptor>(() => crypto.GetDecryptor(keyIdentifier));
+            var decryptor = new Lazy<IDecryptor>(() => crypto.GetDecryptor(credentialName));
 
             var anyPaths = false;
 
@@ -326,26 +338,28 @@ namespace RockLib.Encryption.FieldLevel
         /// </summary>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathToDecrypt">The XPath of the field to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields decrypted.</returns>
-        public static Task<string> DecryptXmlAsync(this string xmlString, string xpathToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            Crypto.Current.DecryptXmlAsync(xmlString, xpathToDecrypt, keyIdentifier, cancellationToken);
+        public static Task<string> DecryptXmlAsync(this string xmlString, string xpathToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Crypto.Current.DecryptXmlAsync(xmlString, xpathToDecrypt, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the fields, specified by XPath, that are contained in the given xml document string.
         /// </summary>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathsToDecrypt">One or more XPaths of the fields to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields decrypted.</returns>
-        public static Task<string> DecryptXmlAsync(this string xmlString, IEnumerable<string> xpathsToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            Crypto.Current.DecryptXmlAsync(xmlString, xpathsToDecrypt, keyIdentifier, cancellationToken);
+        public static Task<string> DecryptXmlAsync(this string xmlString, IEnumerable<string> xpathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Crypto.Current.DecryptXmlAsync(xmlString, xpathsToDecrypt, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the fields, specified by XPath, that are contained in the given xml document string.
@@ -356,13 +370,14 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathToDecrypt">The XPath of the field to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields decrypted.</returns>
-        public static Task<string> DecryptXmlAsync(this ICrypto crypto, string xmlString, string xpathToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            crypto.DecryptXmlAsync(xmlString, new[] { xpathToDecrypt }, keyIdentifier, cancellationToken);
+        public static Task<string> DecryptXmlAsync(this ICrypto crypto, string xmlString, string xpathToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.DecryptXmlAsync(xmlString, new[] { xpathToDecrypt }, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the fields, specified by XPath, that are contained in the given xml document string.
@@ -373,12 +388,13 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="xmlString">A string containing an xml document.</param>
         /// <param name="xpathsToDecrypt">One or more XPaths of the fields to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields decrypted.</returns>
-        public static async Task<string> DecryptXmlAsync(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<string> DecryptXmlAsync(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (xmlString == null) throw new ArgumentNullException(nameof(xmlString));
@@ -388,7 +404,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.AsAsync().GetAsyncDecryptor(keyIdentifier));
+            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.AsAsync().GetAsyncDecryptor(credentialName));
 
             var anyPaths = false;
 
@@ -427,24 +443,26 @@ namespace RockLib.Encryption.FieldLevel
         /// </summary>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathToEncrypt">The JSONPath of the field to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same json document, except with the specified fields encrypted.</returns>
-        public static string EncryptJson(this string jsonString, string jsonPathToEncrypt, object keyIdentifier = null) =>
-            Crypto.Current.EncryptJson(jsonString, jsonPathToEncrypt, keyIdentifier);
+        public static string EncryptJson(this string jsonString, string jsonPathToEncrypt, string credentialName = null) =>
+            Crypto.Current.EncryptJson(jsonString, jsonPathToEncrypt, credentialName);
 
         /// <summary>
         /// Encrypts the fields, specified by JSONPath, that are contained in the given json document string.
         /// </summary>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathsToEncrypt">One or more JSONPaths of the fields to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same json document, except with the specified fields encrypted.</returns>
-        public static string EncryptJson(this string jsonString, IEnumerable<string> jsonPathsToEncrypt, object keyIdentifier = null) =>
-            Crypto.Current.EncryptJson(jsonString, jsonPathsToEncrypt, keyIdentifier);
+        public static string EncryptJson(this string jsonString, IEnumerable<string> jsonPathsToEncrypt, string credentialName = null) =>
+            Crypto.Current.EncryptJson(jsonString, jsonPathsToEncrypt, credentialName);
 
         /// <summary>
         /// Encrypts the fields, specified by JSONPath, that are contained in the given json document string.
@@ -455,12 +473,13 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathToEncrypt">The JSONPath of the field to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same json document, except with the specified fields encrypted.</returns>
-        public static string EncryptJson(this ICrypto crypto, string jsonString, string jsonPathToEncrypt, object keyIdentifier = null) =>
-            crypto.EncryptJson(jsonString, new[] { jsonPathToEncrypt }, keyIdentifier);
+        public static string EncryptJson(this ICrypto crypto, string jsonString, string jsonPathToEncrypt, string credentialName = null) =>
+            crypto.EncryptJson(jsonString, new[] { jsonPathToEncrypt }, credentialName);
 
         /// <summary>
         /// Encrypts the fields, specified by JSONPath, that are contained in the given json document string.
@@ -471,11 +490,12 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathsToEncrypt">One or more JSONPaths of the fields to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same json document, except with the specified fields encrypted.</returns>
-        public static string EncryptJson(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToEncrypt, object keyIdentifier = null)
+        public static string EncryptJson(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToEncrypt, string credentialName = null)
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
@@ -483,7 +503,7 @@ namespace RockLib.Encryption.FieldLevel
 
             var token = JToken.Parse(jsonString);
 
-            var encryptor = new Lazy<IEncryptor>(() => crypto.GetEncryptor(keyIdentifier));
+            var encryptor = new Lazy<IEncryptor>(() => crypto.GetEncryptor(credentialName));
 
             var anyPaths = false;
 
@@ -524,26 +544,28 @@ namespace RockLib.Encryption.FieldLevel
         /// </summary>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathToEncrypt">The JSONPath of the field to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields encrypted.</returns>
-        public static Task<string> EncryptJsonAsync(this string jsonString, string jsonPathToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            Crypto.Current.EncryptJsonAsync(jsonString, jsonPathToEncrypt, keyIdentifier, cancellationToken);
+        public static Task<string> EncryptJsonAsync(this string jsonString, string jsonPathToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Crypto.Current.EncryptJsonAsync(jsonString, jsonPathToEncrypt, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously encrypts the fields, specified by JSONPath, that are contained in the given json document string.
         /// </summary>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathsToEncrypt">One or more JSONPaths of the fields to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields encrypted.</returns>
-        public static Task<string> EncryptJsonAsync(this string jsonString, IEnumerable<string> jsonPathsToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            Crypto.Current.EncryptJsonAsync(jsonString, jsonPathsToEncrypt, keyIdentifier, cancellationToken);
+        public static Task<string> EncryptJsonAsync(this string jsonString, IEnumerable<string> jsonPathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Crypto.Current.EncryptJsonAsync(jsonString, jsonPathsToEncrypt, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously encrypts the fields, specified by JSONPath, that are contained in the given json document string.
@@ -554,13 +576,14 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathToEncrypt">The JSONPath of the field to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields encrypted.</returns>
-        public static Task<string> EncryptJsonAsync(this ICrypto crypto, string jsonString, string jsonPathToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            crypto.EncryptJsonAsync(jsonString, new[] { jsonPathToEncrypt }, keyIdentifier, cancellationToken);
+        public static Task<string> EncryptJsonAsync(this ICrypto crypto, string jsonString, string jsonPathToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.EncryptJsonAsync(jsonString, new[] { jsonPathToEncrypt }, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously encrypts the fields, specified by JSONPath, that are contained in the given json document string.
@@ -571,12 +594,13 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathsToEncrypt">One or more JSONPaths of the fields to encrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields encrypted.</returns>
-        public static async Task<string> EncryptJsonAsync(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToEncrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<string> EncryptJsonAsync(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
@@ -584,7 +608,7 @@ namespace RockLib.Encryption.FieldLevel
 
             var token = JToken.Parse(jsonString);
 
-            var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.AsAsync().GetAsyncEncryptor(keyIdentifier));
+            var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.AsAsync().GetAsyncEncryptor(credentialName));
 
             var anyPaths = false;
 
@@ -625,24 +649,26 @@ namespace RockLib.Encryption.FieldLevel
         /// </summary>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathToDecrypt">The JSONPath of the field to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same json document, except with the specified fields decrypted.</returns>
-        public static string DecryptJson(this string jsonString, string jsonPathToDecrypt, object keyIdentifier = null) =>
-            Crypto.Current.DecryptJson(jsonString, jsonPathToDecrypt, keyIdentifier);
+        public static string DecryptJson(this string jsonString, string jsonPathToDecrypt, string credentialName = null) =>
+            Crypto.Current.DecryptJson(jsonString, jsonPathToDecrypt, credentialName);
 
         /// <summary>
         /// Decrypts the fields, specified by JSONPath, that are contained in the given json document string.
         /// </summary>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathsToDecrypt">One or more JSONPaths of the fields to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same json document, except with the specified fields decrypted.</returns>
-        public static string DecryptJson(this string jsonString, IEnumerable<string> jsonPathsToDecrypt, object keyIdentifier = null) =>
-            Crypto.Current.DecryptJson(jsonString, jsonPathsToDecrypt, keyIdentifier);
+        public static string DecryptJson(this string jsonString, IEnumerable<string> jsonPathsToDecrypt, string credentialName = null) =>
+            Crypto.Current.DecryptJson(jsonString, jsonPathsToDecrypt, credentialName);
 
         /// <summary>
         /// Decrypts the fields, specified by JSONPath, that are contained in the given json document string.
@@ -653,12 +679,13 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathToDecrypt">The JSONPath of the field to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same json document, except with the specified fields decrypted.</returns>
-        public static string DecryptJson(this ICrypto crypto, string jsonString, string jsonPathToDecrypt, object keyIdentifier = null) =>
-            crypto.DecryptJson(jsonString, new[] { jsonPathToDecrypt }, keyIdentifier);
+        public static string DecryptJson(this ICrypto crypto, string jsonString, string jsonPathToDecrypt, string credentialName = null) =>
+            crypto.DecryptJson(jsonString, new[] { jsonPathToDecrypt }, credentialName);
 
         /// <summary>
         /// Decrypts the fields, specified by JSONPath, that are contained in the given json document string.
@@ -669,11 +696,12 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathsToDecrypt">One or more JSONPaths of the fields to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The same json document, except with the specified fields decrypted.</returns>
-        public static string DecryptJson(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToDecrypt, object keyIdentifier = null)
+        public static string DecryptJson(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToDecrypt, string credentialName = null)
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
@@ -681,7 +709,7 @@ namespace RockLib.Encryption.FieldLevel
 
             var token = JToken.Parse(jsonString);
 
-            var decryptor = new Lazy<IDecryptor>(() => crypto.GetDecryptor(keyIdentifier));
+            var decryptor = new Lazy<IDecryptor>(() => crypto.GetDecryptor(credentialName));
 
             var anyPaths = false;
 
@@ -725,26 +753,28 @@ namespace RockLib.Encryption.FieldLevel
         /// </summary>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathToDecrypt">The JSONPath of the field to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields decrypted.</returns>
-        public static Task<string> DecryptJsonAsync(this string jsonString, string jsonPathToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            Crypto.Current.DecryptJsonAsync(jsonString, jsonPathToDecrypt, keyIdentifier, cancellationToken);
+        public static Task<string> DecryptJsonAsync(this string jsonString, string jsonPathToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Crypto.Current.DecryptJsonAsync(jsonString, jsonPathToDecrypt, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the fields, specified by JSONPath, that are contained in the given json document string.
         /// </summary>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathsToDecrypt">One or more JSONPaths of the fields to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields decrypted.</returns>
-        public static Task<string> DecryptJsonAsync(this string jsonString, IEnumerable<string> jsonPathsToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            Crypto.Current.DecryptJsonAsync(jsonString, jsonPathsToDecrypt, keyIdentifier, cancellationToken);
+        public static Task<string> DecryptJsonAsync(this string jsonString, IEnumerable<string> jsonPathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Crypto.Current.DecryptJsonAsync(jsonString, jsonPathsToDecrypt, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the fields, specified by JSONPath, that are contained in the given json document string.
@@ -755,13 +785,14 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathToDecrypt">The JSONPath of the field to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields decrypted.</returns>
-        public static Task<string> DecryptJsonAsync(this ICrypto crypto, string jsonString, string jsonPathToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken)) =>
-            crypto.DecryptJsonAsync(jsonString, new[] { jsonPathToDecrypt }, keyIdentifier, cancellationToken);
+        public static Task<string> DecryptJsonAsync(this ICrypto crypto, string jsonString, string jsonPathToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.DecryptJsonAsync(jsonString, new[] { jsonPathToDecrypt }, credentialName, cancellationToken);
 
         /// <summary>
         /// Asynchronously decrypts the fields, specified by JSONPath, that are contained in the given json document string.
@@ -772,12 +803,13 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="jsonString">A string containing an json document.</param>
         /// <param name="jsonPathsToDecrypt">One or more JSONPaths of the fields to decrypt.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this decryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields decrypted.</returns>
-        public static async Task<string> DecryptJsonAsync(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToDecrypt, object keyIdentifier = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<string> DecryptJsonAsync(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
@@ -785,7 +817,7 @@ namespace RockLib.Encryption.FieldLevel
 
             var token = JToken.Parse(jsonString);
 
-            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.AsAsync().GetAsyncDecryptor(keyIdentifier));
+            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.AsAsync().GetAsyncDecryptor(credentialName));
 
             var anyPaths = false;
 

@@ -153,17 +153,17 @@ namespace RockLib.Encryption.Tests
             ICredential outCredential;
             credentialRepoMock
                 .Setup(cr => cr.TryGet(null, out outCredential))
-                .OutCallback((object keyIdentifier, out ICredential credential) => credential = credentialMock.Object)
+                .OutCallback((object credentialName, out ICredential credential) => credential = credentialMock.Object)
                 .Returns(true);
 
             credentialRepoMock
                 .Setup(cr => cr.TryGet("encryptor1", out outCredential))
-                .OutCallback((object keyIdentifier, out ICredential credential) => credential = credentialMock.Object)
+                .OutCallback((object credentialName, out ICredential credential) => credential = credentialMock.Object)
                 .Returns(true);
 
             credentialRepoMock
                 .Setup(cr => cr.TryGet("encryptor2", out outCredential))
-                .OutCallback((object keyIdentifier, out ICredential credential) => credential = credentialMock.Object)
+                .OutCallback((object credentialName, out ICredential credential) => credential = credentialMock.Object)
                 .Returns(true);
 
             var crypto = new SymmetricCrypto(credentialRepoMock.Object);
@@ -177,8 +177,8 @@ namespace RockLib.Encryption.Tests
             crypto.GetEncryptor(null).Should().NotBe(null);
             crypto.GetEncryptor("encryptor1").Should().NotBe(null);
             crypto.GetEncryptor("encryptor2").Should().NotBe(null);
-            crypto.Invoking(c => c.GetEncryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: encryptor3");
-            crypto.Invoking(c => c.GetEncryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: something");
+            crypto.Invoking(c => c.GetEncryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: encryptor3");
+            crypto.Invoking(c => c.GetEncryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: something");
 
             crypto.CanDecrypt(null).Should().Be(true);
             crypto.CanDecrypt("encryptor1").Should().Be(true);
@@ -189,8 +189,8 @@ namespace RockLib.Encryption.Tests
             crypto.GetDecryptor(null).Should().NotBe(null);
             crypto.GetDecryptor("encryptor1").Should().NotBe(null);
             crypto.GetDecryptor("encryptor2").Should().NotBe(null);
-            crypto.Invoking(c => c.GetDecryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: encryptor3");
-            crypto.Invoking(c => c.GetDecryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: something");
+            crypto.Invoking(c => c.GetDecryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: encryptor3");
+            crypto.Invoking(c => c.GetDecryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: something");
         }
 
         private byte[] GetSequentialByteArray(int size, int seed = 12345)

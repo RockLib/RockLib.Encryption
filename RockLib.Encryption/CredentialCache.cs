@@ -13,7 +13,7 @@ namespace RockLib.Encryption
     public class CredentialCache<TCredentialInfo>
         where TCredentialInfo : class, ICredentialInfo
     {
-        private readonly ConcurrentDictionary<object, TCredentialInfo> _credentialCache = new ConcurrentDictionary<object, TCredentialInfo>();
+        private readonly ConcurrentDictionary<string, TCredentialInfo> _credentialCache = new ConcurrentDictionary<string, TCredentialInfo>();
         private readonly Lazy<TCredentialInfo> _defaultCredential;
 
         private readonly IReadOnlyCollection<TCredentialInfo> _credentials;
@@ -42,57 +42,28 @@ namespace RockLib.Encryption
         /// <summary>
         /// Attempt to retrieve a credential using the provided key identifier.
         /// </summary>
-        /// <param name="keyIdentifier">An object that identifies a credential.</param>
+        /// <param name="credentialName">An object that identifies a credential.</param>
         /// <param name="credential">
         /// Contains the resulting credential if <c>true</c> is returned. Otherwise,
         /// contains null.
         /// </param>
         /// <returns>True, if a credential could be retrieved, otherwise false.</returns>
-        public virtual bool TryGetCredential(object keyIdentifier, out TCredentialInfo credential)
+        public virtual bool TryGetCredential(string credentialName, out TCredentialInfo credential)
         {
-            if (keyIdentifier == null)
+            if (credentialName == null)
             {
                 credential = _defaultCredential.Value;
                 return credential != null;
             }
-            credential = _credentialCache.GetOrAdd(keyIdentifier, FindCredential);
+            credential = _credentialCache.GetOrAdd(credentialName, FindCredential);
             return credential != null;
         }
 
-        private TCredentialInfo FindCredential(object keyIdentifier)
+        private TCredentialInfo FindCredential(string credentialName)
         {
-            var credentialName = keyIdentifier as string;
-
             if (credentialName != null)
             {
                 return _credentials.FirstOrDefault(candidate => candidate.Name == credentialName);
-            }
-
-            var targetType = keyIdentifier as Type;
-
-            if (targetType != null)
-            {
-                var c =
-                    _credentials.FirstOrDefault(candidate =>
-                        candidate.Types != null && candidate.Types.Any(candidateType =>
-                            candidateType == targetType.FullName));
-
-                if (c != null)
-                {
-                    return c;
-                }
-
-                var targetNamespaces = GetTargetNamespaces(targetType);
-
-                c = _credentials.FirstOrDefault(candidate =>
-                        candidate.Namespaces != null && targetNamespaces.Any(targetNamespace =>
-                            candidate.Namespaces.Any(candidateNamespace =>
-                                candidateNamespace == targetNamespace)));
-
-                if (c != null)
-                {
-                    return c;
-                }
             }
 
             return _defaultCredential.Value;

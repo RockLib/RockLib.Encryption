@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RockLib.Encryption.Symmetric
 {
@@ -43,20 +42,6 @@ namespace RockLib.Encryption.Symmetric
         /// Gets or sets the name that qualifies as a match for this credential info.
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Gets the types that qualify as a match for this credential info.
-        /// </summary>
-        public List<string> Types { get; } = new List<string>();
-
-        IEnumerable<string> ICredentialInfo.Types => Types;
-
-        /// <summary>
-        /// Gets the namespaces of types that qualify as a match for this credential info.
-        /// </summary>
-        public List<string> Namespaces { get; } = new List<string>();
-
-        IEnumerable<string> ICredentialInfo.Namespaces => Namespaces;
 
         /// <summary>
         /// Gets the <see cref="SymmetricAlgorithm"/> that will be used for a symmetric

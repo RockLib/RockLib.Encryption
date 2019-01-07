@@ -86,13 +86,13 @@ namespace RockLib.Encryption.Tests
             ResetCrypto();
             Crypto.SetCurrent(cryptoMock.Object);
             
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.GetEncryptor();
-            Crypto.GetEncryptor(identifier);
+            Crypto.GetEncryptor(credentialName);
 
             cryptoMock.Verify(cm => cm.GetEncryptor(null));
-            cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -103,13 +103,13 @@ namespace RockLib.Encryption.Tests
             ResetCrypto();
             Crypto.SetCurrent(cryptoMock.Object);
 
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.GetDecryptor();
-            Crypto.GetDecryptor(identifier);
+            Crypto.GetDecryptor(credentialName);
 
             cryptoMock.Verify(cm => cm.GetDecryptor(null));
-            cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -121,13 +121,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var stringToEncrypt = "Something to encrypt";
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.Encrypt(stringToEncrypt);
-            Crypto.Encrypt(stringToEncrypt, identifier);
+            Crypto.Encrypt(stringToEncrypt, credentialName);
 
             cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), null));
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -139,13 +139,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var byteArrayToEncrypt = new byte[0];
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.Encrypt(byteArrayToEncrypt);
-            Crypto.Encrypt(byteArrayToEncrypt, identifier);
+            Crypto.Encrypt(byteArrayToEncrypt, credentialName);
 
             cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), null));
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -157,13 +157,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var stringToDecrypt = "Something to encrypt";
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.Decrypt(stringToDecrypt);
-            Crypto.Decrypt(stringToDecrypt, identifier);
+            Crypto.Decrypt(stringToDecrypt, credentialName);
 
             cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), null));
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -175,13 +175,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var byteArrayToDecrypt = new byte[0];
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.Decrypt(byteArrayToDecrypt);
-            Crypto.Decrypt(byteArrayToDecrypt, identifier);
+            Crypto.Decrypt(byteArrayToDecrypt, credentialName);
 
             cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), null));
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -192,31 +192,31 @@ namespace RockLib.Encryption.Tests
             ResetCrypto();
             Crypto.SetCurrent(cryptoMock.Object);
             
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.GetAsyncEncryptor();
-            Crypto.GetAsyncEncryptor(identifier);
+            Crypto.GetAsyncEncryptor(credentialName);
 
             cryptoMock.Verify(cm => cm.GetAsyncEncryptor(null));
-            cryptoMock.Verify(cm => cm.GetAsyncEncryptor(It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.GetAsyncEncryptor(It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
         public void GetEncryptorAsyncGivenCurrentIsNotIAsyncCryptoCallsCryptoGetEncryptor()
         {
             var cryptoMock = new Mock<ICrypto>();
-            cryptoMock.Setup(cm => cm.GetEncryptor(It.IsAny<object>())).Returns(new Mock<IEncryptor>().Object);
+            cryptoMock.Setup(cm => cm.GetEncryptor(It.IsAny<string>())).Returns(new Mock<IEncryptor>().Object);
 
             ResetCrypto();
             Crypto.SetCurrent(cryptoMock.Object);
 
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.GetAsyncEncryptor();
-            Crypto.GetAsyncEncryptor(identifier);
+            Crypto.GetAsyncEncryptor(credentialName);
 
             cryptoMock.Verify(cm => cm.GetEncryptor(null));
-            cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -227,31 +227,31 @@ namespace RockLib.Encryption.Tests
             ResetCrypto();
             Crypto.SetCurrent(cryptoMock.Object);
 
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.GetAsyncDecryptor();
-            Crypto.GetAsyncDecryptor(identifier);
+            Crypto.GetAsyncDecryptor(credentialName);
 
             cryptoMock.Verify(cm => cm.GetAsyncDecryptor(null));
-            cryptoMock.Verify(cm => cm.GetAsyncDecryptor(It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.GetAsyncDecryptor(It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
         public void GetDecryptorAsyncGivenCurrentIsNotIAsyncCryptoCallsCryptoGetDecryptor()
         {
             var cryptoMock = new Mock<ICrypto>();
-            cryptoMock.Setup(cm => cm.GetDecryptor(It.IsAny<object>())).Returns(new Mock<IDecryptor>().Object);
+            cryptoMock.Setup(cm => cm.GetDecryptor(It.IsAny<string>())).Returns(new Mock<IDecryptor>().Object);
 
             ResetCrypto();
             Crypto.SetCurrent(cryptoMock.Object);
 
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.GetAsyncDecryptor();
-            Crypto.GetAsyncDecryptor(identifier);
+            Crypto.GetAsyncDecryptor(credentialName);
 
             cryptoMock.Verify(cm => cm.GetDecryptor(null));
-            cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -263,13 +263,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var stringToEncrypt = "Something to encrypt";
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.EncryptAsync(stringToEncrypt).Wait();
-            Crypto.EncryptAsync(stringToEncrypt, identifier).Wait();
+            Crypto.EncryptAsync(stringToEncrypt, credentialName).Wait();
 
             cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<string>(s => s == stringToEncrypt), null, It.IsAny<CancellationToken>()));
-            cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<string>(s => s == stringToEncrypt), It.Is<object>(o => o == identifier), It.IsAny<CancellationToken>()));
+            cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -281,13 +281,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var stringToEncrypt = "Something to encrypt";
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.EncryptAsync(stringToEncrypt).Wait();
-            Crypto.EncryptAsync(stringToEncrypt, identifier).Wait();
+            Crypto.EncryptAsync(stringToEncrypt, credentialName).Wait();
 
             cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), null));
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -299,13 +299,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var byteArrayToEncrypt = new byte[0];
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.EncryptAsync(byteArrayToEncrypt);
-            Crypto.EncryptAsync(byteArrayToEncrypt, identifier);
+            Crypto.EncryptAsync(byteArrayToEncrypt, credentialName);
 
             cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<byte[]>(s => s == byteArrayToEncrypt), null, It.IsAny<CancellationToken>()));
-            cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<object>(o => o == identifier), It.IsAny<CancellationToken>()));
+            cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -317,13 +317,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var byteArrayToEncrypt = new byte[0];
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.EncryptAsync(byteArrayToEncrypt);
-            Crypto.EncryptAsync(byteArrayToEncrypt, identifier);
+            Crypto.EncryptAsync(byteArrayToEncrypt, credentialName);
 
             cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), null));
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -335,13 +335,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var stringToDecrypt = "Something to encrypt";
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.DecryptAsync(stringToDecrypt).Wait();
-            Crypto.DecryptAsync(stringToDecrypt, identifier).Wait();
+            Crypto.DecryptAsync(stringToDecrypt, credentialName).Wait();
 
             cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<string>(s => s == stringToDecrypt), null, It.IsAny<CancellationToken>()));
-            cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<string>(s => s == stringToDecrypt), It.Is<object>(o => o == identifier), It.IsAny<CancellationToken>()));
+            cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -353,13 +353,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var stringToDecrypt = "Something to encrypt";
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.DecryptAsync(stringToDecrypt).Wait();
-            Crypto.DecryptAsync(stringToDecrypt, identifier).Wait();
+            Crypto.DecryptAsync(stringToDecrypt, credentialName).Wait();
 
             cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), null));
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName)));
         }
 
         [Test]
@@ -371,13 +371,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var byteArrayToDecrypt = new byte[0];
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.DecryptAsync(byteArrayToDecrypt).Wait();
-            Crypto.DecryptAsync(byteArrayToDecrypt, identifier).Wait();
+            Crypto.DecryptAsync(byteArrayToDecrypt, credentialName).Wait();
 
             cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<byte[]>(s => s == byteArrayToDecrypt), null, It.IsAny<CancellationToken>()));
-            cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<object>(o => o == identifier), It.IsAny<CancellationToken>()));
+            cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
         }
 
         [Test]
@@ -389,13 +389,13 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(cryptoMock.Object);
 
             var byteArrayToDecrypt = new byte[0];
-            var identifier = new object();
+            var credentialName = "foo";
 
             Crypto.DecryptAsync(byteArrayToDecrypt).Wait();
-            Crypto.DecryptAsync(byteArrayToDecrypt, identifier).Wait();
+            Crypto.DecryptAsync(byteArrayToDecrypt, credentialName).Wait();
 
             cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), null));
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<object>(o => o == identifier)));
+            cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName)));
         }
 
         private static void ResetConfig()
@@ -413,20 +413,20 @@ namespace RockLib.Encryption.Tests
 
         public abstract class AbstractAsyncCrypto : ICrypto, IAsyncCrypto
         {
-            public abstract bool CanDecrypt(object keyIdentifier);
-            public abstract bool CanEncrypt(object keyIdentifier);
-            public abstract string Decrypt(string cipherText, object keyIdentifier);
-            public abstract byte[] Decrypt(byte[] cipherText, object keyIdentifier);
-            public abstract Task<string> DecryptAsync(string cipherText, object keyIdentifier, CancellationToken cancellationToken);
-            public abstract Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier, CancellationToken cancellationToken);
-            public abstract string Encrypt(string plainText, object keyIdentifier);
-            public abstract byte[] Encrypt(byte[] plainText, object keyIdentifier);
-            public abstract Task<string> EncryptAsync(string plainText, object keyIdentifier, CancellationToken cancellationToken);
-            public abstract Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier, CancellationToken cancellationToken);
-            public abstract IDecryptor GetDecryptor(object keyIdentifier);
-            public abstract IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier);
-            public abstract IEncryptor GetEncryptor(object keyIdentifier);
-            public abstract IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier);
+            public abstract bool CanDecrypt(string credentialName);
+            public abstract bool CanEncrypt(string credentialName);
+            public abstract string Decrypt(string cipherText, string credentialName);
+            public abstract byte[] Decrypt(byte[] cipherText, string credentialName);
+            public abstract Task<string> DecryptAsync(string cipherText, string credentialName, CancellationToken cancellationToken);
+            public abstract Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName, CancellationToken cancellationToken);
+            public abstract string Encrypt(string plainText, string credentialName);
+            public abstract byte[] Encrypt(byte[] plainText, string credentialName);
+            public abstract Task<string> EncryptAsync(string plainText, string credentialName, CancellationToken cancellationToken);
+            public abstract Task<byte[]> EncryptAsync(byte[] plainText, string credentialName, CancellationToken cancellationToken);
+            public abstract IDecryptor GetDecryptor(string credentialName);
+            public abstract IAsyncDecryptor GetAsyncDecryptor(string credentialName);
+            public abstract IEncryptor GetEncryptor(string credentialName);
+            public abstract IAsyncEncryptor GetAsyncEncryptor(string credentialName);
         }
     }
 }
