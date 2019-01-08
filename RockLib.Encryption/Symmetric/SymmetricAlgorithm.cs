@@ -11,7 +11,6 @@ namespace RockLib.Encryption.Symmetric
         /// </summary>
         Aes,
 
-#if !NETSTANDARD1_6
         /// <summary>
         /// The Data Encryption Standard (DES) algorithm. Corresponds to the
         /// <see cref="System.Security.Cryptography.DES"/> class.
@@ -30,7 +29,6 @@ namespace RockLib.Encryption.Symmetric
         /// </summary>
         Rijndael,
 
-#endif
         /// <summary>
         /// The Triple Data Encryption Standard algorithm Corresponds to the
         /// <see cref="System.Security.Cryptography.TripleDES"/> class.
