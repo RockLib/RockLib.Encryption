@@ -13,14 +13,12 @@ namespace RockLib.Encryption.Symmetric
             {
                 case SymmetricAlgorithm.Aes:
                     return Aes.Create();
-#if !NETSTANDARD1_6
                 case SymmetricAlgorithm.DES:
                     return DES.Create();
                 case SymmetricAlgorithm.RC2:
                     return RC2.Create();
                 case SymmetricAlgorithm.Rijndael:
                     return Rijndael.Create();
-#endif
                 case SymmetricAlgorithm.TripleDES:
                     return TripleDES.Create();
                 default:
