@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
-using Moq;
 using NUnit.Framework;
 using RockLib.Encryption.Symmetric;
 
@@ -12,31 +11,11 @@ namespace RockLib.Encryption.Tests
     public class SymmetricCryptoTests
     {
         [Test]
-        public void CanCreateSymmetricCryptoByCredentialRepository()
+        public void CanEncryptDecryptAes()
         {
-            var credentialMock = new Mock<ICredential>();
-            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-            credentialMock.Setup(cm => cm.IVSize).Returns(16);
-            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
+            var credential = new Credential(GetSequentialByteArray(16), SymmetricAlgorithm.Aes, 16);
 
-            var credentialRepo = new CredentialRepository(new List<ICredential> { credentialMock.Object });
-
-            var crypto = new SymmetricCrypto(credentialRepo);
-
-            crypto.Should().NotBe(null);
-        }
-
-        [Test]
-        public void CanEncryptDecryptByCredentialRepository()
-        {
-            var credentialMock = new Mock<ICredential>();
-            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-            credentialMock.Setup(cm => cm.IVSize).Returns(16);
-            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
-
-            var credentialRepo = new CredentialRepository(new List<ICredential> { credentialMock.Object });
-
-            var crypto = new SymmetricCrypto(credentialRepo);
+            var crypto = new SymmetricCrypto(new[] { credential });
 
             var plainText = "This is just some random text to encrypt/decrypt";
             var encrypted = crypto.Encrypt(plainText, null);
@@ -48,31 +27,11 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
-        public void CanCreateSymmetricCryptoByCredentialRepositoryWithEncoding()
+        public void CanEncryptDecryptDES()
         {
-            var credentialMock = new Mock<ICredential>();
-            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-            credentialMock.Setup(cm => cm.IVSize).Returns(16);
-            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
+            var credential = new Credential(GetSequentialByteArray(8), SymmetricAlgorithm.DES, 8);
 
-            var credentialRepo = new CredentialRepository(new List<ICredential> { credentialMock.Object });
-
-            var crypto = new SymmetricCrypto(credentialRepo, Encoding.ASCII);
-
-            crypto.Should().NotBe(null);
-        }
-
-        [Test]
-        public void CanEncryptDecryptByCredentialRepositoryWithEncoding()
-        {
-            var credentialMock = new Mock<ICredential>();
-            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-            credentialMock.Setup(cm => cm.IVSize).Returns(16);
-            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
-
-            var credentialRepo = new CredentialRepository(new List<ICredential> { credentialMock.Object });
-
-            var crypto = new SymmetricCrypto(credentialRepo, Encoding.ASCII);
+            var crypto = new SymmetricCrypto(new[] { credential });
 
             var plainText = "This is just some random text to encrypt/decrypt";
             var encrypted = crypto.Encrypt(plainText, null);
@@ -84,31 +43,27 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
-        public void CanCreateSymmetricCryptoByEncryptionSettings()
+        public void CanEncryptDecryptRC2()
         {
-            var crypto = new SymmetricCrypto(new CryptoConfiguration
-                {
-                    Credentials =
-                    {
-                        new Credential(Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 16)
-                    }
-                }
-            );
+            var credential = new Credential(GetSequentialByteArray(8), SymmetricAlgorithm.RC2, 8);
 
-            crypto.Should().NotBe(null);
+            var crypto = new SymmetricCrypto(new[] { credential });
+
+            var plainText = "This is just some random text to encrypt/decrypt";
+            var encrypted = crypto.Encrypt(plainText, null);
+            var decrypted = crypto.Decrypt(encrypted, null);
+
+            encrypted.Should().NotBe(plainText);
+            decrypted.Should().NotBe(encrypted);
+            decrypted.Should().Be(plainText);
         }
 
         [Test]
-        public void CanEncryptDecryptByRepoByEncryptionSettings()
+        public void CanEncryptDecryptRijndael()
         {
-            var crypto = new SymmetricCrypto(new CryptoConfiguration
-                {
-                    Credentials =
-                    {
-                        new Credential(Convert.FromBase64String("1J9Og/OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 16)
-                    }
-                }
-            );
+            var credential = new Credential(GetSequentialByteArray(16), SymmetricAlgorithm.Rijndael, 16);
+
+            var crypto = new SymmetricCrypto(new[] { credential });
 
             var plainText = "This is just some random text to encrypt/decrypt";
             var encrypted = crypto.Encrypt(plainText, null);
@@ -122,14 +77,9 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptTripleDes()
         {
-            var credentialMock = new Mock<ICredential>();
-            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.TripleDES);
-            credentialMock.Setup(cm => cm.IVSize).Returns(8);
-            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(24));
+            var credential = new Credential(GetSequentialByteArray(24), SymmetricAlgorithm.TripleDES, 8);
 
-            var credentialRepo = new CredentialRepository(new List<ICredential> { credentialMock.Object });
-
-            var crypto = new SymmetricCrypto(credentialRepo);
+            var crypto = new SymmetricCrypto(new[] { credential });
 
             var plainText = "This is just some random text to encrypt/decrypt";
             var encrypted = crypto.Encrypt(plainText, null);
@@ -143,30 +93,11 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanGetSpecificEncryptorAndDecryptorWhenMultipleCredentialsExist()
         {
-            var credentialMock = new Mock<ICredential>();
-            credentialMock.Setup(cm => cm.Algorithm).Returns(SymmetricAlgorithm.Aes);
-            credentialMock.Setup(cm => cm.IVSize).Returns(16);
-            credentialMock.Setup(cm => cm.GetKey()).Returns(GetSequentialByteArray(16));
+            var defaultCredential = new Credential(GetSequentialByteArray(16));
+            var credential1 = new Credential(GetSequentialByteArray(16), name: "encryptor1");
+            var credential2 = new Credential(GetSequentialByteArray(16), name: "encryptor2");
 
-            var credentialRepoMock = new Mock<ICredentialRepository>();
-
-            ICredential outCredential;
-            credentialRepoMock
-                .Setup(cr => cr.TryGet(null, out outCredential))
-                .OutCallback((object keyIdentifier, out ICredential credential) => credential = credentialMock.Object)
-                .Returns(true);
-
-            credentialRepoMock
-                .Setup(cr => cr.TryGet("encryptor1", out outCredential))
-                .OutCallback((object keyIdentifier, out ICredential credential) => credential = credentialMock.Object)
-                .Returns(true);
-
-            credentialRepoMock
-                .Setup(cr => cr.TryGet("encryptor2", out outCredential))
-                .OutCallback((object keyIdentifier, out ICredential credential) => credential = credentialMock.Object)
-                .Returns(true);
-
-            var crypto = new SymmetricCrypto(credentialRepoMock.Object);
+            var crypto = new SymmetricCrypto(new[] { defaultCredential, credential1, credential2 });
 
             crypto.CanEncrypt(null).Should().Be(true);
             crypto.CanEncrypt("encryptor1").Should().Be(true);
@@ -177,8 +108,8 @@ namespace RockLib.Encryption.Tests
             crypto.GetEncryptor(null).Should().NotBe(null);
             crypto.GetEncryptor("encryptor1").Should().NotBe(null);
             crypto.GetEncryptor("encryptor2").Should().NotBe(null);
-            crypto.Invoking(c => c.GetEncryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: encryptor3");
-            crypto.Invoking(c => c.GetEncryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: something");
+            crypto.Invoking(c => c.GetEncryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: encryptor3");
+            crypto.Invoking(c => c.GetEncryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: something");
 
             crypto.CanDecrypt(null).Should().Be(true);
             crypto.CanDecrypt("encryptor1").Should().Be(true);
@@ -189,8 +120,15 @@ namespace RockLib.Encryption.Tests
             crypto.GetDecryptor(null).Should().NotBe(null);
             crypto.GetDecryptor("encryptor1").Should().NotBe(null);
             crypto.GetDecryptor("encryptor2").Should().NotBe(null);
-            crypto.Invoking(c => c.GetDecryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: encryptor3");
-            crypto.Invoking(c => c.GetDecryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using keyIdentifier: something");
+            crypto.Invoking(c => c.GetDecryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: encryptor3");
+            crypto.Invoking(c => c.GetDecryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: something");
+        }
+
+        [Test]
+        public void EncodingIsSetCorrectly()
+        {
+            var crypto = new SymmetricCrypto(new Credential[0], Encoding.ASCII);
+            crypto.Encoding.Should().Be(Encoding.ASCII);
         }
 
         private byte[] GetSequentialByteArray(int size, int seed = 12345)

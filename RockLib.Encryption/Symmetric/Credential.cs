@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RockLib.Encryption.Symmetric
 {
     /// <summary>
-    /// Defines an implementation of <see cref="ICredential"/> that is suitable for initialization
-    /// via xml-deserialization.
+    /// Defines a credential for symmetric encryption.
     /// </summary>
-    public class Credential : ICredential
+    public sealed class Credential : ICredentialInfo
     {
         /// <summary>
         /// Defines the default value of <see cref="SymmetricAlgorithm"/>.
@@ -26,8 +24,9 @@ namespace RockLib.Encryption.Symmetric
         /// </summary>
         /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
-        /// <param name="key">The symmetric key returned by the <see cref="GetKey()"/> method.</param>
-        public Credential(byte[] key, SymmetricAlgorithm algorithm = DefaultAlgorithm, ushort ivSize = DefaultIVSize)
+        /// <param name="name">The name of this credential.</param>
+        /// <param name="key">The symmetric key to be returned by the <see cref="GetKey()"/> method.</param>
+        public Credential(byte[] key, SymmetricAlgorithm algorithm = DefaultAlgorithm, ushort ivSize = DefaultIVSize, string name = null)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
             if (key.Length == 0) throw new ArgumentException($"{nameof(algorithm)} must not be empty.", nameof(key));
@@ -36,27 +35,14 @@ namespace RockLib.Encryption.Symmetric
 
             Algorithm = algorithm;
             IVSize = ivSize;
+            Name = name;
             _key = key;
         }
 
         /// <summary>
-        /// Gets or sets the name that qualifies as a match for this credential info.
+        /// Gets the name of this credential.
         /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets the types that qualify as a match for this credential info.
-        /// </summary>
-        public List<string> Types { get; } = new List<string>();
-
-        IEnumerable<string> ICredentialInfo.Types => Types;
-
-        /// <summary>
-        /// Gets the namespaces of types that qualify as a match for this credential info.
-        /// </summary>
-        public List<string> Namespaces { get; } = new List<string>();
-
-        IEnumerable<string> ICredentialInfo.Namespaces => Namespaces;
+        public string Name { get; }
 
         /// <summary>
         /// Gets the <see cref="SymmetricAlgorithm"/> that will be used for a symmetric

@@ -44,7 +44,7 @@ namespace RockLib.Encryption.Tests
 
             Action action = () => compositeCrypto.GetEncryptor("baz");
             action.ShouldThrow<KeyNotFoundException>()
-                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using keyIdentifier: baz");
+                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace RockLib.Encryption.Tests
 
             Action action = () => compositeCrypto.GetDecryptor("baz");
             action.ShouldThrow<KeyNotFoundException>()
-                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using keyIdentifier: baz");
+                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace RockLib.Encryption.Tests
 
             Action action = () => compositeCrypto.Encrypt("stuff", "baz");
             action.ShouldThrow<KeyNotFoundException>()
-                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using keyIdentifier: baz");
+                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace RockLib.Encryption.Tests
 
             Action action = () => compositeCrypto.Decrypt("stuff", "baz");
             action.ShouldThrow<KeyNotFoundException>()
-                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using keyIdentifier: baz");
+                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
         private static ICrypto CreateICrypto(string cryptoId)

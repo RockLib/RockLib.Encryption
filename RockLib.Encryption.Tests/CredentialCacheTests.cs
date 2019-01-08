@@ -37,20 +37,6 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
-        public void CanGetDefaultCredentialWhenSearchingWithNonStringNonType()
-        {
-            var credentialCache = new CredentialCache<ICredentialInfo>(new List<ICredentialInfo>
-            {
-                new SimpleTestCredentialInfo()
-            });
-
-            var getResult = credentialCache.TryGetCredential(new object(), out var credInfo);
-
-            getResult.Should().BeTrue();
-            credInfo.Should().NotBeNull();
-        }
-
-        [Test]
         public void CannotGetDefaultCredentialWhenNoneExists()
         {
             var credentialCache = new CredentialCache<ICredentialInfo>(new List<ICredentialInfo>
@@ -101,62 +87,31 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
-        public void CanGetCredentialByType()
+        public void CredentialCacheCredentialsContainsTheNonDefaultCredentialsPassedInConstructor()
         {
-            var foo = new SimpleTestCredentialInfo(types: new List<string> { "RockLib.Encryption.Tests.CredentialCacheTests+SimpleTestCredentialInfo" });
-            var bar = new SimpleTestCredentialInfo(types: new List<string> { "RockLib.Encryption.ICredentialInfo" });
+            SimpleTestCredentialInfo defaultCredential = new SimpleTestCredentialInfo();
+            SimpleTestCredentialInfo fooCredential = new SimpleTestCredentialInfo("foo");
+            SimpleTestCredentialInfo barCredential = new SimpleTestCredentialInfo("bar");
 
-
-            var credentialCache = new CredentialCache<ICredentialInfo>(new List<ICredentialInfo>
-            {
-                foo,
-                bar
-            });
-
-            var getFooResult = credentialCache.TryGetCredential(typeof(SimpleTestCredentialInfo), out var credentialFooInfo);
-            var getBarResult = credentialCache.TryGetCredential(typeof(ICredentialInfo), out var credentialBarInfo);
-
-            getFooResult.Should().BeTrue();
-            credentialFooInfo.Should().BeSameAs(foo);
-
-            getBarResult.Should().BeTrue();
-            credentialBarInfo.Should().BeSameAs(bar);
-        }
-
-        [Test]
-        public void CanGetCredentialByNameSpace()
-        {
-            var foo = new SimpleTestCredentialInfo(namespaces: new List<string> { "RockLib.Encryption.Tests" });
-            var bar = new SimpleTestCredentialInfo(namespaces: new List<string> { "RockLib" });
-
-
-            var credentialCache = new CredentialCache<ICredentialInfo>(new List<ICredentialInfo>
-            {
-                foo,
-                bar
-            });
-
-            var getFooResult = credentialCache.TryGetCredential(typeof(SimpleTestCredentialInfo), out var credentialFooInfo);
-            var getBarResult = credentialCache.TryGetCredential(typeof(ICredentialInfo), out var credentialBarInfo);
-
-            getFooResult.Should().BeTrue();
-            credentialFooInfo.Should().BeSameAs(foo);
-
-            getBarResult.Should().BeTrue();
-            credentialBarInfo.Should().BeSameAs(bar);
-        }
-
-        [Test]
-        public void CredentialCacheCredentialsIsSameAsCredentialListPassedInConstructor()
-        {
-            var credentialsList = new List<ICredentialInfo>
-            {
-                new SimpleTestCredentialInfo()
-            };
+            var credentialsList = new List<ICredentialInfo>{ defaultCredential, fooCredential, barCredential };
 
             var credentialCache = new CredentialCache<ICredentialInfo>(credentialsList);
 
-            credentialCache.Credentials.Should().BeSameAs(credentialsList);
+            credentialCache.Credentials.Should().Contain(new[] { fooCredential, barCredential });
+        }
+
+        [Test]
+        public void CredentialCacheDefaultCredentialIsTheDefaultCredentialsPassedInConstructor()
+        {
+            SimpleTestCredentialInfo defaultCredential = new SimpleTestCredentialInfo();
+            SimpleTestCredentialInfo fooCredential = new SimpleTestCredentialInfo("foo");
+            SimpleTestCredentialInfo barCredential = new SimpleTestCredentialInfo("bar");
+
+            var credentialsList = new List<ICredentialInfo> { defaultCredential, fooCredential, barCredential };
+
+            var credentialCache = new CredentialCache<ICredentialInfo>(credentialsList);
+
+            credentialCache.DefaultCredential.Should().BeSameAs(defaultCredential);
         }
 
         [Test]
@@ -169,15 +124,11 @@ namespace RockLib.Encryption.Tests
 
         private class SimpleTestCredentialInfo : ICredentialInfo
         {
-            public SimpleTestCredentialInfo(string name = null, IEnumerable<string> types = null, IEnumerable<string> namespaces = null)
+            public SimpleTestCredentialInfo(string name = null)
             {
                 Name = name;
-                Types = types;
-                Namespaces = namespaces;
             }
             public string Name { get; }
-            public IEnumerable<string> Types { get; }
-            public IEnumerable<string> Namespaces { get; }
         }
     }
 }

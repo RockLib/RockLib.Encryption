@@ -15,7 +15,7 @@ namespace RockLib.Encryption.Symmetric
     /// </summary>
     public class SymmetricDecryptor : IDecryptor
     {
-        private readonly ICredential _credential;
+        private readonly Credential _credential;
         private readonly Encoding _encoding;
         private readonly System.Security.Cryptography.SymmetricAlgorithm _algorithm;
 
@@ -23,14 +23,14 @@ namespace RockLib.Encryption.Symmetric
         /// Initializes a new instance of the <see cref="SymmetricDecryptor"/> class.
         /// </summary>
         /// <param name="credential">
-        /// The <see cref="ICredential"/> that determines what kind of encryption operations
+        /// The <see cref="Credential"/> that determines what kind of encryption operations
         /// are to be performed.
         /// </param>
         /// <param name="encoding">
         /// The <see cref="Encoding"/> that is used to convert a <c>string</c> object to a
         /// <c>byte[]</c> value.
         /// </param>
-        public SymmetricDecryptor(ICredential credential, Encoding encoding)
+        public SymmetricDecryptor(Credential credential, Encoding encoding)
         {
             _credential = credential;
             _encoding = encoding;

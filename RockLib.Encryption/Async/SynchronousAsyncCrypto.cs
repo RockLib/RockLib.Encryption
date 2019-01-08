@@ -35,18 +35,18 @@ namespace RockLib.Encryption.Async
         /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="plainText">The plain text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a string.</returns>
-        public Task<string> EncryptAsync(string plainText, object keyIdentifier, CancellationToken cancellationToken)
+        public Task<string> EncryptAsync(string plainText, string credentialName, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<string>();
             try
             {
-                completion.SetResult(Crypto.Encrypt(plainText, keyIdentifier));
+                completion.SetResult(Crypto.Encrypt(plainText, credentialName));
             }
             catch (Exception ex)
             {
@@ -61,18 +61,18 @@ namespace RockLib.Encryption.Async
         /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the decrypted value as a string.</returns>
-        public Task<string> DecryptAsync(string cipherText, object keyIdentifier, CancellationToken cancellationToken)
+        public Task<string> DecryptAsync(string cipherText, string credentialName, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<string>();
             try
             {
-                completion.SetResult(Crypto.Decrypt(cipherText, keyIdentifier));
+                completion.SetResult(Crypto.Decrypt(cipherText, credentialName));
             }
             catch (Exception ex)
             {
@@ -87,18 +87,18 @@ namespace RockLib.Encryption.Async
         /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="plainText">The plain text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a byte array.</returns>
-        public Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier, CancellationToken cancellationToken)
+        public Task<byte[]> EncryptAsync(byte[] plainText, string credentialName, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<byte[]>();
             try
             {
-                completion.SetResult(Crypto.Encrypt(plainText, keyIdentifier));
+                completion.SetResult(Crypto.Encrypt(plainText, credentialName));
             }
             catch (Exception ex)
             {
@@ -113,18 +113,18 @@ namespace RockLib.Encryption.Async
         /// to be either completed or faulted.</para>
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the decrypted value as a byte array.</returns>
-        public Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier, CancellationToken cancellationToken)
+        public Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName, CancellationToken cancellationToken)
         {
             var completion = new TaskCompletionSource<byte[]>();
             try
             {
-                completion.SetResult(Crypto.Decrypt(cipherText, keyIdentifier));
+                completion.SetResult(Crypto.Decrypt(cipherText, credentialName));
             }
             catch (Exception ex)
             {
@@ -137,60 +137,64 @@ namespace RockLib.Encryption.Async
         /// Gets an instance of <see cref="SynchronousAsyncEncryptor"/> for the provided
         /// key identifier.
         /// </summary>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>
         /// A completed task whose result represents an object that can be used for encryption operations.
         /// </returns>
-        public IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier)
+        public IAsyncEncryptor GetAsyncEncryptor(string credentialName)
         {
-            return new SynchronousAsyncEncryptor(Crypto.GetEncryptor(keyIdentifier));
+            return new SynchronousAsyncEncryptor(Crypto.GetEncryptor(credentialName));
         }
 
         /// <summary>
         /// Gets an instance of <see cref="SynchronousAsyncDecryptor"/> for the provided
         /// key identifier.
         /// </summary>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>
         /// A completed task whose result represents an object that can be used for decryption operations.
         /// </returns>
-        public IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier)
+        public IAsyncDecryptor GetAsyncDecryptor(string credentialName)
         {
-            return new SynchronousAsyncDecryptor(Crypto.GetDecryptor(keyIdentifier));
+            return new SynchronousAsyncDecryptor(Crypto.GetDecryptor(credentialName));
         }
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
         /// is able to handle the provided key identifier for an encrypt operation.
         /// </summary>
-        /// <param name="keyIdentifier">The key identifier to check.</param>
+        /// <param name="credentialName">
+        /// The credential name to check, or null to check if the default credential exists.
+        /// </param>
         /// <returns>
         /// True, if this instance can handle the key identifier for an encrypt operation.
         /// Otherwise, false.
         /// </returns>
-        public bool CanEncrypt(object keyIdentifier)
+        public bool CanEncrypt(string credentialName)
         {
-            return Crypto.CanEncrypt(keyIdentifier);
+            return Crypto.CanEncrypt(credentialName);
         }
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
         /// is able to handle the provided key identifier for an decrypt operation.
         /// </summary>
-        /// <param name="keyIdentifier">The key identifier to check.</param>
+        /// <param name="credentialName">
+        /// The credential name to check, or null to check if the default credential exists.
+        /// </param>
         /// <returns>
         /// True, if this instance can handle the key identifier for an encrypt operation.
         /// Otherwise, false.
         /// </returns>
-        public bool CanDecrypt(object keyIdentifier)
+        public bool CanDecrypt(string credentialName)
         {
-            return Crypto.CanDecrypt(keyIdentifier);
+            return Crypto.CanDecrypt(credentialName);
         }
     }
 }
