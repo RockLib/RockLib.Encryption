@@ -87,16 +87,31 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
-        public void CredentialCacheCredentialsIsSameAsCredentialListPassedInConstructor()
+        public void CredentialCacheCredentialsContainsTheNonDefaultCredentialsPassedInConstructor()
         {
-            var credentialsList = new List<ICredentialInfo>
-            {
-                new SimpleTestCredentialInfo()
-            };
+            SimpleTestCredentialInfo defaultCredential = new SimpleTestCredentialInfo();
+            SimpleTestCredentialInfo fooCredential = new SimpleTestCredentialInfo("foo");
+            SimpleTestCredentialInfo barCredential = new SimpleTestCredentialInfo("bar");
+
+            var credentialsList = new List<ICredentialInfo>{ defaultCredential, fooCredential, barCredential };
 
             var credentialCache = new CredentialCache<ICredentialInfo>(credentialsList);
 
-            credentialCache.Credentials.Should().BeSameAs(credentialsList);
+            credentialCache.Credentials.Should().Contain(new[] { fooCredential, barCredential });
+        }
+
+        [Test]
+        public void CredentialCacheDefaultCredentialIsTheDefaultCredentialsPassedInConstructor()
+        {
+            SimpleTestCredentialInfo defaultCredential = new SimpleTestCredentialInfo();
+            SimpleTestCredentialInfo fooCredential = new SimpleTestCredentialInfo("foo");
+            SimpleTestCredentialInfo barCredential = new SimpleTestCredentialInfo("bar");
+
+            var credentialsList = new List<ICredentialInfo> { defaultCredential, fooCredential, barCredential };
+
+            var credentialCache = new CredentialCache<ICredentialInfo>(credentialsList);
+
+            credentialCache.DefaultCredential.Should().BeSameAs(defaultCredential);
         }
 
         [Test]

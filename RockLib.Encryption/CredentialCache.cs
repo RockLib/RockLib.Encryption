@@ -10,34 +10,32 @@ namespace RockLib.Encryption
     /// <see cref="ICredentialInfo"/> interface.
     /// </summary>
     /// <typeparam name="TCredentialInfo">The type of credential to return.</typeparam>
-    public class CredentialCache<TCredentialInfo>
+    public sealed class CredentialCache<TCredentialInfo>
         where TCredentialInfo : class, ICredentialInfo
     {
-        private readonly ConcurrentDictionary<string, TCredentialInfo> _credentialCache = new ConcurrentDictionary<string, TCredentialInfo>();
-        private readonly Lazy<TCredentialInfo> _defaultCredential;
-
-        private readonly IReadOnlyCollection<TCredentialInfo> _credentials;
+        private readonly ConcurrentDictionary<string, TCredentialInfo> _cache = new ConcurrentDictionary<string, TCredentialInfo>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CredentialCache{TCredentialInfo}"/> class.
         /// </summary>
         /// <param name="credentials">The backing collection of credentials.</param>
-        public CredentialCache(IReadOnlyCollection<TCredentialInfo> credentials)
+        public CredentialCache(IEnumerable<TCredentialInfo> credentials)
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
-            _credentials = credentials;
 
-            _defaultCredential = new Lazy<TCredentialInfo>(() => _credentials.FirstOrDefault(x => string.IsNullOrEmpty(x.Name) || x.Name.ToLower() == "default"));
+            Credentials = credentials.Where(c => !IsDefaultCredential(c.Name)).ToList();
+            DefaultCredential = credentials.FirstOrDefault(c => IsDefaultCredential(c.Name));
         }
 
         /// <summary>
-        /// Gets the collection of <typeparamref name="TCredentialInfo"/> instances that are chosen from when
-        /// invoking the <see cref="TryGetCredential"/> method.
+        /// Gets the non-default credentials.
         /// </summary>
-        public IReadOnlyCollection<TCredentialInfo> Credentials
-        {
-            get { return _credentials; }
-        }
+        public IReadOnlyCollection<TCredentialInfo> Credentials { get; }
+
+        /// <summary>
+        /// Gets the default credential.
+        /// </summary>
+        public TCredentialInfo DefaultCredential { get; }
 
         /// <summary>
         /// Attempt to retrieve a credential using the provided key identifier.
@@ -48,48 +46,21 @@ namespace RockLib.Encryption
         /// contains null.
         /// </param>
         /// <returns>True, if a credential could be retrieved, otherwise false.</returns>
-        public virtual bool TryGetCredential(string credentialName, out TCredentialInfo credential)
+        public bool TryGetCredential(string credentialName, out TCredentialInfo credential)
         {
-            if (credentialName == null)
+            if (IsDefaultCredential(credentialName))
             {
-                credential = _defaultCredential.Value;
+                credential = DefaultCredential;
                 return credential != null;
             }
-            credential = _credentialCache.GetOrAdd(credentialName, FindCredential);
+            credential = _cache.GetOrAdd(credentialName, FindCredential);
             return credential != null;
         }
 
-        private TCredentialInfo FindCredential(string credentialName)
-        {
-            if (credentialName != null)
-            {
-                return _credentials.FirstOrDefault(candidate => candidate.Name == credentialName);
-            }
+        private static bool IsDefaultCredential(string credentialName) =>
+            string.IsNullOrEmpty(credentialName) || string.Equals(credentialName, "default", StringComparison.OrdinalIgnoreCase);
 
-            return _defaultCredential.Value;
-        }
-
-        private static IEnumerable<string> GetTargetNamespaces(Type targetType)
-        {
-            var targetNamespaces = new List<string>();
-
-            var targetNamespace = targetType.Namespace;
-
-            while (!string.IsNullOrEmpty(targetNamespace))
-            {
-                targetNamespaces.Add(targetNamespace);
-
-                var lastDot = targetNamespace.LastIndexOf('.');
-
-                if (lastDot == -1)
-                {
-                    break;
-                }
-
-                targetNamespace = targetNamespace.Substring(0, lastDot);
-            }
-
-            return targetNamespaces;
-        }
+        private TCredentialInfo FindCredential(string credentialName) =>
+            Credentials.FirstOrDefault(c => string.Equals(c.Name, credentialName, StringComparison.OrdinalIgnoreCase));
     }
 }
