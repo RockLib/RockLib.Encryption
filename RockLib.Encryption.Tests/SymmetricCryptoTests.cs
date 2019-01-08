@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
 using RockLib.Encryption.Symmetric;
@@ -121,6 +122,13 @@ namespace RockLib.Encryption.Tests
             crypto.GetDecryptor("encryptor2").Should().NotBe(null);
             crypto.Invoking(c => c.GetDecryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: encryptor3");
             crypto.Invoking(c => c.GetDecryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("Unable to locate credential using credentialName: something");
+        }
+
+        [Test]
+        public void EncodingIsSetCorrectly()
+        {
+            var crypto = new SymmetricCrypto(new Credential[0], Encoding.ASCII);
+            crypto.Encoding.Should().Be(Encoding.ASCII);
         }
 
         private byte[] GetSequentialByteArray(int size, int seed = 12345)
