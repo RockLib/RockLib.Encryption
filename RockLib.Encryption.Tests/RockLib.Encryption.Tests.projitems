@@ -16,5 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)SymmetricCryptoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SymmetricDecryptorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SymmetricEncryptorTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SymmetricRoundTripTests.cs" />
   </ItemGroup>
 </Project>
