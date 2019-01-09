@@ -13,7 +13,7 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptAes()
         {
-            var credential = new Credential(GetSequentialByteArray(16), SymmetricAlgorithm.Aes, 16);
+            var credential = new Credential(() => GetSequentialByteArray(16), SymmetricAlgorithm.Aes, 16);
 
             var crypto = new SymmetricCrypto(new[] { credential });
 
@@ -29,7 +29,7 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptDES()
         {
-            var credential = new Credential(GetSequentialByteArray(8), SymmetricAlgorithm.DES, 8);
+            var credential = new Credential(() => GetSequentialByteArray(8), SymmetricAlgorithm.DES, 8);
 
             var crypto = new SymmetricCrypto(new[] { credential });
 
@@ -45,7 +45,7 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptRC2()
         {
-            var credential = new Credential(GetSequentialByteArray(8), SymmetricAlgorithm.RC2, 8);
+            var credential = new Credential(() => GetSequentialByteArray(8), SymmetricAlgorithm.RC2, 8);
 
             var crypto = new SymmetricCrypto(new[] { credential });
 
@@ -61,7 +61,7 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptRijndael()
         {
-            var credential = new Credential(GetSequentialByteArray(16), SymmetricAlgorithm.Rijndael, 16);
+            var credential = new Credential(() => GetSequentialByteArray(16), SymmetricAlgorithm.Rijndael, 16);
 
             var crypto = new SymmetricCrypto(new[] { credential });
 
@@ -77,7 +77,7 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanEncryptDecryptTripleDes()
         {
-            var credential = new Credential(GetSequentialByteArray(24), SymmetricAlgorithm.TripleDES, 8);
+            var credential = new Credential(() => GetSequentialByteArray(24), SymmetricAlgorithm.TripleDES, 8);
 
             var crypto = new SymmetricCrypto(new[] { credential });
 
@@ -93,9 +93,9 @@ namespace RockLib.Encryption.Tests
         [Test]
         public void CanGetSpecificEncryptorAndDecryptorWhenMultipleCredentialsExist()
         {
-            var defaultCredential = new Credential(GetSequentialByteArray(16));
-            var credential1 = new Credential(GetSequentialByteArray(16), name: "encryptor1");
-            var credential2 = new Credential(GetSequentialByteArray(16), name: "encryptor2");
+            var defaultCredential = new Credential(() => GetSequentialByteArray(16));
+            var credential1 = new Credential(() => GetSequentialByteArray(16), name: "encryptor1");
+            var credential2 = new Credential(() => GetSequentialByteArray(16), name: "encryptor2");
 
             var crypto = new SymmetricCrypto(new[] { defaultCredential, credential1, credential2 });
 
