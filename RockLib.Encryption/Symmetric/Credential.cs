@@ -22,11 +22,11 @@ namespace RockLib.Encryption.Symmetric
         /// <summary>
         /// Initializes a new instance of the <see cref="Credential"/> class.
         /// </summary>
+        /// <param name="key">A function that returns the symmetric key to be returned by the <see cref="GetKey()"/> method.</param>
         /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
         /// <param name="name">The name of this credential.</param>
         /// <param name="cacheKeyValue">Whether to cache the value of the <paramref name="key"/> function.</param>
-        /// <param name="key">A function that returns the symmetric key to be returned by the <see cref="GetKey()"/> method.</param>
         public Credential(Func<byte[]> key, SymmetricAlgorithm algorithm = DefaultAlgorithm, ushort ivSize = DefaultIVSize, string name = null, bool cacheKeyValue = false)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
