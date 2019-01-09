@@ -39,7 +39,7 @@ namespace RockLib.Encryption.XSerializer.Tests
 
             SerializingCrypto.ToXml(foo);
 
-            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<object>(o => o is Type && ((Type)o) == typeof(Foo))), Times.Once());
+            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(o => o == null)), Times.Once());
         }
 
         [Test]
@@ -49,11 +49,11 @@ namespace RockLib.Encryption.XSerializer.Tests
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
-            var keyIdentifier = new object();
+            var credentialName = "foobar";
 
-            SerializingCrypto.ToXml(foo, keyIdentifier);
+            SerializingCrypto.ToXml(foo, credentialName);
 
-            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<object>(o => o == keyIdentifier)), Times.Once());
+            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(o => o == credentialName)), Times.Once());
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace RockLib.Encryption.XSerializer.Tests
 
             SerializingCrypto.FromXml<Foo>(FooXml);
 
-            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<object>(o => o is Type && ((Type)o) == typeof(Foo))), Times.Once());
+            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == null)), Times.Once());
         }
 
         [Test]
@@ -71,11 +71,11 @@ namespace RockLib.Encryption.XSerializer.Tests
         {
             _mockCrypto.ResetCalls();
 
-            var keyIdentifier = new object();
+            var credentialName = "foobar";
 
-            SerializingCrypto.FromXml<Foo>(FooXml, keyIdentifier);
+            SerializingCrypto.FromXml<Foo>(FooXml, credentialName);
 
-            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<object>(o => o == keyIdentifier)), Times.Once());
+            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == credentialName)), Times.Once());
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace RockLib.Encryption.XSerializer.Tests
 
             SerializingCrypto.ToJson(foo);
 
-            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<object>(o => o is Type && ((Type)o) == typeof(Foo))), Times.Once());
+            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(o => o == null)), Times.Once());
         }
 
         [Test]
@@ -97,11 +97,11 @@ namespace RockLib.Encryption.XSerializer.Tests
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
-            var keyIdentifier = new object();
+            var credentialName = "foobar";
 
-            SerializingCrypto.ToJson(foo, keyIdentifier);
+            SerializingCrypto.ToJson(foo, credentialName);
 
-            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<object>(o => o == keyIdentifier)), Times.Once());
+            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(o => o == credentialName)), Times.Once());
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace RockLib.Encryption.XSerializer.Tests
 
             SerializingCrypto.FromJson<Foo>(FooJson);
 
-            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<object>(o => o is Type && ((Type)o) == typeof(Foo))), Times.Once());
+            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == null)), Times.Once());
         }
 
         [Test]
@@ -119,11 +119,11 @@ namespace RockLib.Encryption.XSerializer.Tests
         {
             _mockCrypto.ResetCalls();
 
-            var keyIdentifier = new object();
+            var credentialName = "foobar";
 
-            SerializingCrypto.FromJson<Foo>(FooJson, keyIdentifier);
+            SerializingCrypto.FromJson<Foo>(FooJson, credentialName);
 
-            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<object>(o => o == keyIdentifier)), Times.Once());
+            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == credentialName)), Times.Once());
         }
 
         [Test]
@@ -184,14 +184,14 @@ namespace RockLib.Encryption.XSerializer.Tests
 
         public class Base64Crypto : ICrypto
         {
-            public virtual bool CanDecrypt(object keyIdentifier) => true;
-            public virtual bool CanEncrypt(object keyIdentifier) => true;
-            public virtual string Decrypt(string cipherText, object keyIdentifier) => Base64.Decrypt(cipherText);
-            public virtual byte[] Decrypt(byte[] cipherText, object keyIdentifier) => throw new NotImplementedException();
-            public virtual string Encrypt(string plainText, object keyIdentifier) => Base64.Encrypt(plainText);
-            public virtual byte[] Encrypt(byte[] plainText, object keyIdentifier) => throw new NotImplementedException();
-            public virtual IDecryptor GetDecryptor(object keyIdentifier) => MockDecryptor.Object;
-            public virtual IEncryptor GetEncryptor(object keyIdentifier) => MockEncryptor.Object;
+            public virtual bool CanDecrypt(string credentialName) => true;
+            public virtual bool CanEncrypt(string credentialName) => true;
+            public virtual string Decrypt(string cipherText, string credentialName) => Base64.Decrypt(cipherText);
+            public virtual byte[] Decrypt(byte[] cipherText, string credentialName) => throw new NotImplementedException();
+            public virtual string Encrypt(string plainText, string credentialName) => Base64.Encrypt(plainText);
+            public virtual byte[] Encrypt(byte[] plainText, string credentialName) => throw new NotImplementedException();
+            public virtual IDecryptor GetDecryptor(string credentialName) => MockDecryptor.Object;
+            public virtual IEncryptor GetEncryptor(string credentialName) => MockEncryptor.Object;
             public Mock<Base64Encryptor> MockEncryptor { get; } = new Mock<Base64Encryptor>() { CallBase = true };
             public Mock<Base64Decryptor> MockDecryptor { get; } = new Mock<Base64Decryptor>() { CallBase = true };
         }

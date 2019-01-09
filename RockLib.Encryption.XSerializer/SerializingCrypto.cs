@@ -55,16 +55,16 @@ namespace RockLib.Encryption
         /// </summary>
         /// <typeparam name="T">The type of the instance</typeparam>
         /// <param name="instance">The instance to serialize.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>An XML document that represents the instance.</returns>
-        public static string ToXml<T>(T instance, object keyIdentifier)
+        public static string ToXml<T>(T instance, string credentialName)
         {
             var serializer = new XmlSerializer<T>(x => x
                 .WithEncryptionMechanism(EncryptionMechanism)
-                .WithEncryptKey(keyIdentifier ?? typeof(T)));
+                .WithEncryptKey(credentialName));
             return serializer.Serialize(instance);
         }
 
@@ -86,16 +86,16 @@ namespace RockLib.Encryption
         /// </summary>
         /// <typeparam name="T">The type to deserialize into.</typeparam>
         /// <param name="xml">The XML to deserialize.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The deserialized object.</returns>
-        public static T FromXml<T>(string xml, object keyIdentifier)
+        public static T FromXml<T>(string xml, string credentialName)
         {
             var serializer = new XmlSerializer<T>(x => x
                 .WithEncryptionMechanism(EncryptionMechanism)
-                .WithEncryptKey(keyIdentifier ?? typeof(T)));
+                .WithEncryptKey(credentialName));
             return serializer.Deserialize(xml);
         }
 
@@ -117,18 +117,18 @@ namespace RockLib.Encryption
         /// </summary>
         /// <typeparam name="T">The type of the instance</typeparam>
         /// <param name="instance">The instance to serialize.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>A JSON document that represents the instance.</returns>
-        public static string ToJson<T>(T instance, object keyIdentifier)
+        public static string ToJson<T>(T instance, string credentialName)
         {
             var serializer =
                 new JsonSerializer<T>(new JsonSerializerConfiguration
                 {
                     EncryptionMechanism = EncryptionMechanism,
-                    EncryptKey = keyIdentifier ?? typeof(T)
+                    EncryptKey = credentialName
                 });
 
             return serializer.Serialize(instance);
@@ -152,18 +152,18 @@ namespace RockLib.Encryption
         /// </summary>
         /// <typeparam name="T">The type to deserialize into.</typeparam>
         /// <param name="json">The JSON to deserialize.</param>
-        /// <param name="keyIdentifier">
-        /// An implementation-specific object used to identify the key for this
-        /// encryption operation.
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
         /// </param>
         /// <returns>The deserialized object.</returns>
-        public static T FromJson<T>(string json, object keyIdentifier)
+        public static T FromJson<T>(string json, string credentialName)
         {
             var serializer =
                 new JsonSerializer<T>(new JsonSerializerConfiguration
                 {
                     EncryptionMechanism = EncryptionMechanism,
-                    EncryptKey = keyIdentifier ?? typeof(T)
+                    EncryptKey = credentialName
                 });
 
             return serializer.Deserialize(json);
