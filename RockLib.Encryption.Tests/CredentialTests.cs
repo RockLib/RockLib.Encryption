@@ -72,7 +72,7 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
-        public void NullKeyValueThrowsArgumentException()
+        public void NullKeyValueThrowsInvalidOperationException()
         {
             var credential = new Credential(() => null, SymmetricAlgorithm.Aes, 16);
             Action getKey = () => credential.GetKey();
@@ -80,7 +80,7 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
-        public void EmptyKeyValueThrowsArgumentException()
+        public void EmptyKeyValueThrowsInvalidOperationException()
         {
             var credential = new Credential(() => new byte[0], SymmetricAlgorithm.Aes, 16);
             Action getKey = () => credential.GetKey();
