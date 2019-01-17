@@ -160,6 +160,12 @@ namespace RockLib.Encryption.Symmetric
         private Credential GetCachedCredential(string credentialName) =>
             _credentials.TryGetValue(credentialName, out var credential)
                 ? credential
-                : throw new KeyNotFoundException($"Unable to locate credential using credentialName: {credentialName}");
+                : throw CredentialNotFound(credentialName);
+
+        private Exception CredentialNotFound(string credentialName) =>
+            new KeyNotFoundException(
+                _credentials.IsDefaultName(credentialName)
+                    ? "No default credential was found."
+                    : $"The specified credential was not found: {credentialName}.");
     }
 }
