@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RockLib.Collections;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace RockLib.Encryption.Symmetric
     /// </summary>
     public class SymmetricCrypto : ICrypto
     {
-        private readonly CredentialCache<Credential> _credentialCache;
+        private readonly NamedCollection<Credential> _credentials;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SymmetricCrypto"/> class.
@@ -28,18 +29,18 @@ namespace RockLib.Encryption.Symmetric
                 throw new ArgumentNullException(nameof(credentials));
 
             Encoding = encoding ?? Encoding.UTF8;
-            _credentialCache = new CredentialCache<Credential>(credentials);
+            _credentials = credentials.ToNamedCollection(c => c.Name);
         }
 
         /// <summary>
-        /// Gets the non-default (named) credentials.
+        /// Gets the named (non-default) credentials.
         /// </summary>
-        public IReadOnlyCollection<Credential> Credentials => _credentialCache.Credentials;
+        public IReadOnlyCollection<Credential> NamedCredentials => _credentials.NamedValues;
 
         /// <summary>
         /// Gets the default (unnamed) credential.
         /// </summary>
-        public Credential DefaultCredential => _credentialCache.DefaultCredential;
+        public Credential DefaultCredential => _credentials.DefaultValue;
 
         /// <summary>
         /// Gets the <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
@@ -140,7 +141,7 @@ namespace RockLib.Encryption.Symmetric
         /// Otherwise, false.
         /// </returns>
         public bool CanEncrypt(string credentialName) =>
-            _credentialCache.TryGetCredential(credentialName, out var dummy);
+            _credentials.Contains(credentialName);
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
@@ -157,7 +158,7 @@ namespace RockLib.Encryption.Symmetric
             CanEncrypt(credentialName);
 
         private Credential GetCachedCredential(string credentialName) =>
-            _credentialCache.TryGetCredential(credentialName, out var credential)
+            _credentials.TryGetValue(credentialName, out var credential)
                 ? credential
                 : throw new KeyNotFoundException($"Unable to locate credential using credentialName: {credentialName}");
     }

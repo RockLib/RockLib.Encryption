@@ -5,7 +5,7 @@ namespace RockLib.Encryption.Symmetric
     /// <summary>
     /// Defines a credential for symmetric encryption.
     /// </summary>
-    public sealed class Credential : ICredentialInfo
+    public sealed class Credential
     {
         /// <summary>
         /// Defines the default value of <see cref="SymmetricAlgorithm"/>.
