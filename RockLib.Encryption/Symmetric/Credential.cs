@@ -44,6 +44,7 @@ namespace RockLib.Encryption.Symmetric
                 var k = new Lazy<byte[]>(key);
                 _key = () =>
                 {
+                    if (k.Value == null) return null;
                     var copy = new byte[k.Value.Length];
                     k.Value.CopyTo(copy, 0);
                     return copy;
@@ -52,13 +53,13 @@ namespace RockLib.Encryption.Symmetric
         }
 
         /// <summary>
-        /// Gets the name of this credential.
+        /// Gets the name of the credential.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Gets the <see cref="SymmetricAlgorithm"/> that will be used for a symmetric
-        /// encryption or decryption operation.
+        /// Gets the <see cref="SymmetricAlgorithm"/> that is used for symmetric
+        /// encryption or decryption operations.
         /// </summary>
         public SymmetricAlgorithm Algorithm { get; }
 
