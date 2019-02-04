@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CompositeCryptoTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CredentialCacheTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CredentialTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CryptoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SymmetricCryptoTests.cs" />

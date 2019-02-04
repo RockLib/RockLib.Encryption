@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RockLib.Collections;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace RockLib.Encryption.Symmetric
     /// </summary>
     public class SymmetricCrypto : ICrypto
     {
-        private readonly CredentialCache<Credential> _credentialCache;
+        private readonly NamedCollection<Credential> _credentials;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SymmetricCrypto"/> class.
@@ -22,24 +23,19 @@ namespace RockLib.Encryption.Symmetric
         /// <param name="encoding">
         /// The <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
         /// </param>
-        public SymmetricCrypto(IReadOnlyCollection<Credential> credentials, Encoding encoding = null)
+        public SymmetricCrypto(IEnumerable<Credential> credentials, Encoding encoding = null)
         {
             if (credentials == null)
                 throw new ArgumentNullException(nameof(credentials));
 
             Encoding = encoding ?? Encoding.UTF8;
-            _credentialCache = new CredentialCache<Credential>(credentials);
+            _credentials = credentials.ToNamedCollection(c => c.Name);
         }
 
         /// <summary>
-        /// Gets the non-default (named) credentials.
+        /// Gets the credentials that are available for encryption or decryption operations.
         /// </summary>
-        public IReadOnlyCollection<Credential> Credentials => _credentialCache.Credentials;
-
-        /// <summary>
-        /// Gets the default (unnamed) credential.
-        /// </summary>
-        public Credential DefaultCredential => _credentialCache.DefaultCredential;
+        public IReadOnlyCollection<Credential> Credentials => _credentials;
 
         /// <summary>
         /// Gets the <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
@@ -115,7 +111,7 @@ namespace RockLib.Encryption.Symmetric
         /// </param>
         /// <returns>An object that can be used for encryption operations.</returns>
         public IEncryptor GetEncryptor(string credentialName) =>
-            new SymmetricEncryptor(GetCachedCredential(credentialName), Encoding);
+            new SymmetricEncryptor(GetCredential(credentialName), Encoding);
 
         /// <summary>
         /// Gets an instance of <see cref="IDecryptor"/> for the provided credential name.
@@ -126,7 +122,7 @@ namespace RockLib.Encryption.Symmetric
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
         public IDecryptor GetDecryptor(string credentialName) =>
-            new SymmetricDecryptor(GetCachedCredential(credentialName), Encoding);
+            new SymmetricDecryptor(GetCredential(credentialName), Encoding);
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
@@ -140,7 +136,7 @@ namespace RockLib.Encryption.Symmetric
         /// Otherwise, false.
         /// </returns>
         public bool CanEncrypt(string credentialName) =>
-            _credentialCache.TryGetCredential(credentialName, out var dummy);
+            _credentials.Contains(credentialName);
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
@@ -154,11 +150,17 @@ namespace RockLib.Encryption.Symmetric
         /// Otherwise, false.
         /// </returns>
         public bool CanDecrypt(string credentialName) =>
-            CanEncrypt(credentialName);
+            _credentials.Contains(credentialName);
 
-        private Credential GetCachedCredential(string credentialName) =>
-            _credentialCache.TryGetCredential(credentialName, out var credential)
+        private Credential GetCredential(string credentialName) =>
+            _credentials.TryGetValue(credentialName, out var credential)
                 ? credential
-                : throw new KeyNotFoundException($"Unable to locate credential using credentialName: {credentialName}");
+                : throw CredentialNotFound(credentialName);
+
+        private Exception CredentialNotFound(string credentialName) =>
+            new KeyNotFoundException(
+                _credentials.IsDefaultName(credentialName)
+                    ? "No default credential was found."
+                    : $"The specified credential was not found: {credentialName}.");
     }
 }
