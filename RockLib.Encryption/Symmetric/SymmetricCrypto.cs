@@ -21,7 +21,7 @@ namespace RockLib.Encryption.Symmetric
         /// The <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
         /// </param>
         public SymmetricCrypto(IEnumerable<Credential> credentials, Encoding encoding = null)
-            : this(new InMemoryCredentialRepository(credentials), encoding)
+            : this(new InMemoryCredentialRepository(credentials ?? throw new ArgumentNullException(nameof(credentials))), encoding)
         {
         }
 
