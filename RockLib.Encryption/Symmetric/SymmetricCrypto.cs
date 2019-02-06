@@ -1,5 +1,4 @@
-﻿using RockLib.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,8 +10,6 @@ namespace RockLib.Encryption.Symmetric
     /// </summary>
     public class SymmetricCrypto : ICrypto
     {
-        private readonly NamedCollection<Credential> _credentials;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SymmetricCrypto"/> class.
         /// </summary>
@@ -24,18 +21,31 @@ namespace RockLib.Encryption.Symmetric
         /// The <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
         /// </param>
         public SymmetricCrypto(IEnumerable<Credential> credentials, Encoding encoding = null)
+            : this(new InMemoryCredentialRepository(credentials), encoding)
         {
-            if (credentials == null)
-                throw new ArgumentNullException(nameof(credentials));
-
-            Encoding = encoding ?? Encoding.UTF8;
-            _credentials = credentials.ToNamedCollection(c => c.Name);
         }
 
         /// <summary>
-        /// Gets the credentials that are available for encryption or decryption operations.
+        /// Initializes a new instance of the <see cref="SymmetricCrypto"/> class.
         /// </summary>
-        public IReadOnlyCollection<Credential> Credentials => _credentials;
+        /// <param name="credentialRepository">
+        /// The credential repository that determines which credentials will be available for
+        /// encryption or decryption operations.
+        /// </param>
+        /// <param name="encoding">
+        /// The <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
+        /// </param>
+        public SymmetricCrypto(ICredentialRepository credentialRepository, Encoding encoding = null)
+        {
+            CredentialRepository = credentialRepository ?? throw new ArgumentNullException(nameof(credentialRepository));
+            Encoding = encoding ?? Encoding.UTF8;
+        }
+
+        /// <summary>
+        /// Gets the credential repository that determines which credentials will be available for
+        /// encryption or decryption operations.
+        /// </summary>
+        public ICredentialRepository CredentialRepository { get; }
 
         /// <summary>
         /// Gets the <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
@@ -111,7 +121,7 @@ namespace RockLib.Encryption.Symmetric
         /// </param>
         /// <returns>An object that can be used for encryption operations.</returns>
         public IEncryptor GetEncryptor(string credentialName) =>
-            new SymmetricEncryptor(GetCredential(credentialName), Encoding);
+            new SymmetricEncryptor(CredentialRepository.GetCredential(credentialName), Encoding);
 
         /// <summary>
         /// Gets an instance of <see cref="IDecryptor"/> for the provided credential name.
@@ -122,7 +132,7 @@ namespace RockLib.Encryption.Symmetric
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
         public IDecryptor GetDecryptor(string credentialName) =>
-            new SymmetricDecryptor(GetCredential(credentialName), Encoding);
+            new SymmetricDecryptor(CredentialRepository.GetCredential(credentialName), Encoding);
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
@@ -136,7 +146,7 @@ namespace RockLib.Encryption.Symmetric
         /// Otherwise, false.
         /// </returns>
         public bool CanEncrypt(string credentialName) =>
-            _credentials.Contains(credentialName);
+            CredentialRepository.ContainsCredential(credentialName);
 
         /// <summary>
         /// Returns a value indicating whether this instance of <see cref="ICrypto"/>
@@ -150,17 +160,6 @@ namespace RockLib.Encryption.Symmetric
         /// Otherwise, false.
         /// </returns>
         public bool CanDecrypt(string credentialName) =>
-            _credentials.Contains(credentialName);
-
-        private Credential GetCredential(string credentialName) =>
-            _credentials.TryGetValue(credentialName, out var credential)
-                ? credential
-                : throw CredentialNotFound(credentialName);
-
-        private Exception CredentialNotFound(string credentialName) =>
-            new KeyNotFoundException(
-                _credentials.IsDefaultName(credentialName)
-                    ? "No default credential was found."
-                    : $"The specified credential was not found: {credentialName}.");
+            CredentialRepository.ContainsCredential(credentialName);
     }
 }
