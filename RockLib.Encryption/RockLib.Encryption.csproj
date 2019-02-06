@@ -12,7 +12,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes></PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/RockLib/RockLib.Encryption</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/RockLib/RockLib.Encryption/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <Copyright>Copyright 2017-2019 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
         <PackageTags>rocklib encryption crypto</PackageTags>
         <Version>2.0.0</Version>
@@ -22,6 +22,10 @@
     <PropertyGroup>
         <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RockLib.Encryption.xml</DocumentationFile>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="..\LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="RockLib.Configuration" Version="2.3.1" />

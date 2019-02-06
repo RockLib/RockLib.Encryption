@@ -12,7 +12,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes></PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/RockLib/RockLib.Encryption#rockencryptionxserializer</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/RockLib/RockLib.Encryption/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <Copyright>Copyright 2018 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
         <PackageTags>rocklib encryption crypto field-level</PackageTags>
         <Version>1.0.2</Version>
@@ -24,7 +24,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Properties\" />
+      <None Include="..\LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
