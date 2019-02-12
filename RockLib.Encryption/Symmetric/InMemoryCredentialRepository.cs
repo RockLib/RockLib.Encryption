@@ -19,7 +19,7 @@ namespace RockLib.Encryption.Symmetric
         /// The credentials available for encryption or decryption operations.
         /// </param>
         public InMemoryCredentialRepository(IEnumerable<Credential> credentials) =>
-            _credentials = credentials?.ToNamedCollection(c => c.Name) ?? throw new ArgumentNullException(nameof(credentials)) ;
+            _credentials = credentials?.ToNamedCollection(c => c.Name) ?? throw new ArgumentNullException(nameof(credentials));
 
         /// <summary>
         /// Gets the credentials available for encryption or decryption operations.
