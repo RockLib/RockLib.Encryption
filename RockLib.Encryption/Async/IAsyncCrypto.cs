@@ -18,7 +18,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the encrypted value as a string.</returns>
-        Task<string> EncryptAsync(string plainText, string credentialName, CancellationToken cancellationToken);
+        Task<string> EncryptAsync(string plainText, string credentialName, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Asynchronously decrypts the specified cipher text.
@@ -30,7 +30,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the decrypted value as a string.</returns>
-        Task<string> DecryptAsync(string cipherText, string credentialName, CancellationToken cancellationToken);
+        Task<string> DecryptAsync(string cipherText, string credentialName, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Asynchronously encrypts the specified plain text.
@@ -42,7 +42,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the encrypted value as a byte array.</returns>
-        Task<byte[]> EncryptAsync(byte[] plainText, string credentialName, CancellationToken cancellationToken);
+        Task<byte[]> EncryptAsync(byte[] plainText, string credentialName, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Asynchronously decrypts the specified cipher text.
@@ -54,7 +54,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the decrypted value as a byte array.</returns>
-        Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName, CancellationToken cancellationToken);
+        Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided credential name.

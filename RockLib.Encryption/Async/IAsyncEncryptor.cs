@@ -14,7 +14,7 @@ namespace RockLib.Encryption.Async
         /// <param name="plainText">The plain text.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the encrypted value as a string.</returns>
-        Task<string> EncryptAsync(string plainText, CancellationToken cancellationToken);
+        Task<string> EncryptAsync(string plainText, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Asynchronously encrypts the specified plain text.
@@ -22,6 +22,6 @@ namespace RockLib.Encryption.Async
         /// <param name="plainText">The plain text.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task whose result represents the encrypted value as a byte array.</returns>
-        Task<byte[]> EncryptAsync(byte[] plainText, CancellationToken cancellationToken);
+        Task<byte[]> EncryptAsync(byte[] plainText, CancellationToken cancellationToken = default(CancellationToken));
     }
 }
