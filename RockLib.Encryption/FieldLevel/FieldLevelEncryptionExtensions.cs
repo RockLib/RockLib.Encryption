@@ -172,6 +172,24 @@ namespace RockLib.Encryption.FieldLevel
         /// Asynchronously encrypts the fields, specified by XPath, that are contained in the given xml document string.
         /// </summary>
         /// <param name="crypto">
+        /// The instance of <see cref="IAsyncCrypto"/> that ultimately responsible for performing encryption operations
+        /// on field values.
+        /// </param>
+        /// <param name="xmlString">A string containing an xml document.</param>
+        /// <param name="xpathToEncrypt">The XPath of the field to encrypt.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that will contain the same xml document, except with the specified fields encrypted.</returns>
+        public static Task<string> EncryptXmlAsync(this IAsyncCrypto crypto, string xmlString, string xpathToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.EncryptXmlAsync(xmlString, new[] { xpathToEncrypt }, credentialName, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously encrypts the fields, specified by XPath, that are contained in the given xml document string.
+        /// </summary>
+        /// <param name="crypto">
         /// The instance of <see cref="ICrypto"/> that ultimately responsible for performing encryption operations
         /// on field values.
         /// </param>
@@ -183,7 +201,25 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields encrypted.</returns>
-        public static async Task<string> EncryptXmlAsync(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<string> EncryptXmlAsync(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.AsAsync().EncryptXmlAsync(xmlString, xpathsToEncrypt, credentialName, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously encrypts the fields, specified by XPath, that are contained in the given xml document string.
+        /// </summary>
+        /// <param name="crypto">
+        /// The instance of <see cref="IAsyncCrypto"/> that ultimately responsible for performing encryption operations
+        /// on field values.
+        /// </param>
+        /// <param name="xmlString">A string containing an xml document.</param>
+        /// <param name="xpathsToEncrypt">One or more XPaths of the fields to encrypt.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that will contain the same xml document, except with the specified fields encrypted.</returns>
+        public static async Task<string> EncryptXmlAsync(this IAsyncCrypto crypto, string xmlString, IEnumerable<string> xpathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (xmlString == null) throw new ArgumentNullException(nameof(xmlString));
@@ -193,7 +229,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.AsAsync().GetAsyncEncryptor(credentialName));
+            var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.GetAsyncEncryptor(credentialName));
 
             var anyPaths = false;
 
@@ -383,6 +419,24 @@ namespace RockLib.Encryption.FieldLevel
         /// Asynchronously decrypts the fields, specified by XPath, that are contained in the given xml document string.
         /// </summary>
         /// <param name="crypto">
+        /// The instance of <see cref="IAsyncCrypto"/> that ultimately responsible for performing decryption operations
+        /// on field values.
+        /// </param>
+        /// <param name="xmlString">A string containing an xml document.</param>
+        /// <param name="xpathToDecrypt">The XPath of the field to decrypt.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that will contain the same xml document, except with the specified fields decrypted.</returns>
+        public static Task<string> DecryptXmlAsync(this IAsyncCrypto crypto, string xmlString, string xpathToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.DecryptXmlAsync(xmlString, new[] { xpathToDecrypt }, credentialName, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously decrypts the fields, specified by XPath, that are contained in the given xml document string.
+        /// </summary>
+        /// <param name="crypto">
         /// The instance of <see cref="ICrypto"/> that ultimately responsible for performing decryption operations
         /// on field values.
         /// </param>
@@ -394,7 +448,25 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same xml document, except with the specified fields decrypted.</returns>
-        public static async Task<string> DecryptXmlAsync(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<string> DecryptXmlAsync(this ICrypto crypto, string xmlString, IEnumerable<string> xpathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.AsAsync().DecryptXmlAsync(xmlString, xpathsToDecrypt, credentialName, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously decrypts the fields, specified by XPath, that are contained in the given xml document string.
+        /// </summary>
+        /// <param name="crypto">
+        /// The instance of <see cref="IAsyncCrypto"/> that ultimately responsible for performing decryption operations
+        /// on field values.
+        /// </param>
+        /// <param name="xmlString">A string containing an xml document.</param>
+        /// <param name="xpathsToDecrypt">One or more XPaths of the fields to decrypt.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that will contain the same xml document, except with the specified fields decrypted.</returns>
+        public static async Task<string> DecryptXmlAsync(this IAsyncCrypto crypto, string xmlString, IEnumerable<string> xpathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (xmlString == null) throw new ArgumentNullException(nameof(xmlString));
@@ -404,7 +476,7 @@ namespace RockLib.Encryption.FieldLevel
             doc.LoadXml(xmlString);
             var navigator = doc.CreateNavigator();
 
-            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.AsAsync().GetAsyncDecryptor(credentialName));
+            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.GetAsyncDecryptor(credentialName));
 
             var anyPaths = false;
 
@@ -589,6 +661,24 @@ namespace RockLib.Encryption.FieldLevel
         /// Asynchronously encrypts the fields, specified by JSONPath, that are contained in the given json document string.
         /// </summary>
         /// <param name="crypto">
+        /// The instance of <see cref="IAsyncCrypto"/> that ultimately responsible for performing encryption operations
+        /// on field values.
+        /// </param>
+        /// <param name="jsonString">A string containing an json document.</param>
+        /// <param name="jsonPathToEncrypt">The JSONPath of the field to encrypt.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that will contain the same json document, except with the specified fields encrypted.</returns>
+        public static Task<string> EncryptJsonAsync(this IAsyncCrypto crypto, string jsonString, string jsonPathToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.EncryptJsonAsync(jsonString, new[] { jsonPathToEncrypt }, credentialName, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously encrypts the fields, specified by JSONPath, that are contained in the given json document string.
+        /// </summary>
+        /// <param name="crypto">
         /// The instance of <see cref="ICrypto"/> that ultimately responsible for performing encryption operations
         /// on field values.
         /// </param>
@@ -600,7 +690,25 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields encrypted.</returns>
-        public static async Task<string> EncryptJsonAsync(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<string> EncryptJsonAsync(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.AsAsync().EncryptJsonAsync(jsonString, jsonPathsToEncrypt, credentialName, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously encrypts the fields, specified by JSONPath, that are contained in the given json document string.
+        /// </summary>
+        /// <param name="crypto">
+        /// The instance of <see cref="IAsyncCrypto"/> that ultimately responsible for performing encryption operations
+        /// on field values.
+        /// </param>
+        /// <param name="jsonString">A string containing an json document.</param>
+        /// <param name="jsonPathsToEncrypt">One or more JSONPaths of the fields to encrypt.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that will contain the same json document, except with the specified fields encrypted.</returns>
+        public static async Task<string> EncryptJsonAsync(this IAsyncCrypto crypto, string jsonString, IEnumerable<string> jsonPathsToEncrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
@@ -608,7 +716,7 @@ namespace RockLib.Encryption.FieldLevel
 
             var token = JToken.Parse(jsonString);
 
-            var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.AsAsync().GetAsyncEncryptor(credentialName));
+            var encryptor = new Lazy<IAsyncEncryptor>(() => crypto.GetAsyncEncryptor(credentialName));
 
             var anyPaths = false;
 
@@ -798,6 +906,24 @@ namespace RockLib.Encryption.FieldLevel
         /// Asynchronously decrypts the fields, specified by JSONPath, that are contained in the given json document string.
         /// </summary>
         /// <param name="crypto">
+        /// The instance of <see cref="IAsyncCrypto"/> that ultimately responsible for performing decryption operations
+        /// on field values.
+        /// </param>
+        /// <param name="jsonString">A string containing an json document.</param>
+        /// <param name="jsonPathToDecrypt">The JSONPath of the field to decrypt.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that will contain the same json document, except with the specified fields decrypted.</returns>
+        public static Task<string> DecryptJsonAsync(this IAsyncCrypto crypto, string jsonString, string jsonPathToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.DecryptJsonAsync(jsonString, new[] { jsonPathToDecrypt }, credentialName, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously decrypts the fields, specified by JSONPath, that are contained in the given json document string.
+        /// </summary>
+        /// <param name="crypto">
         /// The instance of <see cref="ICrypto"/> that ultimately responsible for performing decryption operations
         /// on field values.
         /// </param>
@@ -809,7 +935,25 @@ namespace RockLib.Encryption.FieldLevel
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task that will contain the same json document, except with the specified fields decrypted.</returns>
-        public static async Task<string> DecryptJsonAsync(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<string> DecryptJsonAsync(this ICrypto crypto, string jsonString, IEnumerable<string> jsonPathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken)) =>
+            crypto.AsAsync().DecryptJsonAsync(jsonString, jsonPathsToDecrypt, credentialName, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously decrypts the fields, specified by JSONPath, that are contained in the given json document string.
+        /// </summary>
+        /// <param name="crypto">
+        /// The instance of <see cref="IAsyncCrypto"/> that ultimately responsible for performing decryption operations
+        /// on field values.
+        /// </param>
+        /// <param name="jsonString">A string containing an json document.</param>
+        /// <param name="jsonPathsToDecrypt">One or more JSONPaths of the fields to decrypt.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that will contain the same json document, except with the specified fields decrypted.</returns>
+        public static async Task<string> DecryptJsonAsync(this IAsyncCrypto crypto, string jsonString, IEnumerable<string> jsonPathsToDecrypt, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (crypto == null) throw new ArgumentNullException(nameof(crypto));
             if (jsonString == null) throw new ArgumentNullException(nameof(jsonString));
@@ -817,7 +961,7 @@ namespace RockLib.Encryption.FieldLevel
 
             var token = JToken.Parse(jsonString);
 
-            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.AsAsync().GetAsyncDecryptor(credentialName));
+            var decryptor = new Lazy<IAsyncDecryptor>(() => crypto.GetAsyncDecryptor(credentialName));
 
             var anyPaths = false;
 
