@@ -41,7 +41,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a string.</returns>
-        public Task<string> EncryptAsync(string plainText, string credentialName, CancellationToken cancellationToken)
+        public Task<string> EncryptAsync(string plainText, string credentialName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var completion = new TaskCompletionSource<string>();
             try
@@ -67,7 +67,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the decrypted value as a string.</returns>
-        public Task<string> DecryptAsync(string cipherText, string credentialName, CancellationToken cancellationToken)
+        public Task<string> DecryptAsync(string cipherText, string credentialName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var completion = new TaskCompletionSource<string>();
             try
@@ -93,7 +93,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a byte array.</returns>
-        public Task<byte[]> EncryptAsync(byte[] plainText, string credentialName, CancellationToken cancellationToken)
+        public Task<byte[]> EncryptAsync(byte[] plainText, string credentialName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var completion = new TaskCompletionSource<byte[]>();
             try
@@ -119,7 +119,7 @@ namespace RockLib.Encryption.Async
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the decrypted value as a byte array.</returns>
-        public Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName, CancellationToken cancellationToken)
+        public Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var completion = new TaskCompletionSource<byte[]>();
             try

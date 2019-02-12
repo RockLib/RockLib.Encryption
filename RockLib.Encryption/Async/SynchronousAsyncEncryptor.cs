@@ -37,7 +37,7 @@ namespace RockLib.Encryption.Async
         /// <param name="plainText">The plain text.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a string.</returns>
-        public Task<string> EncryptAsync(string plainText, CancellationToken cancellationToken)
+        public Task<string> EncryptAsync(string plainText, CancellationToken cancellationToken = default(CancellationToken))
         {
             var completion = new TaskCompletionSource<string>();
             try
@@ -59,7 +59,7 @@ namespace RockLib.Encryption.Async
         /// <param name="plainText">The plain text.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A completed task whose result represents the encrypted value as a byte array.</returns>
-        public Task<byte[]> EncryptAsync(byte[] plainText, CancellationToken cancellationToken)
+        public Task<byte[]> EncryptAsync(byte[] plainText, CancellationToken cancellationToken = default(CancellationToken))
         {
             var completion = new TaskCompletionSource<byte[]>();
             try
