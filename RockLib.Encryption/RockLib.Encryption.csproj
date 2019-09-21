@@ -7,7 +7,7 @@
     <PropertyGroup>
         <PackageId>RockLib.Encryption</PackageId>
         <PackageVersion>2.0.0-alpha06</PackageVersion>
-        <Authors>Quicken Loans</Authors>
+        <Authors>Brian Friesen</Authors>
         <Description>An easy-to-use crypto API.</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes></PackageReleaseNotes>

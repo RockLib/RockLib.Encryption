@@ -7,7 +7,7 @@
     <PropertyGroup>
         <PackageId>RockLib.Encryption.XSerializer</PackageId>
         <PackageVersion>2.0.0-alpha04</PackageVersion>
-        <Authors>Quicken Loans</Authors>
+        <Authors>Brian Friesen</Authors>
         <Description>Extension to RockLib.Encryption - allows properties marked with the [Encrypt] attribute to be encrypted during an XSerializer serialization operation.</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes></PackageReleaseNotes>
