@@ -11,7 +11,7 @@
         <Description>Extension to RockLib.Encryption - allows properties marked with the [Encrypt] attribute to be encrypted during an XSerializer serialization operation.</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes></PackageReleaseNotes>
-        <PackageProjectUrl>https://github.com/RockLib/RockLib.Encryption#rockencryptionxserializer</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/RockLib/RockLib.Encryption</PackageProjectUrl>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <Copyright>Copyright 2018 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
         <PackageTags>rocklib encryption crypto field-level</PackageTags>
