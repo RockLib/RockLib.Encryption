@@ -213,7 +213,7 @@ namespace RockLib.Encryption
 
         private static ICrypto GetDefaultCrypto()
         {
-            var cryptos = Config.Root.GetSection("rocklib.encryption").Create<List<ICrypto>>();
+            var cryptos = Config.Root.GetCompositeSection("rocklib_encryption", "rocklib.encryption").Create<List<ICrypto>>();
 
             if (cryptos == null || cryptos.Count == 0)
             {
