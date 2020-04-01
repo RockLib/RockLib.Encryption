@@ -1,5 +1,6 @@
 ﻿#if !NET451
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace RockLib.Encryption.Symmetric.DependencyInjection
 {
@@ -18,6 +19,9 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <returns></returns>
         public static SymmetricCryptoBuilder AddSymmetricCrypto(this IServiceCollection services, ServiceLifetime lifetime = _defaultLifetime)
         {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
             var builder = new SymmetricCryptoBuilder();
             services.Add(new ServiceDescriptor(typeof(ICrypto), builder.Build, lifetime));
             return builder;

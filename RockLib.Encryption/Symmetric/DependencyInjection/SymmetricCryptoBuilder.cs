@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NET451
+using System;
 using System.Collections.Generic;
 
 namespace RockLib.Encryption.Symmetric.DependencyInjection
@@ -20,6 +21,11 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
         public SymmetricCryptoBuilder AddCredential(string name, string key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+
             _credentialOptions.Add(new SymmetricCredentialOptions(name, Convert.FromBase64String(key), algorithm, ivSize));
             return this;
         }
@@ -34,6 +40,11 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
         public SymmetricCryptoBuilder AddCredential(string name, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+
             _credentialOptions.Add(new SymmetricCredentialOptions(name, key, algorithm, ivSize));
             return this;
         }
@@ -56,3 +67,4 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         }
     }
 }
+#endif
