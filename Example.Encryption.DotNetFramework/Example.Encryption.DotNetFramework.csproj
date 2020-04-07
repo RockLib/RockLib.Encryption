@@ -75,7 +75,7 @@
       <HintPath>..\packages\RockLib.Configuration.ObjectFactory.1.6.1\lib\net451\RockLib.Configuration.ObjectFactory.dll</HintPath>
     </Reference>
     <Reference Include="RockLib.Encryption, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RockLib.Encryption.2.0.0-alpha07\lib\net451\RockLib.Encryption.dll</HintPath>
+      <HintPath>..\packages\RockLib.Encryption.2.0.0\lib\net451\RockLib.Encryption.dll</HintPath>
     </Reference>
     <Reference Include="RockLib.Immutable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RockLib.Immutable.1.0.0\lib\net45\RockLib.Immutable.dll</HintPath>
