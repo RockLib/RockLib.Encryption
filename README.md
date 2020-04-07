@@ -71,20 +71,20 @@ string decryptedSsn = Crypto.Decrypt(encryptedSsn);
 ```c#
 public interface ICrypto
 {
-    bool CanEncrypt(object keyIdentifier);
-    bool CanDecrypt(object keyIdentifier);
-    string Encrypt(string plainText, object keyIdentifier);
-    string Decrypt(string cipherText, object keyIdentifier);
-    byte[] Encrypt(byte[] plainText, object keyIdentifier);
-    byte[] Decrypt(byte[] cipherText, object keyIdentifier);
-    IEncryptor GetEncryptor(object keyIdentifier);
-    IDecryptor GetDecryptor(object keyIdentifier);
+    string Encrypt(string plainText, string credentialName);
+    string Decrypt(string cipherText, string credentialName);
+    byte[] Encrypt(byte[] plainText, string credentialName);
+    byte[] Decrypt(byte[] cipherText, string credentialName);
+    IEncryptor GetEncryptor(string credentialName);
+    IDecryptor GetDecryptor(string credentialName);
+    bool CanEncrypt(string credentialName);
+    bool CanDecrypt(string credentialName);
 }
 ```
 
 #### `CanEncrypt` / `CanDecrypt` methods
 
-These methods each take a `keyIdentifier` object as their parameter and return a boolean value indicating whether the instance of `ICrypto` is able to "recognize" the specified `keyIdentifier`. A `keyIdentifier` object is also used by each other `ICrypto` method to retrieve the key for the given encryption operation. For example, an implementation of the `ICrypto` interface might have, as part of its implementation, a symmetric key registered with a `"foo"` string. In that case, we would expect that `CanEncrypt` and `CanDecrypt` would return true if we passed them a parameter with a value of `"foo"`.
+These methods each take a string `credentialName` as their parameter and return a boolean value indicating whether the instance of `ICrypto` is able to "recognize" the specified `credentialName`. A `credentialName` is also used by each other `ICrypto` method to retrieve the key for the given encryption operation. For example, an implementation of the `ICrypto` interface might have, as part of its implementation, a symmetric key registered with `"foo"` as the credential name. In that case, we would expect that `CanEncrypt` and `CanDecrypt` would return true if we passed them a parameter with a value of `"foo"`.
 
 ```c#
 ICrypto crypto = // Assume you have an implementation of ICrypto that recognizes "foo" but not "bar".
@@ -92,7 +92,7 @@ bool canEncryptFoo = crypto.CanEncrypt("foo"); // Should return true.
 bool canEncryptBar = crypto.CanEncrypt("bar"); // Should return false.
 ```
 
-NOTE: If we want use the "default" key (as defined by the particular implementation of `ICrypto`), pass `null` as the value for the `keyIdentifier` parameter.
+NOTE: If we want use the "default" key (as defined by the particular implementation of `ICrypto`), pass `null` as the value for the `credentialName` parameter.
 
 ```c#
 ICrypto cryptoA = // Assume you have an implementation of ICrypto that has a default key.
@@ -103,7 +103,7 @@ bool canEncryptBar = cryptoB.CanEncrypt(null); // Should return false.
 
 #### `Encrypt` / `Decrypt` methods
 
-These are the main methods of the interface. Each of the `Encrypt` and `Decrypt` methods take two parameters. The first one is the value to be operated upon, and has a type of either `string` or `byte[]`. Note that this type determines the return type of the method. The second parameter is a `keyIdentifier` object, as described above.
+These are the main methods of the interface. Each of the `Encrypt` and `Decrypt` methods take two parameters. The first one is the value to be operated upon, and has a type of either `string` or `byte[]`. Note that this type determines the return type of the method. The second parameter is a `credentialName`, as described above.
 
 ```c#
 ICrypto crypto = // Assume you have an implementation of ICrypto that has a default key.
@@ -141,39 +141,30 @@ public static class Crypto
 {
     public static ICrypto Current { get; }
     public static void SetCurrent(ICrypto crypto);
-    
-    public static string Encrypt(string plainText);
-    public static string Encrypt(string plainText, object keyIdentifier);
-    public static string Decrypt(string cipherText);
-    public static string Decrypt(string cipherText, object keyIdentifier);
-    public static byte[] Encrypt(byte[] plainText);
-    public static byte[] Encrypt(byte[] plainText, object keyIdentifier);
-    public static byte[] Decrypt(byte[] cipherText);
-    public static byte[] Decrypt(byte[] cipherText, object keyIdentifier);
-    public static IEncryptor GetEncryptor();
-    public static IEncryptor GetEncryptor(object keyIdentifier);
-    public static IDecryptor GetDecryptor();
-    public static IDecryptor GetDecryptor(object keyIdentifier);
+
+    public static string Encrypt(string plainText, string credentialName = null);
+    public static string Decrypt(string cipherText, string credentialName = null);
+    public static byte[] Encrypt(byte[] plainText, string credentialName = null);
+    public static byte[] Decrypt(byte[] cipherText, string credentialName = null);
+    public static IEncryptor GetEncryptor(string credentialName = null);
+    public static IDecryptor GetDecryptor(string credentialName = null);
+    public static Task<string> EncryptAsync(string plainText, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken));
+    public static Task<string> DecryptAsync(string cipherText, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken));
+    public static Task<byte[]> EncryptAsync(byte[] plainText, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken));
+    public static Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName = null, CancellationToken cancellationToken = default(CancellationToken));
+    public static IAsyncEncryptor GetAsyncEncryptor(string credentialName = null);
+    public static IAsyncDecryptor GetAsyncDecryptor(string credentialName = null);
 }
 ```
 
 #### Encryption methods
 
-Each of the encryption methods delegates responsibility to the value of the `Current` property. For example, this is the implementation of the `Encrypt(string, object)` method:
+Each of the encryption methods delegates responsibility to the value of the `Current` property. For example, this is the implementation of the `Encrypt(string, string)` method:
 
 ```c#
-public static string Encrypt(string plainText, object keyIdentifier)
+public static string Encrypt(string plainText, string credentialName = null)
 {
-    return Current.Encrypt(plainText, keyIdentifier);
-}
-```
-
-There are overloads of each of the methods that do not have a `keyIdentifier` parameter - these methods call their overload, passing `null` for the `keyIdentifier` parameter. For example, this is the implementation of the `Encrypt(string)` method:
-
-```c#
-public static string Encrypt(string plainText)
-{
-    return Encrypt(plainText, null);
+    return Current.Encrypt(plainText, credentialName);
 }
 ```
 
@@ -299,22 +290,20 @@ appsettings.json:
   "rocklib.encryption": {
     "type": "RockLib.Encryption.Symmetric.SymmetricCrypto, RockLib.Encryption",
     "value": {
-      "encryptionSettings": {
-        "credentials": [
-          {
-            "name": "default",
-            "algorithm": "Rijndael",
-            "ivsize": 16,
-            "key": "bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4="
-          },
-          {
-            "name": "triple_des",
-            "algorithm": "TripleDES",
-            "ivsize": 8,
-            "key": "bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m"
-          }
-        ]
-      }
+      "credentials": [
+        {
+          "name": "default",
+          "algorithm": "Rijndael",
+          "ivsize": 16,
+          "key": "bo3Vtyg4uBhcKgQKQ6H9LmeYXF+7BG42XMoS7AgZFz4="
+        },
+        {
+          "name": "triple_des",
+          "algorithm": "TripleDES",
+          "ivsize": 8,
+          "key": "bNYqGfSV6xqgoucDMqwGWFRZ8KHFXe+m"
+        }
+      ]
     }
   }
 }
