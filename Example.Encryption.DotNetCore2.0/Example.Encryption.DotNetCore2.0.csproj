@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RockLib.Encryption" Version="1.0.0" />
+    <PackageReference Include="RockLib.Encryption" Version="2.0.0-alpha07" />
   </ItemGroup>
 
   <ItemGroup>
