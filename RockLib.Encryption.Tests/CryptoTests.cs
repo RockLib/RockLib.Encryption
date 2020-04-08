@@ -42,7 +42,7 @@ namespace RockLib.Encryption.Tests
             Crypto.SetCurrent(null);
             Action action = () => { var current = Crypto.Current; };
 
-            action.ShouldThrow<InvalidOperationException>()
+            action.Should().Throw<InvalidOperationException>()
                 .WithMessage("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration.");
         }
 

@@ -68,7 +68,7 @@ namespace RockLib.Encryption.Tests
         public void NullKeyThrowsArgumentNullException()
         {
             Action newCredential = () => new Credential(null, SymmetricAlgorithm.Aes, 16);
-            newCredential.ShouldThrow<ArgumentNullException>();
+            newCredential.Should().Throw<ArgumentNullException>();
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace RockLib.Encryption.Tests
         {
             var credential = new Credential(() => null, SymmetricAlgorithm.Aes, 16);
             Action getKey = () => credential.GetKey();
-            getKey.ShouldThrow<InvalidOperationException>().WithMessage("The value returned from the key function must not be null or empty.");
+            getKey.Should().Throw<InvalidOperationException>().WithMessage("The value returned from the key function must not be null or empty.");
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace RockLib.Encryption.Tests
         {
             var credential = new Credential(() => new byte[0], SymmetricAlgorithm.Aes, 16);
             Action getKey = () => credential.GetKey();
-            getKey.ShouldThrow<InvalidOperationException>().WithMessage("The value returned from the key function must not be null or empty.");
+            getKey.Should().Throw<InvalidOperationException>().WithMessage("The value returned from the key function must not be null or empty.");
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace RockLib.Encryption.Tests
         {
             Action newCredential = () => new Credential(
                 () => Convert.FromBase64String("1J9Og / OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), (SymmetricAlgorithm)(-1), 16);
-            newCredential.ShouldThrow<ArgumentOutOfRangeException>().WithMessage("algorithm value is not defined: -1.\r\nParameter name: algorithm");
+            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("algorithm value is not defined: -1.\r\nParameter name: algorithm");
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace RockLib.Encryption.Tests
             Action newCredential = () => new Credential(
                 () => Convert.FromBase64String("1J9Og / OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 0);
 
-            newCredential.ShouldThrow<ArgumentOutOfRangeException>().WithMessage("ivSize must be greater than 0.\r\nParameter name: ivSize");
+            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("ivSize must be greater than 0.\r\nParameter name: ivSize");
         }
     }
 }

@@ -108,8 +108,8 @@ namespace RockLib.Encryption.Tests
             crypto.GetEncryptor(null).Should().NotBe(null);
             crypto.GetEncryptor("encryptor1").Should().NotBe(null);
             crypto.GetEncryptor("encryptor2").Should().NotBe(null);
-            crypto.Invoking(c => c.GetEncryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("The specified credential was not found: encryptor3.");
-            crypto.Invoking(c => c.GetEncryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("The specified credential was not found: something.");
+            crypto.Invoking(c => c.GetEncryptor("encryptor3")).Should().Throw<KeyNotFoundException>().WithMessage("The specified credential was not found: encryptor3.");
+            crypto.Invoking(c => c.GetEncryptor("something")).Should().Throw<KeyNotFoundException>().WithMessage("The specified credential was not found: something.");
 
             crypto.CanDecrypt(null).Should().Be(true);
             crypto.CanDecrypt("encryptor1").Should().Be(true);
@@ -120,8 +120,8 @@ namespace RockLib.Encryption.Tests
             crypto.GetDecryptor(null).Should().NotBe(null);
             crypto.GetDecryptor("encryptor1").Should().NotBe(null);
             crypto.GetDecryptor("encryptor2").Should().NotBe(null);
-            crypto.Invoking(c => c.GetDecryptor("encryptor3")).ShouldThrow<KeyNotFoundException>().WithMessage("The specified credential was not found: encryptor3.");
-            crypto.Invoking(c => c.GetDecryptor("something")).ShouldThrow<KeyNotFoundException>().WithMessage("The specified credential was not found: something.");
+            crypto.Invoking(c => c.GetDecryptor("encryptor3")).Should().Throw<KeyNotFoundException>().WithMessage("The specified credential was not found: encryptor3.");
+            crypto.Invoking(c => c.GetDecryptor("something")).Should().Throw<KeyNotFoundException>().WithMessage("The specified credential was not found: something.");
         }
 
         [Test]

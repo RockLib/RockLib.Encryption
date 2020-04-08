@@ -1,6 +1,9 @@
+using RockLib.Encryption.Async;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RockLib.Encryption
 {
@@ -8,7 +11,7 @@ namespace RockLib.Encryption
     /// An composite implementation of <see cref="ICrypto"/> that delegates logic to an arbitrary
     /// number of other <see cref="ICrypto"/> instances.
     /// </summary>
-    public class CompositeCrypto : ICrypto
+    public class CompositeCrypto : ICrypto, IAsyncCrypto
     {
         private readonly IEnumerable<ICrypto> _cryptos;
 
@@ -49,6 +52,21 @@ namespace RockLib.Encryption
         }
 
         /// <summary>
+        /// Asynchronously encrypts the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task whose result represents the encrypted value as a string.</returns>
+        public Task<string> EncryptAsync(string plainText, string credentialName, CancellationToken cancellationToken = default)
+        {
+            return GetEncryptCrypto(credentialName).AsAsync().EncryptAsync(plainText, credentialName, cancellationToken);
+        }
+
+        /// <summary>
         /// Decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
@@ -60,6 +78,21 @@ namespace RockLib.Encryption
         public string Decrypt(string cipherText, string credentialName)
         {
             return GetDecryptCrypto(credentialName).Decrypt(cipherText, credentialName);
+        }
+
+        /// <summary>
+        /// Asynchronously decrypts the specified cipher text.
+        /// </summary>
+        /// <param name="cipherText">The cipher text.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task whose result represents the decrypted value as a string.</returns>
+        public Task<string> DecryptAsync(string cipherText, string credentialName, CancellationToken cancellationToken = default)
+        {
+            return GetDecryptCrypto(credentialName).AsAsync().DecryptAsync(cipherText, credentialName, cancellationToken);
         }
 
         /// <summary>
@@ -77,6 +110,21 @@ namespace RockLib.Encryption
         }
 
         /// <summary>
+        /// Asynchronously encrypts the specified plain text.
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task whose result represents the encrypted value as a byte array.</returns>
+        public Task<byte[]> EncryptAsync(byte[] plainText, string credentialName, CancellationToken cancellationToken = default)
+        {
+            return GetEncryptCrypto(credentialName).AsAsync().EncryptAsync(plainText, credentialName, cancellationToken);
+        }
+
+        /// <summary>
         /// Decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
@@ -88,6 +136,21 @@ namespace RockLib.Encryption
         public byte[] Decrypt(byte[] cipherText, string credentialName)
         {
             return GetDecryptCrypto(credentialName).Decrypt(cipherText, credentialName);
+        }
+
+        /// <summary>
+        /// Asynchronously decrypts the specified cipher text.
+        /// </summary>
+        /// <param name="cipherText">The cipher text.</param>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task whose result represents the decrypted value as a byte array.</returns>
+        public Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName, CancellationToken cancellationToken = default)
+        {
+            return GetDecryptCrypto(credentialName).AsAsync().DecryptAsync(cipherText, credentialName, cancellationToken);
         }
 
         /// <summary>
@@ -104,6 +167,21 @@ namespace RockLib.Encryption
         }
 
         /// <summary>
+        /// Gets an instance of <see cref="IAsyncEncryptor"/> for the provided credential name.
+        /// </summary>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <returns>
+        /// A task whose result represents an object that can be used for encryption operations.
+        /// </returns>
+        public IAsyncEncryptor GetAsyncEncryptor(string credentialName)
+        {
+            return GetEncryptCrypto(credentialName).AsAsync().GetAsyncEncryptor(credentialName);
+        }
+
+        /// <summary>
         /// Gets an instance of <see cref="IDecryptor"/> for the provided credential name.
         /// </summary>
         /// <param name="credentialName">
@@ -114,6 +192,21 @@ namespace RockLib.Encryption
         public IDecryptor GetDecryptor(string credentialName)
         {
             return GetDecryptCrypto(credentialName).GetDecryptor(credentialName);
+        }
+
+        /// <summary>
+        /// Gets an instance of <see cref="IAsyncDecryptor"/> for the provided credential name.
+        /// </summary>
+        /// <param name="credentialName">
+        /// The name of the credential to use for this encryption operation,
+        /// or null to use the default credential.
+        /// </param>
+        /// <returns>
+        /// A task whose result represents an object that can be used for decryption operations.
+        /// </returns>
+        public IAsyncDecryptor GetAsyncDecryptor(string credentialName)
+        {
+            return GetDecryptCrypto(credentialName).AsAsync().GetAsyncDecryptor(credentialName);
         }
 
         /// <summary>
