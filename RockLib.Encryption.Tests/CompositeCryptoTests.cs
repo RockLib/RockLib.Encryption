@@ -216,9 +216,9 @@ namespace RockLib.Encryption.Tests
 
             var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
 
-            (await compositeCrypto.EncryptAsync("stuff", "foo")).Should().Be("EncryptAsyncedString : foo");
+            (await compositeCrypto.EncryptAsync("stuff", "foo")).Should().Be("EncryptedString : foo");
             (await compositeCrypto.EncryptAsync(new byte[0], "foo")).Should().BeEquivalentTo(Encoding.UTF8.GetBytes("foo"));
-            (await compositeCrypto.EncryptAsync("stuff", "bar")).Should().Be("EncryptAsyncedString : bar");
+            (await compositeCrypto.EncryptAsync("stuff", "bar")).Should().Be("EncryptedString : bar");
             (await compositeCrypto.EncryptAsync(new byte[0], "bar")).Should().BeEquivalentTo(Encoding.UTF8.GetBytes("bar"));
         }
 
