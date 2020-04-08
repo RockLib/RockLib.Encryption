@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -48,6 +49,35 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
+        public void GetAsyncEncryptorSucceedsWithExistingICrypto()
+        {
+            ICrypto fooCrypto = CreateICrypto("foo");
+            ICrypto barCrypto = CreateICrypto("bar");
+
+            var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
+
+            var fooEncryptor = compositeCrypto.GetAsyncEncryptor("foo");
+            var barEncryptor = compositeCrypto.GetAsyncEncryptor("bar");
+
+            fooEncryptor.Should().NotBeNull();
+            barEncryptor.Should().NotBeNull();
+            fooEncryptor.Should().NotBeSameAs(barEncryptor);
+        }
+
+        [Test]
+        public void GetAsyncEncryptorThrowsWhenICryptoDoesntExist()
+        {
+            ICrypto fooCrypto = CreateICrypto("foo");
+            ICrypto barCrypto = CreateICrypto("bar");
+
+            var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
+
+            Action action = () => compositeCrypto.GetAsyncEncryptor("baz");
+            action.Should().Throw<KeyNotFoundException>()
+                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
+        }
+
+        [Test]
         public void GetDecryptorSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -72,6 +102,35 @@ namespace RockLib.Encryption.Tests
             var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
 
             Action action = () => compositeCrypto.GetDecryptor("baz");
+            action.Should().Throw<KeyNotFoundException>()
+                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
+        }
+
+        [Test]
+        public void GetAsyncDecryptorSucceedsWithExistingICrypto()
+        {
+            ICrypto fooCrypto = CreateICrypto("foo");
+            ICrypto barCrypto = CreateICrypto("bar");
+
+            var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
+
+            var fooEncryptor = compositeCrypto.GetAsyncDecryptor("foo");
+            var barEncryptor = compositeCrypto.GetAsyncDecryptor("bar");
+
+            fooEncryptor.Should().NotBeNull();
+            barEncryptor.Should().NotBeNull();
+            fooEncryptor.Should().NotBeSameAs(barEncryptor);
+        }
+
+        [Test]
+        public void GetAsyncDecryptorThrowsWhenICryptoDoesntExist()
+        {
+            ICrypto fooCrypto = CreateICrypto("foo");
+            ICrypto barCrypto = CreateICrypto("bar");
+
+            var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
+
+            Action action = () => compositeCrypto.GetAsyncDecryptor("baz");
             action.Should().Throw<KeyNotFoundException>()
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
@@ -150,6 +209,34 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
+        public async Task EncryptAsyncSucceedsWithExistingICrypto()
+        {
+            ICrypto fooCrypto = CreateICrypto("foo");
+            ICrypto barCrypto = CreateICrypto("bar");
+
+            var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
+
+            (await compositeCrypto.EncryptAsync("stuff", "foo")).Should().Be("EncryptAsyncedString : foo");
+            (await compositeCrypto.EncryptAsync(new byte[0], "foo")).Should().BeEquivalentTo(Encoding.UTF8.GetBytes("foo"));
+            (await compositeCrypto.EncryptAsync("stuff", "bar")).Should().Be("EncryptAsyncedString : bar");
+            (await compositeCrypto.EncryptAsync(new byte[0], "bar")).Should().BeEquivalentTo(Encoding.UTF8.GetBytes("bar"));
+        }
+
+        [Test]
+        public async Task EncryptAsyncThrowsWhenICryptoDoesntExist()
+        {
+            ICrypto fooCrypto = CreateICrypto("foo");
+            ICrypto barCrypto = CreateICrypto("bar");
+
+            var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
+
+            Func<Task> action = () => compositeCrypto.EncryptAsync("stuff", "baz");
+
+            await action.Should().ThrowAsync<KeyNotFoundException>()
+                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
+        }
+
+        [Test]
         public void DecryptSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -173,6 +260,33 @@ namespace RockLib.Encryption.Tests
 
             Action action = () => compositeCrypto.Decrypt("stuff", "baz");
             action.Should().Throw<KeyNotFoundException>()
+                .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
+        }
+
+        [Test]
+        public async Task DecryptAsyncSucceedsWithExistingICrypto()
+        {
+            ICrypto fooCrypto = CreateICrypto("foo");
+            ICrypto barCrypto = CreateICrypto("bar");
+
+            var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
+
+            (await compositeCrypto.DecryptAsync("stuff", "foo")).Should().Be("DecryptedString : foo");
+            (await compositeCrypto.DecryptAsync(new byte[0], "foo")).Should().BeEquivalentTo(Encoding.UTF8.GetBytes("foo"));
+            (await compositeCrypto.DecryptAsync("stuff", "bar")).Should().Be("DecryptedString : bar");
+            (await compositeCrypto.DecryptAsync(new byte[0], "bar")).Should().BeEquivalentTo(Encoding.UTF8.GetBytes("bar"));
+        }
+
+        [Test]
+        public async Task DecryptAsyncThrowsWhenICryptoDoesntExist()
+        {
+            ICrypto fooCrypto = CreateICrypto("foo");
+            ICrypto barCrypto = CreateICrypto("bar");
+
+            var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
+
+            Func<Task> action = () => compositeCrypto.DecryptAsync("stuff", "baz");
+            await action.Should().ThrowAsync<KeyNotFoundException>()
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 

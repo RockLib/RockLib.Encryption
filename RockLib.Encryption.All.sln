@@ -28,6 +28,10 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{0ba5120d-5606-4919-bbda-4daf66b331df}*SharedItemsImports = 13
+		RockLib.Encryption.Tests\RockLib.Encryption.Tests.projitems*{31c21cc0-832c-4a4a-9841-09c16dffc5ad}*SharedItemsImports = 5
+		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{33f6122f-8c89-4b65-bc10-14e8adeab79c}*SharedItemsImports = 5
+		RockLib.Encryption.Tests\RockLib.Encryption.Tests.projitems*{383f059d-1007-49f4-b090-564dc5cf3997}*SharedItemsImports = 5
+		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{96546d7f-3a0a-409c-b013-61f53a1ffdad}*SharedItemsImports = 5
 		RockLib.Encryption.Tests\RockLib.Encryption.Tests.projitems*{a6e0b138-9266-41d3-8da5-570c3535e49d}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
