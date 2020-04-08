@@ -15,7 +15,7 @@ namespace RockLib.Encryption.Tests
         {
             Action action = () => new CompositeCrypto(null);
 
-            action.ShouldThrow<ArgumentNullException>().WithMessage("Value cannot be null.\r\nParameter name: cryptos");
+            action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null.\r\nParameter name: cryptos");
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace RockLib.Encryption.Tests
             var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
 
             Action action = () => compositeCrypto.GetEncryptor("baz");
-            action.ShouldThrow<KeyNotFoundException>()
+            action.Should().Throw<KeyNotFoundException>()
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
@@ -72,7 +72,7 @@ namespace RockLib.Encryption.Tests
             var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
 
             Action action = () => compositeCrypto.GetDecryptor("baz");
-            action.ShouldThrow<KeyNotFoundException>()
+            action.Should().Throw<KeyNotFoundException>()
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
@@ -145,7 +145,7 @@ namespace RockLib.Encryption.Tests
             var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
 
             Action action = () => compositeCrypto.Encrypt("stuff", "baz");
-            action.ShouldThrow<KeyNotFoundException>()
+            action.Should().Throw<KeyNotFoundException>()
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
@@ -172,7 +172,7 @@ namespace RockLib.Encryption.Tests
             var compositeCrypto = new CompositeCrypto(new List<ICrypto> { fooCrypto, barCrypto });
 
             Action action = () => compositeCrypto.Decrypt("stuff", "baz");
-            action.ShouldThrow<KeyNotFoundException>()
+            action.Should().Throw<KeyNotFoundException>()
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 

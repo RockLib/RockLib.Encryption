@@ -69,7 +69,7 @@ namespace RockLib.Encryption.Tests
 
             Action action = () => symmetricDecryptor.Decrypt(encrypted);
 
-            action.ShouldThrow<CryptographicException>();
+            action.Should().Throw<CryptographicException>();
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace RockLib.Encryption.Tests
 
             Action action = () => symmetricDecryptor.Decrypt(encrypted);
 
-            action.ShouldThrow<CryptographicException>();
+            action.Should().Throw<CryptographicException>();
         }
 
         [Test]
