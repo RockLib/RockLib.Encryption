@@ -3,9 +3,8 @@ using Microsoft.Extensions.Hosting;
 using RockLib.Encryption.Symmetric;
 using RockLib.Encryption.Symmetric.DependencyInjection;
 using System;
-using System.Threading.Tasks;
 
-namespace Example.DependencyInjection
+namespace Example.Symmetric
 {
     class Program
     {
