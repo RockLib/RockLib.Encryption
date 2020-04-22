@@ -23,9 +23,11 @@ namespace Example.Symmetric
 
             while (true)
             {
-                switch (Console.ReadKey(false).KeyChar)
+                Console.Write(">");
+
+                switch (Console.ReadLine())
                 {
-                    case '1':
+                    case "1":
                         return hostBuilder.ConfigureServices(services =>
                         {
                             // Configuring a symmetric crypto programmatically
@@ -38,12 +40,15 @@ namespace Example.Symmetric
 
                             services.AddHostedService<DependencyInjectionEncryptionService>();
                         });
-                    case '2':
+                    case "2":
                         return hostBuilder.ConfigureServices(services =>
                         {
                             // Symmetric crypto will be loaded and configured from configuration
                             services.AddHostedService<StaticCryptoEncryptionService>();
                         });
+                    default:
+                        Console.WriteLine(" Invalid input. Valid values are '1' and '2'.");
+                        break;
                 }
             }
         }
