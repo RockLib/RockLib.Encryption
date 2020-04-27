@@ -12,40 +12,68 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         private List<SymmetricCredentialOptions> _credentialOptions = new List<SymmetricCredentialOptions>();
 
         /// <summary>
-        /// Adds a credential to the builder.
+        /// Adds a credential with the default name to the builder.
         /// </summary>
-        /// <param name="name">The name of this credential.</param>
         /// <param name="key">A symmetric key.</param>
         /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
         /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
-        public SymmetricCryptoBuilder AddCredential(string name, string key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
+        public SymmetricCryptoBuilder AddCredential(string key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
 
-            _credentialOptions.Add(new SymmetricCredentialOptions(name, Convert.FromBase64String(key), algorithm, ivSize));
+            _credentialOptions.Add(new SymmetricCredentialOptions(null, Convert.FromBase64String(key), algorithm, ivSize));
             return this;
         }
 
         /// <summary>
-        /// Adds a credential to the builder.
+        /// Adds a credential with the specified name to the builder.
         /// </summary>
-        /// <param name="name">The name of this credential.</param>
+        /// <param name="credentialName">The name of this credential.</param>
         /// <param name="key">A symmetric key.</param>
         /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
         /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
-        public SymmetricCryptoBuilder AddCredential(string name, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
+        public SymmetricCryptoBuilder AddCredential(string credentialName, string key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
 
-            _credentialOptions.Add(new SymmetricCredentialOptions(name, key, algorithm, ivSize));
+            _credentialOptions.Add(new SymmetricCredentialOptions(credentialName, Convert.FromBase64String(key), algorithm, ivSize));
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a credential with the default name to the builder.
+        /// </summary>
+        /// <param name="key">A symmetric key.</param>
+        /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
+        /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
+        /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
+        public SymmetricCryptoBuilder AddCredential(byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
+        {
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+
+            _credentialOptions.Add(new SymmetricCredentialOptions(null, key, algorithm, ivSize));
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a credential with the specified name to the builder.
+        /// </summary>
+        /// <param name="credentialName">The name of this credential.</param>
+        /// <param name="key">A symmetric key.</param>
+        /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
+        /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
+        /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
+        public SymmetricCryptoBuilder AddCredential(string credentialName, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
+        {
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+
+            _credentialOptions.Add(new SymmetricCredentialOptions(credentialName, key, algorithm, ivSize));
             return this;
         }
 
@@ -61,7 +89,7 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
             var credentials = new List<Credential>();
 
             foreach(var option in _credentialOptions)
-                credentials.Add(new Credential(() => option.Key, option.Algorithm, option.IvSize, option.Name));
+                credentials.Add(new Credential(() => option.Key, option.Algorithm, option.IvSize, option.CredentialName));
 
             return new SymmetricCrypto(credentials);
         }
