@@ -11,27 +11,22 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <summary>
         /// Initializes a new instance of the <see cref="SymmetricCredentialOptions"/> class.
         /// </summary>
-        /// <param name="name">The name of this credential.</param>
+        /// <param name="credentialName">The name of the credential.</param>
         /// <param name="key">A symmetric key.</param>
         /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
-        public SymmetricCredentialOptions (string name, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
+        public SymmetricCredentialOptions (string credentialName, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            Name = name;
-            Key = key;
+            CredentialName = credentialName;
+            Key = key ?? throw new ArgumentNullException(nameof(key));
             Algorithm = algorithm;
             IvSize = ivSize;
         }
 
         /// <summary>
-        /// The name of this credential.
+        /// The name of the credential.
         /// </summary>
-        public string Name { get; }
+        public string CredentialName { get; }
 
         /// <summary>
         /// A symmetric key.
