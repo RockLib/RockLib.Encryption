@@ -126,10 +126,15 @@ These methods are intended to be used when the lookup and/or retrieval of a key 
 ```c#
 ICrypto crypto = // Assume you have an implementation of ICrypto that has a default key.
 
-IEncryptor encryptor = crypto.GetEncryptor(null);
-string foo = encryptor.Encrypt("foo");
-string bar = encryptor.Encrypt("bar");
-byte[] baz = encryptor.Encrypt(new byte[] { 1, 2, 3 });
+IEncryptor encryptor = crypto.GetEncryptor();
+string fooEncrypted = encryptor.Encrypt("foo");
+string barEncrypted = encryptor.Encrypt("bar");
+byte[] bazEncrypted = encryptor.Encrypt(new byte[] { 1, 2, 3 });
+
+IDecryptor decryptor = crypto.GetDecryptor();
+string foo = decryptor.Decrypt(fooEncrypted);
+string bar = decryptor.Decrypt(barEncrypted);
+byte[] baz = decryptor.Decrypt(bazEncrypted);
 ```
 
 ### `Crypto` static class
