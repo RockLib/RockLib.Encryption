@@ -6,7 +6,7 @@
 
     <PropertyGroup>
         <PackageId>RockLib.Encryption</PackageId>
-        <PackageVersion>2.1.0</PackageVersion>
+        <PackageVersion>2.2.0</PackageVersion>
         <Authors>Brian Friesen, Justin Moss</Authors>
         <Description>An easy-to-use crypto API.</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
