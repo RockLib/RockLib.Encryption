@@ -10,7 +10,7 @@ namespace RockLib.Encryption
     /// </summary>
     public static class SerializingCrypto
     {
-        private static Semimutable<CryptoEncryptionMechanism> _encryptionMechanism = new Semimutable<CryptoEncryptionMechanism>(GetDefaultCryptoEncryptionMechanism);
+        private static readonly Semimutable<CryptoEncryptionMechanism> _encryptionMechanism = new Semimutable<CryptoEncryptionMechanism>(GetDefaultCryptoEncryptionMechanism);
 
         /// <summary>
         /// Gets the current instance of <see cref="CryptoEncryptionMechanism"/>.

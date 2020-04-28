@@ -21,6 +21,17 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RockLib.Encryption.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Symmetric", "Example.Symmetric\Example.Symmetric.csproj", "{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C80B1383-FEEE-4CA9-8146-CC69F84523F4}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Concepts.md = docs\Concepts.md
+		docs\Crypto.md = docs\Crypto.md
+		docs\DependencyInjection.md = docs\DependencyInjection.md
+		docs\FieldLevelEncryption.md = docs\FieldLevelEncryption.md
+		docs\GettingStarted.md = docs\GettingStarted.md
+		docs\Implementations.md = docs\Implementations.md
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{0ba5120d-5606-4919-bbda-4daf66b331df}*SharedItemsImports = 13

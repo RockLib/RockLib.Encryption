@@ -33,7 +33,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void ToXmlWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
@@ -45,7 +45,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void ToXmlWithKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
@@ -59,7 +59,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void FromXmlWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             SerializingCrypto.FromXml<Foo>(FooXml);
 
@@ -69,7 +69,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void FromXmlWithKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var credentialName = "foobar";
 
@@ -81,7 +81,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void ToJsonWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
@@ -93,7 +93,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void ToJsonWithKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
@@ -107,7 +107,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void FromJsonWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             SerializingCrypto.FromJson<Foo>(FooJson);
 
@@ -117,11 +117,107 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void FromJsonWithKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var credentialName = "foobar";
 
             SerializingCrypto.FromJson<Foo>(FooJson, credentialName);
+
+            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == credentialName)), Times.Once());
+        }
+
+        [Test]
+        public void CryptoToXmlWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
+        {
+            _mockCrypto.Invocations.Clear();
+
+            var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
+
+            Crypto.Current.ToXml(foo);
+
+            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(o => o == null)), Times.Once());
+        }
+
+        [Test]
+        public void CryptoToXmlWithKeyIdentifierCallsCryptoGetEncryptorOnce()
+        {
+            _mockCrypto.Invocations.Clear();
+
+            var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
+
+            var credentialName = "foobar";
+
+            Crypto.Current.ToXml(foo, credentialName);
+
+            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(o => o == credentialName)), Times.Once());
+        }
+
+        [Test]
+        public void CryptoFromXmlWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
+        {
+            _mockCrypto.Invocations.Clear();
+
+            Crypto.Current.FromXml<Foo>(FooXml);
+
+            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == null)), Times.Once());
+        }
+
+        [Test]
+        public void CryptoFromXmlWithKeyIdentifierCallsCryptoGetEncryptorOnce()
+        {
+            _mockCrypto.Invocations.Clear();
+
+            var credentialName = "foobar";
+
+            Crypto.Current.FromXml<Foo>(FooXml, credentialName);
+
+            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == credentialName)), Times.Once());
+        }
+
+        [Test]
+        public void CryptoToJsonWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
+        {
+            _mockCrypto.Invocations.Clear();
+
+            var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
+
+            Crypto.Current.ToJson(foo);
+
+            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(o => o == null)), Times.Once());
+        }
+
+        [Test]
+        public void CryptoToJsonWithKeyIdentifierCallsCryptoGetEncryptorOnce()
+        {
+            _mockCrypto.Invocations.Clear();
+
+            var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
+
+            var credentialName = "foobar";
+
+            Crypto.Current.ToJson(foo, credentialName);
+
+            _mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(o => o == credentialName)), Times.Once());
+        }
+
+        [Test]
+        public void CryptoFromJsonWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
+        {
+            _mockCrypto.Invocations.Clear();
+
+            Crypto.Current.FromJson<Foo>(FooJson);
+
+            _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == null)), Times.Once());
+        }
+
+        [Test]
+        public void CryptoFromJsonWithKeyIdentifierCallsCryptoGetEncryptorOnce()
+        {
+            _mockCrypto.Invocations.Clear();
+
+            var credentialName = "foobar";
+
+            Crypto.Current.FromJson<Foo>(FooJson, credentialName);
 
             _mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(o => o == credentialName)), Times.Once());
         }
@@ -164,6 +260,50 @@ namespace RockLib.Encryption.XSerializer.Tests
         public void FromJsonDeserializesCorrectly()
         {
             var foo = SerializingCrypto.FromJson<Foo>(FooJson);
+
+            foo.Bar.Should().Be(_bar);
+            foo.Baz.Should().Be(_baz);
+            foo.Qux.Should().Be(_qux);
+        }
+
+        [Test]
+        public void CryptoToXmlSerializesCorrectly()
+        {
+            var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
+
+            var xml = Crypto.Current.ToXml(foo);
+            var expectedXml = string.Format(FooXmlFormat,
+                EncryptRaw(foo.Bar), EncryptRaw(foo.Baz), EncryptRaw(foo.Qux));
+
+            xml.Should().Be(expectedXml);
+        }
+
+        [Test]
+        public void CryptoFromXmlDeserializesCorrectly()
+        {
+            var foo = Crypto.Current.FromXml<Foo>(FooXml);
+
+            foo.Bar.Should().Be(_bar);
+            foo.Baz.Should().Be(_baz);
+            foo.Qux.Should().Be(_qux);
+        }
+
+        [Test]
+        public void CryptoToJsonSerializesCorrectly()
+        {
+            var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
+
+            var json = Crypto.Current.ToJson(foo);
+            var expectedJson = string.Format(FooJsonFormat,
+                EncryptRaw(foo.Bar), EncryptJsonString(foo.Baz), EncryptRaw(foo.Qux));
+
+            json.Should().Be(expectedJson);
+        }
+
+        [Test]
+        public void CryptoFromJsonDeserializesCorrectly()
+        {
+            var foo = Crypto.Current.FromJson<Foo>(FooJson);
 
             foo.Bar.Should().Be(_bar);
             foo.Baz.Should().Be(_baz);
