@@ -33,7 +33,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void ToXmlWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
@@ -45,7 +45,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void ToXmlWithKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
@@ -59,7 +59,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void FromXmlWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             SerializingCrypto.FromXml<Foo>(FooXml);
 
@@ -69,7 +69,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void FromXmlWithKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var credentialName = "foobar";
 
@@ -81,7 +81,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void ToJsonWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
@@ -93,7 +93,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void ToJsonWithKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var foo = new Foo { Bar = _bar, Baz = _baz, Qux = _qux };
 
@@ -107,7 +107,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void FromJsonWithNoKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             SerializingCrypto.FromJson<Foo>(FooJson);
 
@@ -117,7 +117,7 @@ namespace RockLib.Encryption.XSerializer.Tests
         [Test]
         public void FromJsonWithKeyIdentifierCallsCryptoGetEncryptorOnce()
         {
-            _mockCrypto.ResetCalls();
+            _mockCrypto.Invocations.Clear();
 
             var credentialName = "foobar";
 
