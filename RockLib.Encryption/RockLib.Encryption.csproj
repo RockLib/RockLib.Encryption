@@ -7,12 +7,12 @@
     <PropertyGroup>
         <PackageId>RockLib.Encryption</PackageId>
         <PackageVersion>2.2.0</PackageVersion>
-        <Authors>Brian Friesen, Justin Moss</Authors>
+        <Authors>RockLib</Authors>
         <Description>An easy-to-use crypto API.</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes></PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/RockLib/RockLib.Encryption</PackageProjectUrl>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <Copyright>Copyright 2017-2020 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
         <PackageTags>rocklib encryption crypto</PackageTags>
         <Version>2.0.0</Version>
@@ -24,13 +24,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Include="..\LICENSE" Pack="true" PackagePath="" />
+      <None Include="..\LICENSE.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="RockLib.Configuration" Version="2.4.1" />
-      <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="1.6.1" />
-      <PackageReference Include="RockLib.Collections" Version="1.0.1" />
+      <PackageReference Include="RockLib.Configuration" Version="2.4.3" />
+      <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="1.6.2" />
+      <PackageReference Include="RockLib.Collections" Version="1.0.2" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' != 'net451'">
