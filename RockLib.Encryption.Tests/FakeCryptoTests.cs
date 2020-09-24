@@ -32,6 +32,18 @@ namespace RockLib.Encryption.Tests
         }
 
         [Test]
+        public void DecryptStringReturnsTheCipherTextIfNotSurroundedByDoubleSquareBrackets()
+        {
+            ICrypto crypto = new FakeCrypto();
+
+            var cipherText = "Hello, world!";
+
+            var plainText = crypto.Decrypt(cipherText);
+
+            plainText.Should().BeSameAs(cipherText);
+        }
+
+        [Test]
         public void EncryptBinaryAddsDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -53,6 +65,18 @@ namespace RockLib.Encryption.Tests
             var plainText = crypto.Decrypt(cipherText);
 
             plainText.Should().BeEquivalentTo(new byte[] { 1, 2, 3 });
+        }
+
+        [Test]
+        public void DecryptBinaryReturnsTheCipherTextIfNotSurroundedByDoubleSquareBrackets()
+        {
+            ICrypto crypto = new FakeCrypto();
+
+            var cipherText = new byte[] { 1, 2, 3 };
+
+            var plainText = crypto.Decrypt(cipherText);
+
+            plainText.Should().BeSameAs(cipherText);
         }
 
         [Test]
