@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CompositeCryptoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CredentialTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CryptoTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FakeCryptoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SymmetricCryptoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SymmetricDecryptorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SymmetricEncryptorTests.cs" />
