@@ -4,12 +4,19 @@ using System.Text.RegularExpressions;
 namespace RockLib.Encryption.Testing
 {
     /// <summary>
-    /// A implementation of the <see cref="ICrypto"/> interface meant for application testing. To
+    /// An implementation of the <see cref="ICrypto"/> interface meant for application testing. To
     /// encrypt, it surrounds the plain text with [[double square brackets]]. To decrypt, it
     /// removes the surrounding double square brackets from the fake cipher text.
     /// </summary>
     public class FakeCrypto : ICrypto
     {
+        /// <summary>
+        /// An implementation of the <see cref="ICrypto"/> interface meant for application testing.
+        /// To encrypt, it surrounds the plain text with [[double square brackets]]. To decrypt, it
+        /// removes the surrounding double square brackets from the fake cipher text.
+        /// </summary>
+        public FakeCrypto() { }
+
         string ICrypto.Encrypt(string plainText, string credentialName) => Encrypt(plainText);
 
         string ICrypto.Decrypt(string cipherText, string credentialName) => Decrypt(cipherText);
