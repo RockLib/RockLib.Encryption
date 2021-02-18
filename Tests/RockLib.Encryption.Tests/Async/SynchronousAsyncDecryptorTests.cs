@@ -1,13 +1,13 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using FluentAssertions;
+using Moq;
 using RockLib.Encryption;
 using RockLib.Encryption.Async;
 using System.Text;
 using System.Threading;
+using Xunit;
 
 namespace RockLib.Decryption.Tests.Async
 {
-    [TestFixture]
     public class SynchronousAsyncDecryptorTests
     {
         private Mock<IDecryptor> _decryptorMock;
@@ -21,7 +21,7 @@ namespace RockLib.Decryption.Tests.Async
         }
 
 
-        [Test]
+        [Fact]
         public void DecryptAsync_string_ReturnsACompletedTask()
         {
             Setup("foo");
@@ -30,10 +30,10 @@ namespace RockLib.Decryption.Tests.Async
 
             var decryptTask = asyncDecryptor.DecryptAsync("stuff", default(CancellationToken));
 
-            Assert.That(decryptTask.IsCompleted, Is.True);
+            decryptTask.IsCompleted.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void DecryptAsync_string_ReturnsTheResultReturnedByCryptoDecrypt()
         {
             Setup("foo");
@@ -42,10 +42,10 @@ namespace RockLib.Decryption.Tests.Async
 
             var decrypted = asyncDecryptor.DecryptAsync("stuff", default(CancellationToken)).Result;
 
-            Assert.That(decrypted, Is.EqualTo("DecryptedString : foo"));
+            decrypted.Should().Be("DecryptedString : foo");
         }
 
-        [Test]
+        [Fact]
         public void DecryptAsync_bytearray_ReturnsACompletedTask()
         {
             Setup("foo");
@@ -54,10 +54,10 @@ namespace RockLib.Decryption.Tests.Async
 
             var decryptTask = asyncDecryptor.DecryptAsync(new byte[0], default(CancellationToken));
 
-            Assert.That(decryptTask.IsCompleted, Is.True);
+            decryptTask.IsCompleted.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void DecryptAsync_bytearray_ReturnsTheResultReturnedByCryptoDecrypt()
         {
             Setup("foo");
@@ -66,7 +66,7 @@ namespace RockLib.Decryption.Tests.Async
 
             var decrypted = asyncDecryptor.DecryptAsync(new byte[0], default(CancellationToken)).Result;
 
-            Assert.That(decrypted, Is.EqualTo(Encoding.UTF8.GetBytes("foo")));
+            decrypted.Should().BeEquivalentTo(Encoding.UTF8.GetBytes("foo"));
         }
     }
 }

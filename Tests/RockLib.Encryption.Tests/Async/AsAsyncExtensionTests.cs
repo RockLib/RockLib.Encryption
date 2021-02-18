@@ -1,48 +1,46 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using FluentAssertions;
+using Moq;
 using RockLib.Encryption.Async;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace RockLib.Encryption.Tests.Async
 {
-    [TestFixture]
     public class AsAsyncExtensionTests
     {
-        [Test]
+        [Fact]
         public void AsAsync_GivenAnObjectThatImplementsIAsyncCryptoTheSameObjectIsReturned()
         {
             var crypto = new TestCrypto();
 
             var asyncCrypto = crypto.AsAsync();
 
-            Assert.That(asyncCrypto, Is.SameAs(crypto));
+            asyncCrypto.Should().BeSameAs(crypto);
         }
 
-        [Test]
+        [Fact]
         public void AsAsync_GivenAnObjectThatDoesNotImplementsIAsyncCryptoASynchronousAsyncCryptoIsReturned()
         {
             var crypto = new Mock<ICrypto>().Object;
 
             var asyncCrypto = crypto.AsAsync();
 
-            Assert.That(asyncCrypto, Is.InstanceOf<SynchronousAsyncCrypto>());
+            asyncCrypto.Should().BeOfType<SynchronousAsyncCrypto>();
         }
 
-        [Test]
+        [Fact]
         public void AsAsync_GivenAnObjectThatDoesNotImplementsIAsyncCryptoTheSynchronousAsyncCryptoUsesTheOriginalICrypto()
         {
             var crypto = new Mock<ICrypto>().Object;
 
             var asyncCrypto = (SynchronousAsyncCrypto)crypto.AsAsync();
 
-            Assert.That(asyncCrypto.Crypto, Is.SameAs(crypto));
+            asyncCrypto.Crypto.Should().BeSameAs(crypto);
         }
 
-        [Test]
+        [Fact]
         public void AsAsync_MultipleCallsWithTheSameObjectThatDoesNotImplementIAsyncCryptoReturnTheSameObjectEachTime()
         {
             var crypto = new Mock<ICrypto>().Object;
@@ -50,7 +48,7 @@ namespace RockLib.Encryption.Tests.Async
             var asyncCrypto1 = crypto.AsAsync();
             var asyncCrypto2 = crypto.AsAsync();
 
-            Assert.That(asyncCrypto1, Is.SameAs(asyncCrypto2));
+            asyncCrypto1.Should().BeSameAs(asyncCrypto2);
         }
 
         private class TestCrypto : ICrypto, IAsyncCrypto

@@ -1,14 +1,13 @@
 ﻿using FluentAssertions;
 using Moq;
-using NUnit.Framework;
 using XSerializer;
+using Xunit;
 
 namespace RockLib.Encryption.XSerializer.Tests
 {
-    [TestFixture]
     public class CryptoEncryptionMechanismTests
     {
-        [Test]
+        [Fact]
         public void CryptoPropertyIsSetFromConstructorParameter()
         {
             var mockCrypto = new Mock<ICrypto>();
@@ -18,7 +17,7 @@ namespace RockLib.Encryption.XSerializer.Tests
             encryptionMechanism.Crypto.Should().BeSameAs(mockCrypto.Object);
         }
 
-        [Test]
+        [Fact]
         public void EncryptCallsCryptoGetEncryptorWhenSerializationStateIsEmpty()
         {
             var mockCrypto = new Mock<ICrypto>();
@@ -36,7 +35,7 @@ namespace RockLib.Encryption.XSerializer.Tests
             mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(obj => obj == credentialName)), Times.Once());
         }
 
-        [Test]
+        [Fact]
         public void GetEncryptorIsNotCalledWhenSerializationStateIsNotEmpty()
         {
             var mockCrypto = new Mock<ICrypto>();
@@ -57,7 +56,7 @@ namespace RockLib.Encryption.XSerializer.Tests
             mockCrypto.Verify(c => c.GetEncryptor(It.Is<string>(obj => obj == credentialName)), Times.Never());
         }
 
-        [Test]
+        [Fact]
         public void TheCachedEncryptorReturnsTheReturnValue()
         {
             var mockCrypto = new Mock<ICrypto>();
@@ -79,7 +78,7 @@ namespace RockLib.Encryption.XSerializer.Tests
             encrypted.Should().Be("bar");
         }
 
-        [Test]
+        [Fact]
         public void DecryptCallsCryptoGetDecryptorWhenSerializationStateIsEmpty()
         {
             var mockCrypto = new Mock<ICrypto>();
@@ -97,7 +96,7 @@ namespace RockLib.Encryption.XSerializer.Tests
             mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(obj => obj == credentialName)), Times.Once());
         }
 
-        [Test]
+        [Fact]
         public void GetDecryptorIsNotCalledWhenSerializationStateIsNotEmpty()
         {
             var mockCrypto = new Mock<ICrypto>();
@@ -118,7 +117,7 @@ namespace RockLib.Encryption.XSerializer.Tests
             mockCrypto.Verify(c => c.GetDecryptor(It.Is<string>(obj => obj == credentialName)), Times.Never());
         }
 
-        [Test]
+        [Fact]
         public void TheCachedDecryptorReturnsTheReturnValue()
         {
             var mockCrypto = new Mock<ICrypto>();

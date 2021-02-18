@@ -3,20 +3,19 @@ using System.Reflection;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using NUnit.Framework;
 using RockLib.Configuration;
 using RockLib.Encryption.Symmetric;
 using RockLib.Immutable;
 using RockLib.Encryption.Async;
 using System.Threading.Tasks;
 using System.Threading;
+using Xunit;
 
 namespace RockLib.Encryption.Tests
 {
-    [TestFixture]
     public class CryptoTests
     {
-        [Test]
+        [Fact]
         public void CurrentReturnsSameAsSetCurrent()
         {
             ResetCrypto();
@@ -28,7 +27,7 @@ namespace RockLib.Encryption.Tests
             Crypto.Current.Should().BeSameAs(crypto);
         }
 
-        [Test]
+        [Fact]
         public void MissingConfigThrowsWhenUsingDefaultCrypto()
         {
             ResetConfig();
@@ -46,7 +45,7 @@ namespace RockLib.Encryption.Tests
                 .WithMessage("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration.");
         }
 
-        [Test]
+        [Fact]
         public void SingleFactoryCreatesSpecificCrypto()
         {
             ResetConfig();
@@ -62,7 +61,7 @@ namespace RockLib.Encryption.Tests
             Crypto.Current.Should().BeAssignableTo<SymmetricCrypto>();
         }
 
-        [Test]
+        [Fact]
         public void MultipleFactoriesCreatesCompositeCrypto()
         {
             ResetConfig();
@@ -78,7 +77,7 @@ namespace RockLib.Encryption.Tests
             Crypto.Current.Should().BeAssignableTo<CompositeCrypto>();
         }
 
-        [Test]
+        [Fact]
         public void GetEncryptorCallsCryptoGetEncryptor()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -95,7 +94,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void GetDecryptorCallsCryptoGetDecryptor()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -112,7 +111,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void EncryptByStringCallsCryptoEncryptByString()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -130,7 +129,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void EncryptByByteArrayCallsCryptoEncryptByByteArray()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -148,7 +147,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void DecryptByStringCallsCryptoDecryptByString()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -166,7 +165,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void DecryptByByteArrayCallsCryptoDecryptByByteArray()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -184,7 +183,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void GetEncryptorAsyncGivenCurrentIsIAsyncCryptoCallsCryptoGetEncryptorAsync()
         {
             var cryptoMock = new Mock<AbstractAsyncCrypto>();
@@ -201,7 +200,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.GetAsyncEncryptor(It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void GetEncryptorAsyncGivenCurrentIsNotIAsyncCryptoCallsCryptoGetEncryptor()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -219,7 +218,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void GetDecryptorAsyncGivenCurrentIsIAsyncCryptoCallsCryptoGetDecryptorAsync()
         {
             var cryptoMock = new Mock<AbstractAsyncCrypto>();
@@ -236,7 +235,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.GetAsyncDecryptor(It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void GetDecryptorAsyncGivenCurrentIsNotIAsyncCryptoCallsCryptoGetDecryptor()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -254,7 +253,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void EncryptAsyncByStringGivenCurrentIsIAsyncCryptoCallsCryptoEncryptAsyncByString()
         {
             var cryptoMock = new Mock<AbstractAsyncCrypto>();
@@ -272,7 +271,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
         }
 
-        [Test]
+        [Fact]
         public void EncryptAsyncByStringGivenCurrentIsNotIAsyncCryptoCallsCryptoEncryptByString()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -290,7 +289,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void EncryptAsyncByByteArrayGivenCurrentIsIAsyncCryptoCallsCryptoEncryptAsyncByByteArray()
         {
             var cryptoMock = new Mock<AbstractAsyncCrypto>();
@@ -308,7 +307,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
         }
 
-        [Test]
+        [Fact]
         public void EncryptAsyncByByteArrayGivenCurrentIsNotIAsyncCryptoCallsCryptoEncryptByByteArray()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -326,7 +325,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void DecryptAsyncByStringGivenCurrentIsIAsyncCryptoCallsCryptoDecryptAsyncByString()
         {
             var cryptoMock = new Mock<AbstractAsyncCrypto>();
@@ -344,7 +343,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
         }
 
-        [Test]
+        [Fact]
         public void DecryptAsyncByStringGivenCurrentIsNotIAsyncCryptoCallsCryptoDecryptByString()
         {
             var cryptoMock = new Mock<ICrypto>();
@@ -362,7 +361,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName)));
         }
 
-        [Test]
+        [Fact]
         public void DecryptAsyncByByteArrayGivenCurrentIsIAsyncCryptoCallsCryptoDecryptAsyncByByteArray()
         {
             var cryptoMock = new Mock<AbstractAsyncCrypto>();
@@ -380,7 +379,7 @@ namespace RockLib.Encryption.Tests
             cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
         }
 
-        [Test]
+        [Fact]
         public void DecryptAsyncByByteArrayGivenCurrentIsNotIAsyncCryptoCallsCryptoDecryptByByteArray()
         {
             var cryptoMock = new Mock<ICrypto>();
