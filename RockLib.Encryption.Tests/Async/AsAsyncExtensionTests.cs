@@ -55,20 +55,20 @@ namespace RockLib.Encryption.Tests.Async
 
         private class TestCrypto : ICrypto, IAsyncCrypto
         {
-            public bool CanDecrypt(object keyIdentifier) => throw new NotImplementedException();
-            public bool CanEncrypt(object keyIdentifier) => throw new NotImplementedException();
-            public string Decrypt(string cipherText, object keyIdentifier) => throw new NotImplementedException();
-            public byte[] Decrypt(byte[] cipherText, object keyIdentifier) => throw new NotImplementedException();
-            public Task<string> DecryptAsync(string cipherText, object keyIdentifier, CancellationToken cancellationToken) => throw new NotImplementedException();
-            public Task<byte[]> DecryptAsync(byte[] cipherText, object keyIdentifier, CancellationToken cancellationToken) => throw new NotImplementedException();
-            public string Encrypt(string plainText, object keyIdentifier) => throw new NotImplementedException();
-            public byte[] Encrypt(byte[] plainText, object keyIdentifier) => throw new NotImplementedException();
-            public Task<string> EncryptAsync(string plainText, object keyIdentifier, CancellationToken cancellationToken) => throw new NotImplementedException();
-            public Task<byte[]> EncryptAsync(byte[] plainText, object keyIdentifier, CancellationToken cancellationToken) => throw new NotImplementedException();
-            public IDecryptor GetDecryptor(object keyIdentifier) => throw new NotImplementedException();
-            public IAsyncDecryptor GetAsyncDecryptor(object keyIdentifier) => throw new NotImplementedException();
-            public IEncryptor GetEncryptor(object keyIdentifier) => throw new NotImplementedException();
-            public IAsyncEncryptor GetAsyncEncryptor(object keyIdentifier) => throw new NotImplementedException();
+            public bool CanDecrypt(string credentialName) => throw new NotImplementedException();
+            public bool CanEncrypt(string credentialName) => throw new NotImplementedException();
+            public string Decrypt(string cipherText, string credentialName) => throw new NotImplementedException();
+            public byte[] Decrypt(byte[] cipherText, string credentialName) => throw new NotImplementedException();
+            public Task<string> DecryptAsync(string cipherText, string credentialName, CancellationToken cancellationToken) => throw new NotImplementedException();
+            public Task<byte[]> DecryptAsync(byte[] cipherText, string credentialName, CancellationToken cancellationToken) => throw new NotImplementedException();
+            public string Encrypt(string plainText, string credentialName) => throw new NotImplementedException();
+            public byte[] Encrypt(byte[] plainText, string credentialName) => throw new NotImplementedException();
+            public Task<string> EncryptAsync(string plainText, string credentialName, CancellationToken cancellationToken) => throw new NotImplementedException();
+            public Task<byte[]> EncryptAsync(byte[] plainText, string credentialName, CancellationToken cancellationToken) => throw new NotImplementedException();
+            public IDecryptor GetDecryptor(string credentialName) => throw new NotImplementedException();
+            public IAsyncDecryptor GetAsyncDecryptor(string credentialName) => throw new NotImplementedException();
+            public IEncryptor GetEncryptor(string credentialName) => throw new NotImplementedException();
+            public IAsyncEncryptor GetAsyncEncryptor(string credentialName) => throw new NotImplementedException();
         }
     }
 }

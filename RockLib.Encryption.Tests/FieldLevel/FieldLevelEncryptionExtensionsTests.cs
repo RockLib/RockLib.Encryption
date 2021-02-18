@@ -18,11 +18,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedXml = mockCrypto.Object.EncryptXml(xml, new[] { "/foo/@bar", "/foo/baz", "/foo/qux" }, keyIdentifier);
 
@@ -38,11 +38,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockCrypto = new Mock<ICrypto>();
             var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<object>())).Returns(mockAsyncEncryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<string>())).Returns(mockAsyncEncryptor.Object);
             mockAsyncEncryptor.Setup(m => m.EncryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Encrypt(plainText)));
 
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedXml = await mockCrypto.Object.EncryptXmlAsync(xml, new[] { "/foo/@bar", "/foo/baz", "/foo/qux" }, keyIdentifier);
 
@@ -57,11 +57,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var decryptedXml = mockCrypto.Object.DecryptXml(xml, new[] { "/foo/@bar", "/foo/baz", "/foo/qux" }, keyIdentifier);
 
@@ -77,11 +77,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockCrypto = new Mock<ICrypto>();
             var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<object>())).Returns(mockAsyncDecryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<string>())).Returns(mockAsyncDecryptor.Object);
             mockAsyncDecryptor.Setup(m => m.DecryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Decrypt(plainText)));
 
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var decryptedXml = await mockCrypto.Object.DecryptXmlAsync(xml, new[] { "/foo/@bar", "/foo/baz", "/foo/qux" }, keyIdentifier);
 
@@ -96,11 +96,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedJson = mockCrypto.Object.EncryptJson(json, new[] { "$.foo", "$.bar", "$.baz", "$.qux", "$.garply", "$.fred" }, keyIdentifier);
 
@@ -116,11 +116,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockCrypto = new Mock<ICrypto>();
             var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<object>())).Returns(mockAsyncEncryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<string>())).Returns(mockAsyncEncryptor.Object);
             mockAsyncEncryptor.Setup(m => m.EncryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Encrypt(plainText)));
 
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedJson = await mockCrypto.Object.EncryptJsonAsync(json, new[] { "$.foo", "$.bar", "$.baz", "$.qux", "$.garply", "$.fred" }, keyIdentifier);
 
@@ -135,11 +135,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var decryptedJson = mockCrypto.Object.DecryptJson(json, new[] { "$.foo", "$.bar", "$.baz", "$.qux", "$.garply", "$.fred" }, keyIdentifier);
 
@@ -155,11 +155,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockCrypto = new Mock<ICrypto>();
             var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<object>())).Returns(mockAsyncDecryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<string>())).Returns(mockAsyncDecryptor.Object);
             mockAsyncDecryptor.Setup(m => m.DecryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Decrypt(plainText)));
 
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var decryptedJson = await mockCrypto.Object.DecryptJsonAsync(json, new[] { "$.foo", "$.bar", "$.baz", "$.qux", "$.garply", "$.fred" }, keyIdentifier);
 
@@ -183,14 +183,14 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string cipherText) => Base64.Decrypt(cipherText));
             
             var root = "$";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedJson = mockCrypto.Object.EncryptJson(json, root, keyIdentifier);
 
@@ -217,14 +217,14 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockCrypto = new Mock<ICrypto>();
             var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<object>())).Returns(mockAsyncEncryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<string>())).Returns(mockAsyncEncryptor.Object);
             mockAsyncEncryptor.Setup(m => m.EncryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Encrypt(plainText)));
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<object>())).Returns(mockAsyncDecryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<string>())).Returns(mockAsyncDecryptor.Object);
             mockAsyncDecryptor.Setup(m => m.DecryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string cipherText, CancellationToken token) => Task.FromResult(Base64.Decrypt(cipherText)));
 
             var root = "$";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedJson = await mockCrypto.Object.EncryptJsonAsync(json, root, keyIdentifier);
 
@@ -242,15 +242,15 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string cipherText) => Base64.Decrypt(cipherText));
 
             var json = "{\"foo\":[\"abc\",\"xyz\"]}";
             var foo1 = "$.foo[1]";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedJson = mockCrypto.Object.EncryptJson(json, foo1, keyIdentifier);
 
@@ -269,15 +269,15 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockCrypto = new Mock<ICrypto>();
             var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<object>())).Returns(mockAsyncEncryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<string>())).Returns(mockAsyncEncryptor.Object);
             mockAsyncEncryptor.Setup(m => m.EncryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Encrypt(plainText)));
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<object>())).Returns(mockAsyncDecryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<string>())).Returns(mockAsyncDecryptor.Object);
             mockAsyncDecryptor.Setup(m => m.DecryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string cipherText, CancellationToken token) => Task.FromResult(Base64.Decrypt(cipherText)));
 
             var json = "{\"foo\":[\"abc\",\"xyz\"]}";
             var foo1 = "$.foo[1]";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedJson = await mockCrypto.Object.EncryptJsonAsync(json, foo1, keyIdentifier);
 
@@ -295,15 +295,15 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string cipherText) => Base64.Decrypt(cipherText));
 
             var json = "{\"foo\":[\"abc\",\"xyz\"]}";
             var foo1 = "$.foo[*]";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedJson = mockCrypto.Object.EncryptJson(json, foo1, keyIdentifier);
 
@@ -322,15 +322,15 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockCrypto = new Mock<ICrypto>();
             var mockAsyncCrypto = mockCrypto.As<IAsyncCrypto>();
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<object>())).Returns(mockAsyncEncryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncEncryptor(It.IsAny<string>())).Returns(mockAsyncEncryptor.Object);
             mockAsyncEncryptor.Setup(m => m.EncryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string plainText, CancellationToken token) => Task.FromResult(Base64.Encrypt(plainText)));
 
-            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<object>())).Returns(mockAsyncDecryptor.Object);
+            mockAsyncCrypto.Setup(m => m.GetAsyncDecryptor(It.IsAny<string>())).Returns(mockAsyncDecryptor.Object);
             mockAsyncDecryptor.Setup(m => m.DecryptAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns((string cipherText, CancellationToken token) => Task.FromResult(Base64.Decrypt(cipherText)));
 
             var json = "{\"foo\":[\"abc\",\"xyz\"]}";
             var foo1 = "$.foo[*]";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             var encryptedJson = await mockCrypto.Object.EncryptJsonAsync(json, foo1, keyIdentifier);
 
@@ -345,7 +345,7 @@ namespace RockLib.Encryption.Tests.FieldLevel
         public void EncryptXmlThrowsWhenCryptoIsNull()
         {
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             ICrypto crypto = null;
 
@@ -358,11 +358,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             string xml = null;
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             Assert.That(() => mockCrypto.Object.EncryptXml(xml, new[] { "/foo/@bar", "/foo/baz", "/foo/qux" }, keyIdentifier), Throws.ArgumentNullException);
         }
@@ -373,11 +373,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToEncrypt = null;
 
@@ -390,11 +390,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToEncrypt = { };
 
@@ -407,11 +407,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToEncrypt = { null };
 
@@ -422,7 +422,7 @@ namespace RockLib.Encryption.Tests.FieldLevel
         public void EncryptXmlAsyncThrowsWhenCryptoIsNull()
         {
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             ICrypto crypto = null;
 
@@ -435,11 +435,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             string xml = null;
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             Assert.That(async () => await mockCrypto.Object.EncryptXmlAsync(xml, new[] { "/foo/@bar", "/foo/baz", "/foo/qux" }, keyIdentifier), Throws.ArgumentNullException);
         }
@@ -450,11 +450,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToEncrypt = null;
 
@@ -467,11 +467,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToEncrypt = { };
 
@@ -484,11 +484,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var xml = "<foo bar=\"123\"><baz>456</baz><baz>789</baz><qux><garply grault=\"abc\" /></qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToEncrypt = { null };
 
@@ -499,7 +499,7 @@ namespace RockLib.Encryption.Tests.FieldLevel
         public void DecryptXmlThrowsWhenCryptoIsNull()
         {
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             ICrypto crypto = null;
 
@@ -512,11 +512,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             string xml = null;
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             Assert.That(() => mockCrypto.Object.DecryptXml(xml, new[] { "/foo/@bar", "/foo/baz", "/foo/qux" }, keyIdentifier), Throws.ArgumentNullException);
         }
@@ -527,11 +527,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToDecrypt = null;
 
@@ -544,11 +544,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToDecrypt = { };
 
@@ -561,11 +561,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToDecrypt = { null };
 
@@ -576,7 +576,7 @@ namespace RockLib.Encryption.Tests.FieldLevel
         public void DecryptXmlAsyncThrowsWhenCryptoIsNull()
         {
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             ICrypto crypto = null;
 
@@ -589,11 +589,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             string xml = null;
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             Assert.That(async () => await mockCrypto.Object.DecryptXmlAsync(xml, new[] { "/foo/@bar", "/foo/baz", "/foo/qux" }, keyIdentifier), Throws.ArgumentNullException);
         }
@@ -604,11 +604,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToDecrypt = null;
 
@@ -621,11 +621,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToDecrypt = { };
 
@@ -638,11 +638,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var xml = "<foo bar=\"MTIz\"><baz>NDU2</baz><baz>Nzg5</baz><qux>PGdhcnBseSBncmF1bHQ9ImFiYyIgLz4=</qux></foo>";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] xpathsToDecrypt = { null };
 
@@ -653,7 +653,7 @@ namespace RockLib.Encryption.Tests.FieldLevel
         public void EncryptJsonThrowsWhenCryptoIsNull()
         {
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             ICrypto crypto = null;
 
@@ -666,11 +666,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             string json = null;
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             Assert.That(() => mockCrypto.Object.EncryptJson(json, new[] { "$.foo", "$.bar", "$.baz", "$.qux", "$.garply", "$.fred" }, keyIdentifier), Throws.ArgumentNullException);
         }
@@ -681,11 +681,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToEncrypt = null;
 
@@ -698,11 +698,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToEncrypt = { };
 
@@ -715,11 +715,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToEncrypt = { null };
 
@@ -730,7 +730,7 @@ namespace RockLib.Encryption.Tests.FieldLevel
         public void EncryptJsonAsyncThrowsWhenCryptoIsNull()
         {
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             ICrypto crypto = null;
 
@@ -743,11 +743,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             string json = null;
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             Assert.That(async () => await mockCrypto.Object.EncryptJsonAsync(json, new[] { "$.foo", "$.bar", "$.baz", "$.qux", "$.garply", "$.fred" }, keyIdentifier), Throws.ArgumentNullException);
         }
@@ -758,11 +758,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToEncrypt = null;
 
@@ -775,11 +775,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToEncrypt = { };
 
@@ -792,11 +792,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockEncryptor = new Mock<IEncryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<object>())).Returns(mockEncryptor.Object);
+            mockCrypto.Setup(m => m.GetEncryptor(It.IsAny<string>())).Returns(mockEncryptor.Object);
             mockEncryptor.Setup(m => m.Encrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Encrypt(plainText));
 
             var json = "{\"foo\":\"abc\",\"bar\":123,\"baz\":true,\"qux\":[1,2,3],\"garply\":{\"grault\":\"xyz\"},\"fred\":null}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToEncrypt = { null };
 
@@ -807,7 +807,7 @@ namespace RockLib.Encryption.Tests.FieldLevel
         public void DecryptJsonThrowsWhenCryptoIsNull()
         {
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             ICrypto crypto = null;
 
@@ -820,11 +820,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             string json = null;
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             Assert.That(() => mockCrypto.Object.DecryptJson(json, new[] { "$.foo", "$.bar", "$.baz", "$.qux", "$.garply", "$.fred" }, keyIdentifier), Throws.ArgumentNullException);
         }
@@ -835,11 +835,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToDecrypt = null;
 
@@ -852,11 +852,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToDecrypt = { };
 
@@ -869,11 +869,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToDecrypt = { null };
 
@@ -884,7 +884,7 @@ namespace RockLib.Encryption.Tests.FieldLevel
         public void DecryptJsonAsyncThrowsWhenCryptoIsNull()
         {
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             ICrypto crypto = null;
 
@@ -897,11 +897,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             string json = null;
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             Assert.That(async () => await mockCrypto.Object.DecryptJsonAsync(json, new[] { "$.foo", "$.bar", "$.baz", "$.qux", "$.garply", "$.fred" }, keyIdentifier), Throws.ArgumentNullException);
         }
@@ -912,11 +912,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToDecrypt = null;
 
@@ -929,11 +929,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToDecrypt = { };
 
@@ -946,11 +946,11 @@ namespace RockLib.Encryption.Tests.FieldLevel
             var mockDecryptor = new Mock<IDecryptor>();
             var mockCrypto = new Mock<ICrypto>();
 
-            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<object>())).Returns(mockDecryptor.Object);
+            mockCrypto.Setup(m => m.GetDecryptor(It.IsAny<string>())).Returns(mockDecryptor.Object);
             mockDecryptor.Setup(m => m.Decrypt(It.IsAny<string>())).Returns((string plainText) => Base64.Decrypt(plainText));
 
             var json = "{\"foo\":\"ImFiYyI=\",\"bar\":\"MTIz\",\"baz\":\"dHJ1ZQ==\",\"qux\":\"WzEsMiwzXQ==\",\"garply\":\"eyJncmF1bHQiOiJ4eXoifQ==\",\"fred\":\"bnVsbA==\"}";
-            var keyIdentifier = new object();
+            var keyIdentifier = "myKeyIdentifier";
 
             string[] jsonPathsToDecrypt = { null };
 
