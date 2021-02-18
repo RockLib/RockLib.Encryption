@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption", "RockL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer", "RockLib.Encryption.XSerializer\RockLib.Encryption.XSerializer.csproj", "{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Symmetric", "Example.Symmetric\Example.Symmetric.csproj", "{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Symmetric", "Examples\Example.Symmetric\Example.Symmetric.csproj", "{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C80B1383-FEEE-4CA9-8146-CC69F84523F4}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,9 +20,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C80B1383-F
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{0D62277C-E658-4954-AC93-FD4791C8C809}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests", "Tests\RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{0D62277C-E658-4954-AC93-FD4791C8C809}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests", "RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.csproj", "{7683AC91-4683-44DF-9DC5-D88407EABE74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests", "Tests\RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.csproj", "{7683AC91-4683-44DF-9DC5-D88407EABE74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8C67D4FD-11A4-4C2E-AF8D-8844C1AFC211}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{10C9A292-2CE2-4F61-B071-2B6D7121825E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +57,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95} = {10C9A292-2CE2-4F61-B071-2B6D7121825E}
+		{0D62277C-E658-4954-AC93-FD4791C8C809} = {8C67D4FD-11A4-4C2E-AF8D-8844C1AFC211}
+		{7683AC91-4683-44DF-9DC5-D88407EABE74} = {8C67D4FD-11A4-4C2E-AF8D-8844C1AFC211}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68B67557-20B2-4F40-9FFB-19BCDBB9AA17}

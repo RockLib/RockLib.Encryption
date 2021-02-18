@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption", "RockLib.Encryption\RockLib.Encryption.csproj", "{6E80E23F-3AA5-43DB-ADEC-2918E1787062}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{15273990-AECE-4767-A97D-611CBBA04F30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests", "Tests\RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{15273990-AECE-4767-A97D-611CBBA04F30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
