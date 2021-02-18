@@ -18,383 +18,449 @@ namespace RockLib.Encryption.Tests
         [Fact]
         public void CurrentReturnsSameAsSetCurrent()
         {
-            ResetCrypto();
+            lock (CryptoReset.Locker)
+            {
+                ResetCrypto();
 
-            var crypto = new Mock<ICrypto>().Object;
+                var crypto = new Mock<ICrypto>().Object;
 
-            Crypto.SetCurrent(crypto);
+                Crypto.SetCurrent(crypto);
 
-            Crypto.Current.Should().BeSameAs(crypto);
+                Crypto.Current.Should().BeSameAs(crypto); 
+            }
         }
 
         [Fact]
         public void MissingConfigThrowsWhenUsingDefaultCrypto()
         {
-            ResetConfig();
+            lock (CryptoReset.Locker)
+            {
+                ResetConfig();
 
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile("NoFactories.json");
-            Config.SetRoot(configBuilder.Build());
+                var configBuilder = new ConfigurationBuilder();
+                configBuilder.AddJsonFile("NoFactories.json");
+                Config.SetRoot(configBuilder.Build());
 
-            ResetCrypto();
+                ResetCrypto();
 
-            Crypto.SetCurrent(null);
-            Action action = () => { var current = Crypto.Current; };
+                Crypto.SetCurrent(null);
+                Action action = () => { var current = Crypto.Current; };
 
-            action.Should().Throw<InvalidOperationException>()
-                .WithMessage("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration.");
+                action.Should().Throw<InvalidOperationException>()
+                    .WithMessage("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration."); 
+            }
         }
 
         [Fact]
         public void SingleFactoryCreatesSpecificCrypto()
         {
-            ResetConfig();
+            lock (CryptoReset.Locker)
+            {
+                ResetConfig();
 
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile("SingleFactory.json");
-            Config.SetRoot(configBuilder.Build());
+                var configBuilder = new ConfigurationBuilder();
+                configBuilder.AddJsonFile("SingleFactory.json");
+                Config.SetRoot(configBuilder.Build());
 
-            ResetCrypto();
+                ResetCrypto();
 
-            Crypto.SetCurrent(null);
+                Crypto.SetCurrent(null);
 
-            Crypto.Current.Should().BeAssignableTo<SymmetricCrypto>();
+                Crypto.Current.Should().BeAssignableTo<SymmetricCrypto>(); 
+            }
         }
 
         [Fact]
         public void MultipleFactoriesCreatesCompositeCrypto()
         {
-            ResetConfig();
+            lock (CryptoReset.Locker)
+            {
+                ResetConfig();
 
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile("MultiFactory.json");
-            Config.SetRoot(configBuilder.Build());
+                var configBuilder = new ConfigurationBuilder();
+                configBuilder.AddJsonFile("MultiFactory.json");
+                Config.SetRoot(configBuilder.Build());
 
-            ResetCrypto();
+                ResetCrypto();
 
-            Crypto.SetCurrent(null);
+                Crypto.SetCurrent(null);
 
-            Crypto.Current.Should().BeAssignableTo<CompositeCrypto>();
+                Crypto.Current.Should().BeAssignableTo<CompositeCrypto>(); 
+            }
         }
 
         [Fact]
         public void GetEncryptorCallsCryptoGetEncryptor()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
-            
-            var credentialName = "foo";
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            Crypto.GetEncryptor();
-            Crypto.GetEncryptor(credentialName);
+                var credentialName = "foo";
 
-            cryptoMock.Verify(cm => cm.GetEncryptor(null));
-            cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<string>(o => o == credentialName)));
+                Crypto.GetEncryptor();
+                Crypto.GetEncryptor(credentialName);
+
+                cryptoMock.Verify(cm => cm.GetEncryptor(null));
+                cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void GetDecryptorCallsCryptoGetDecryptor()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var credentialName = "foo";
+                var credentialName = "foo";
 
-            Crypto.GetDecryptor();
-            Crypto.GetDecryptor(credentialName);
+                Crypto.GetDecryptor();
+                Crypto.GetDecryptor(credentialName);
 
-            cryptoMock.Verify(cm => cm.GetDecryptor(null));
-            cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.GetDecryptor(null));
+                cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void EncryptByStringCallsCryptoEncryptByString()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var stringToEncrypt = "Something to encrypt";
-            var credentialName = "foo";
+                var stringToEncrypt = "Something to encrypt";
+                var credentialName = "foo";
 
-            Crypto.Encrypt(stringToEncrypt);
-            Crypto.Encrypt(stringToEncrypt, credentialName);
+                Crypto.Encrypt(stringToEncrypt);
+                Crypto.Encrypt(stringToEncrypt, credentialName);
 
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), null));
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), null));
+                cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void EncryptByByteArrayCallsCryptoEncryptByByteArray()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var byteArrayToEncrypt = new byte[0];
-            var credentialName = "foo";
+                var byteArrayToEncrypt = new byte[0];
+                var credentialName = "foo";
 
-            Crypto.Encrypt(byteArrayToEncrypt);
-            Crypto.Encrypt(byteArrayToEncrypt, credentialName);
+                Crypto.Encrypt(byteArrayToEncrypt);
+                Crypto.Encrypt(byteArrayToEncrypt, credentialName);
 
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), null));
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), null));
+                cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void DecryptByStringCallsCryptoDecryptByString()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var stringToDecrypt = "Something to encrypt";
-            var credentialName = "foo";
+                var stringToDecrypt = "Something to encrypt";
+                var credentialName = "foo";
 
-            Crypto.Decrypt(stringToDecrypt);
-            Crypto.Decrypt(stringToDecrypt, credentialName);
+                Crypto.Decrypt(stringToDecrypt);
+                Crypto.Decrypt(stringToDecrypt, credentialName);
 
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), null));
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), null));
+                cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void DecryptByByteArrayCallsCryptoDecryptByByteArray()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var byteArrayToDecrypt = new byte[0];
-            var credentialName = "foo";
+                var byteArrayToDecrypt = new byte[0];
+                var credentialName = "foo";
 
-            Crypto.Decrypt(byteArrayToDecrypt);
-            Crypto.Decrypt(byteArrayToDecrypt, credentialName);
+                Crypto.Decrypt(byteArrayToDecrypt);
+                Crypto.Decrypt(byteArrayToDecrypt, credentialName);
 
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), null));
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), null));
+                cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void GetEncryptorAsyncGivenCurrentIsIAsyncCryptoCallsCryptoGetEncryptorAsync()
         {
-            var cryptoMock = new Mock<AbstractAsyncCrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<AbstractAsyncCrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
-            
-            var credentialName = "foo";
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            Crypto.GetAsyncEncryptor();
-            Crypto.GetAsyncEncryptor(credentialName);
+                var credentialName = "foo";
 
-            cryptoMock.Verify(cm => cm.GetAsyncEncryptor(null));
-            cryptoMock.Verify(cm => cm.GetAsyncEncryptor(It.Is<string>(o => o == credentialName)));
+                Crypto.GetAsyncEncryptor();
+                Crypto.GetAsyncEncryptor(credentialName);
+
+                cryptoMock.Verify(cm => cm.GetAsyncEncryptor(null));
+                cryptoMock.Verify(cm => cm.GetAsyncEncryptor(It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void GetEncryptorAsyncGivenCurrentIsNotIAsyncCryptoCallsCryptoGetEncryptor()
         {
-            var cryptoMock = new Mock<ICrypto>();
-            cryptoMock.Setup(cm => cm.GetEncryptor(It.IsAny<string>())).Returns(new Mock<IEncryptor>().Object);
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
+                cryptoMock.Setup(cm => cm.GetEncryptor(It.IsAny<string>())).Returns(new Mock<IEncryptor>().Object);
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var credentialName = "foo";
+                var credentialName = "foo";
 
-            Crypto.GetAsyncEncryptor();
-            Crypto.GetAsyncEncryptor(credentialName);
+                Crypto.GetAsyncEncryptor();
+                Crypto.GetAsyncEncryptor(credentialName);
 
-            cryptoMock.Verify(cm => cm.GetEncryptor(null));
-            cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.GetEncryptor(null));
+                cryptoMock.Verify(cm => cm.GetEncryptor(It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void GetDecryptorAsyncGivenCurrentIsIAsyncCryptoCallsCryptoGetDecryptorAsync()
         {
-            var cryptoMock = new Mock<AbstractAsyncCrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<AbstractAsyncCrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var credentialName = "foo";
+                var credentialName = "foo";
 
-            Crypto.GetAsyncDecryptor();
-            Crypto.GetAsyncDecryptor(credentialName);
+                Crypto.GetAsyncDecryptor();
+                Crypto.GetAsyncDecryptor(credentialName);
 
-            cryptoMock.Verify(cm => cm.GetAsyncDecryptor(null));
-            cryptoMock.Verify(cm => cm.GetAsyncDecryptor(It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.GetAsyncDecryptor(null));
+                cryptoMock.Verify(cm => cm.GetAsyncDecryptor(It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void GetDecryptorAsyncGivenCurrentIsNotIAsyncCryptoCallsCryptoGetDecryptor()
         {
-            var cryptoMock = new Mock<ICrypto>();
-            cryptoMock.Setup(cm => cm.GetDecryptor(It.IsAny<string>())).Returns(new Mock<IDecryptor>().Object);
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
+                cryptoMock.Setup(cm => cm.GetDecryptor(It.IsAny<string>())).Returns(new Mock<IDecryptor>().Object);
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var credentialName = "foo";
+                var credentialName = "foo";
 
-            Crypto.GetAsyncDecryptor();
-            Crypto.GetAsyncDecryptor(credentialName);
+                Crypto.GetAsyncDecryptor();
+                Crypto.GetAsyncDecryptor(credentialName);
 
-            cryptoMock.Verify(cm => cm.GetDecryptor(null));
-            cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.GetDecryptor(null));
+                cryptoMock.Verify(cm => cm.GetDecryptor(It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void EncryptAsyncByStringGivenCurrentIsIAsyncCryptoCallsCryptoEncryptAsyncByString()
         {
-            var cryptoMock = new Mock<AbstractAsyncCrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<AbstractAsyncCrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var stringToEncrypt = "Something to encrypt";
-            var credentialName = "foo";
+                var stringToEncrypt = "Something to encrypt";
+                var credentialName = "foo";
 
-            Crypto.EncryptAsync(stringToEncrypt).Wait();
-            Crypto.EncryptAsync(stringToEncrypt, credentialName).Wait();
+                Crypto.EncryptAsync(stringToEncrypt).Wait();
+                Crypto.EncryptAsync(stringToEncrypt, credentialName).Wait();
 
-            cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<string>(s => s == stringToEncrypt), null, It.IsAny<CancellationToken>()));
-            cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
+                cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<string>(s => s == stringToEncrypt), null, It.IsAny<CancellationToken>()));
+                cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>())); 
+            }
         }
 
         [Fact]
         public void EncryptAsyncByStringGivenCurrentIsNotIAsyncCryptoCallsCryptoEncryptByString()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var stringToEncrypt = "Something to encrypt";
-            var credentialName = "foo";
+                var stringToEncrypt = "Something to encrypt";
+                var credentialName = "foo";
 
-            Crypto.EncryptAsync(stringToEncrypt).Wait();
-            Crypto.EncryptAsync(stringToEncrypt, credentialName).Wait();
+                Crypto.EncryptAsync(stringToEncrypt).Wait();
+                Crypto.EncryptAsync(stringToEncrypt, credentialName).Wait();
 
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), null));
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), null));
+                cryptoMock.Verify(cm => cm.Encrypt(It.Is<string>(s => s == stringToEncrypt), It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void EncryptAsyncByByteArrayGivenCurrentIsIAsyncCryptoCallsCryptoEncryptAsyncByByteArray()
         {
-            var cryptoMock = new Mock<AbstractAsyncCrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<AbstractAsyncCrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var byteArrayToEncrypt = new byte[0];
-            var credentialName = "foo";
+                var byteArrayToEncrypt = new byte[0];
+                var credentialName = "foo";
 
-            Crypto.EncryptAsync(byteArrayToEncrypt);
-            Crypto.EncryptAsync(byteArrayToEncrypt, credentialName);
+                Crypto.EncryptAsync(byteArrayToEncrypt);
+                Crypto.EncryptAsync(byteArrayToEncrypt, credentialName);
 
-            cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<byte[]>(s => s == byteArrayToEncrypt), null, It.IsAny<CancellationToken>()));
-            cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
+                cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<byte[]>(s => s == byteArrayToEncrypt), null, It.IsAny<CancellationToken>()));
+                cryptoMock.Verify(cm => cm.EncryptAsync(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>())); 
+            }
         }
 
         [Fact]
         public void EncryptAsyncByByteArrayGivenCurrentIsNotIAsyncCryptoCallsCryptoEncryptByByteArray()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var byteArrayToEncrypt = new byte[0];
-            var credentialName = "foo";
+                var byteArrayToEncrypt = new byte[0];
+                var credentialName = "foo";
 
-            Crypto.EncryptAsync(byteArrayToEncrypt);
-            Crypto.EncryptAsync(byteArrayToEncrypt, credentialName);
+                Crypto.EncryptAsync(byteArrayToEncrypt);
+                Crypto.EncryptAsync(byteArrayToEncrypt, credentialName);
 
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), null));
-            cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), null));
+                cryptoMock.Verify(cm => cm.Encrypt(It.Is<byte[]>(s => s == byteArrayToEncrypt), It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void DecryptAsyncByStringGivenCurrentIsIAsyncCryptoCallsCryptoDecryptAsyncByString()
         {
-            var cryptoMock = new Mock<AbstractAsyncCrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<AbstractAsyncCrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var stringToDecrypt = "Something to encrypt";
-            var credentialName = "foo";
+                var stringToDecrypt = "Something to encrypt";
+                var credentialName = "foo";
 
-            Crypto.DecryptAsync(stringToDecrypt).Wait();
-            Crypto.DecryptAsync(stringToDecrypt, credentialName).Wait();
+                Crypto.DecryptAsync(stringToDecrypt).Wait();
+                Crypto.DecryptAsync(stringToDecrypt, credentialName).Wait();
 
-            cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<string>(s => s == stringToDecrypt), null, It.IsAny<CancellationToken>()));
-            cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
+                cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<string>(s => s == stringToDecrypt), null, It.IsAny<CancellationToken>()));
+                cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>())); 
+            }
         }
 
         [Fact]
         public void DecryptAsyncByStringGivenCurrentIsNotIAsyncCryptoCallsCryptoDecryptByString()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var stringToDecrypt = "Something to encrypt";
-            var credentialName = "foo";
+                var stringToDecrypt = "Something to encrypt";
+                var credentialName = "foo";
 
-            Crypto.DecryptAsync(stringToDecrypt).Wait();
-            Crypto.DecryptAsync(stringToDecrypt, credentialName).Wait();
+                Crypto.DecryptAsync(stringToDecrypt).Wait();
+                Crypto.DecryptAsync(stringToDecrypt, credentialName).Wait();
 
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), null));
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), null));
+                cryptoMock.Verify(cm => cm.Decrypt(It.Is<string>(s => s == stringToDecrypt), It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         [Fact]
         public void DecryptAsyncByByteArrayGivenCurrentIsIAsyncCryptoCallsCryptoDecryptAsyncByByteArray()
         {
-            var cryptoMock = new Mock<AbstractAsyncCrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<AbstractAsyncCrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var byteArrayToDecrypt = new byte[0];
-            var credentialName = "foo";
+                var byteArrayToDecrypt = new byte[0];
+                var credentialName = "foo";
 
-            Crypto.DecryptAsync(byteArrayToDecrypt).Wait();
-            Crypto.DecryptAsync(byteArrayToDecrypt, credentialName).Wait();
+                Crypto.DecryptAsync(byteArrayToDecrypt).Wait();
+                Crypto.DecryptAsync(byteArrayToDecrypt, credentialName).Wait();
 
-            cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<byte[]>(s => s == byteArrayToDecrypt), null, It.IsAny<CancellationToken>()));
-            cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>()));
+                cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<byte[]>(s => s == byteArrayToDecrypt), null, It.IsAny<CancellationToken>()));
+                cryptoMock.Verify(cm => cm.DecryptAsync(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName), It.IsAny<CancellationToken>())); 
+            }
         }
 
         [Fact]
         public void DecryptAsyncByByteArrayGivenCurrentIsNotIAsyncCryptoCallsCryptoDecryptByByteArray()
         {
-            var cryptoMock = new Mock<ICrypto>();
+            lock (CryptoReset.Locker)
+            {
+                var cryptoMock = new Mock<ICrypto>();
 
-            ResetCrypto();
-            Crypto.SetCurrent(cryptoMock.Object);
+                ResetCrypto();
+                Crypto.SetCurrent(cryptoMock.Object);
 
-            var byteArrayToDecrypt = new byte[0];
-            var credentialName = "foo";
+                var byteArrayToDecrypt = new byte[0];
+                var credentialName = "foo";
 
-            Crypto.DecryptAsync(byteArrayToDecrypt).Wait();
-            Crypto.DecryptAsync(byteArrayToDecrypt, credentialName).Wait();
+                Crypto.DecryptAsync(byteArrayToDecrypt).Wait();
+                Crypto.DecryptAsync(byteArrayToDecrypt, credentialName).Wait();
 
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), null));
-            cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName)));
+                cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), null));
+                cryptoMock.Verify(cm => cm.Decrypt(It.Is<byte[]>(s => s == byteArrayToDecrypt), It.Is<string>(o => o == credentialName))); 
+            }
         }
 
         private static void ResetConfig()
@@ -403,7 +469,8 @@ namespace RockLib.Encryption.Tests
             var root = (Semimutable<IConfiguration>)rootField.GetValue(null);
             root.GetUnlockValueMethod().Invoke(root, null);
         }
-        private static void ResetCrypto()
+
+        internal static void ResetCrypto()
         {
             var currentField = typeof(Crypto).GetField("_current", BindingFlags.NonPublic | BindingFlags.Static);
             var current = (Semimutable<ICrypto>)currentField.GetValue(null);
