@@ -16,7 +16,7 @@ namespace RockLib.Encryption.Tests
         {
             Action action = () => new CompositeCrypto(null);
 
-            action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null.\r\nParameter name: cryptos");
+            action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null.*Parameter*cryptos*");
         }
 
         [Test]

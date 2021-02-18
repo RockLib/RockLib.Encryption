@@ -92,7 +92,7 @@ namespace RockLib.Encryption.Tests
         {
             Action newCredential = () => new Credential(
                 () => Convert.FromBase64String("1J9Og / OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), (SymmetricAlgorithm)(-1), 16);
-            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("algorithm value is not defined: -1.\r\nParameter name: algorithm");
+            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("algorithm value is not defined: -1.*Parameter*algorithm*");
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace RockLib.Encryption.Tests
             Action newCredential = () => new Credential(
                 () => Convert.FromBase64String("1J9Og / OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 0);
 
-            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("ivSize must be greater than 0.\r\nParameter name: ivSize");
+            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("ivSize must be greater than 0.*Parameter*ivSize*");
         }
     }
 }
