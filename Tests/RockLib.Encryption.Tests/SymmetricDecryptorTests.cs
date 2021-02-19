@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Text;
 using FluentAssertions;
-using NUnit.Framework;
 using RockLib.Encryption.Symmetric;
+using Xunit;
 
 namespace RockLib.Encryption.Tests
 {
-    [TestFixture]
     public class SymmetricDecryptorTests
     {
-        [Test]
+        [Fact]
         public void CanDecryptByString()
         {
             var credential = new Credential(
@@ -25,7 +24,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().NotBe(encrypted);
         }
 
-        [Test]
+        [Fact]
         public void CanDecryptByByteArray()
         {
             var credential = new Credential(
@@ -44,7 +43,7 @@ namespace RockLib.Encryption.Tests
             decryptedString.Should().NotBe(encryptedString);
         }
 
-        [Test]
+        [Fact]
         public void DecryptByStringReturnsTheCipherTextParameterWhenItIsNotBase64Encoded()
         {
             var credential = new Credential(
@@ -59,7 +58,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().BeSameAs(plaintext);
         }
 
-        [Test]
+        [Fact]
         public void DecryptByByteArrayReturnsTheCipherTextParameterWhenItIsNotLongEnoughForTheHeader()
         {
             var credential = new Credential(
@@ -74,7 +73,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().BeSameAs(plaintext);
         }
 
-        [Test]
+        [Fact]
         public void DecryptByByteArrayReturnsTheCipherTextParameterWhenTheVersionIsNot1()
         {
             var credential = new Credential(
@@ -94,7 +93,7 @@ namespace RockLib.Encryption.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void DecryptByByteArrayReturnsTheCipherTextParameterWhenTheIVSizeIsNot8Or16()
         {
             var credential = new Credential(
@@ -117,7 +116,7 @@ namespace RockLib.Encryption.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void DecryptByByteArrayReturnsTheCipherTextParameterWhenItIsNotLongEnoughForTheHeaderAndIV()
         {
             var credential = new Credential(

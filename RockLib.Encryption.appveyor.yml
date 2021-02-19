@@ -4,7 +4,7 @@ configuration: Release
 only_commits:
   files:
   - RockLib.Encryption/
-  - RockLib.Encryption.Tests/
+  - Tests/RockLib.Encryption.Tests/
   - RockLib.Encryption.sln
   - RockLib.Encryption.appveyor.yml
 before_build:

@@ -4,22 +4,21 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace RockLib.Encryption.Tests
 {
-    [TestFixture]
     public class CompositeCryptoTests
     {
-        [Test]
+        [Fact]
         public void ConstructorThrowsWhenCryptoListIsNull()
         {
             Action action = () => new CompositeCrypto(null);
 
-            action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null.\r\nParameter name: cryptos");
+            action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null.*Parameter*cryptos*");
         }
 
-        [Test]
+        [Fact]
         public void GetEncryptorSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -35,7 +34,7 @@ namespace RockLib.Encryption.Tests
             fooEncryptor.Should().NotBeSameAs(barEncryptor);
         }
 
-        [Test]
+        [Fact]
         public void GetEncryptorThrowsWhenICryptoDoesntExist()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -48,7 +47,7 @@ namespace RockLib.Encryption.Tests
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
-        [Test]
+        [Fact]
         public void GetAsyncEncryptorSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -64,7 +63,7 @@ namespace RockLib.Encryption.Tests
             fooEncryptor.Should().NotBeSameAs(barEncryptor);
         }
 
-        [Test]
+        [Fact]
         public void GetAsyncEncryptorThrowsWhenICryptoDoesntExist()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -77,7 +76,7 @@ namespace RockLib.Encryption.Tests
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
-        [Test]
+        [Fact]
         public void GetDecryptorSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -93,7 +92,7 @@ namespace RockLib.Encryption.Tests
             fooEncryptor.Should().NotBeSameAs(barEncryptor);
         }
 
-        [Test]
+        [Fact]
         public void GetDecryptorThrowsWhenICryptoDoesntExist()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -106,7 +105,7 @@ namespace RockLib.Encryption.Tests
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
-        [Test]
+        [Fact]
         public void GetAsyncDecryptorSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -122,7 +121,7 @@ namespace RockLib.Encryption.Tests
             fooEncryptor.Should().NotBeSameAs(barEncryptor);
         }
 
-        [Test]
+        [Fact]
         public void GetAsyncDecryptorThrowsWhenICryptoDoesntExist()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -135,7 +134,7 @@ namespace RockLib.Encryption.Tests
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
-        [Test]
+        [Fact]
         public void CanEncryptReturnsTrueForExistingCrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -147,7 +146,7 @@ namespace RockLib.Encryption.Tests
             compositeCrypto.CanEncrypt("bar").Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void CanEncryptReturnsFalseForNonExistingCrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -158,7 +157,7 @@ namespace RockLib.Encryption.Tests
             compositeCrypto.CanEncrypt("baz").Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void CanDecryptReturnsTrueForExistingCrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -170,7 +169,7 @@ namespace RockLib.Encryption.Tests
             compositeCrypto.CanDecrypt("bar").Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void CanDecryptReturnsFalseForNonExistingCrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -181,7 +180,7 @@ namespace RockLib.Encryption.Tests
             compositeCrypto.CanDecrypt("baz").Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void EncryptSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -195,7 +194,7 @@ namespace RockLib.Encryption.Tests
             compositeCrypto.Encrypt(new byte[0], "bar").Should().BeEquivalentTo(Encoding.UTF8.GetBytes("bar"));
         }
 
-        [Test]
+        [Fact]
         public void EncryptThrowsWhenICryptoDoesntExist()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -208,7 +207,7 @@ namespace RockLib.Encryption.Tests
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
-        [Test]
+        [Fact]
         public async Task EncryptAsyncSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -222,7 +221,7 @@ namespace RockLib.Encryption.Tests
             (await compositeCrypto.EncryptAsync(new byte[0], "bar")).Should().BeEquivalentTo(Encoding.UTF8.GetBytes("bar"));
         }
 
-        [Test]
+        [Fact]
         public async Task EncryptAsyncThrowsWhenICryptoDoesntExist()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -236,7 +235,7 @@ namespace RockLib.Encryption.Tests
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
-        [Test]
+        [Fact]
         public void DecryptSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -250,7 +249,7 @@ namespace RockLib.Encryption.Tests
             compositeCrypto.Decrypt(new byte[0], "bar").Should().BeEquivalentTo(Encoding.UTF8.GetBytes("bar"));
         }
 
-        [Test]
+        [Fact]
         public void DecryptThrowsWhenICryptoDoesntExist()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -263,7 +262,7 @@ namespace RockLib.Encryption.Tests
                 .WithMessage("Unable to locate implementation of ICrypto that can locate a credential using credentialName: baz");
         }
 
-        [Test]
+        [Fact]
         public async Task DecryptAsyncSucceedsWithExistingICrypto()
         {
             ICrypto fooCrypto = CreateICrypto("foo");
@@ -277,7 +276,7 @@ namespace RockLib.Encryption.Tests
             (await compositeCrypto.DecryptAsync(new byte[0], "bar")).Should().BeEquivalentTo(Encoding.UTF8.GetBytes("bar"));
         }
 
-        [Test]
+        [Fact]
         public async Task DecryptAsyncThrowsWhenICryptoDoesntExist()
         {
             ICrypto fooCrypto = CreateICrypto("foo");

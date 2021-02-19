@@ -1,14 +1,13 @@
 ﻿using System.Text;
 using FluentAssertions;
-using NUnit.Framework;
 using RockLib.Encryption.Symmetric;
+using Xunit;
 
 namespace RockLib.Encryption.Tests
 {
-    [TestFixture]
     public class SymmetricEncryptorTests
     {
-        [Test]
+        [Fact]
         public void CanEncryptByString()
         {
             var credential = new Credential(
@@ -24,7 +23,7 @@ namespace RockLib.Encryption.Tests
             encrypted.Should().NotBe(unencrypted);
         }
 
-        [Test]
+        [Fact]
         public void CanEncryptByByteArray()
         {
             var credential = new Credential(

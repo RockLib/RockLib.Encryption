@@ -4,7 +4,7 @@ configuration: Release
 only_commits:
   files:
   - RockLib.Encryption.XSerializer/
-  - RockLib.Encryption.XSerializer.Tests/
+  - Tests/RockLib.Encryption.XSerializer.Tests/
   - RockLib.Encryption.XSerializer.sln
   - RockLib.Encryption.XSerializer.appveyor.yml
 before_build:

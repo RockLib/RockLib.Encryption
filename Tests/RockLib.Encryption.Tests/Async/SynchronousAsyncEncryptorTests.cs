@@ -1,12 +1,12 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using FluentAssertions;
+using Moq;
 using RockLib.Encryption.Async;
 using System.Text;
 using System.Threading;
+using Xunit;
 
 namespace RockLib.Encryption.Tests.Async
 {
-    [TestFixture]
     public class SynchronousAsyncEncryptorTests
     {
         private Mock<IEncryptor> _encryptorMock;
@@ -20,7 +20,7 @@ namespace RockLib.Encryption.Tests.Async
         }
 
 
-        [Test]
+        [Fact]
         public void EncryptAsync_string_ReturnsACompletedTask()
         {
             Setup("foo");
@@ -29,10 +29,10 @@ namespace RockLib.Encryption.Tests.Async
 
             var encryptTask = asyncEncryptor.EncryptAsync("stuff", default(CancellationToken));
 
-            Assert.That(encryptTask.IsCompleted, Is.True);
+            encryptTask.IsCompleted.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void EncryptAsync_string_ReturnsTheResultReturnedByCryptoEncrypt()
         {
             Setup("foo");
@@ -41,10 +41,10 @@ namespace RockLib.Encryption.Tests.Async
 
             var encrypted = asyncEncryptor.EncryptAsync("stuff", default(CancellationToken)).Result;
 
-            Assert.That(encrypted, Is.EqualTo("EncryptedString : foo"));
+            encrypted.Should().Be("EncryptedString : foo");
         }
 
-        [Test]
+        [Fact]
         public void EncryptAsync_bytearray_ReturnsACompletedTask()
         {
             Setup("foo");
@@ -53,10 +53,10 @@ namespace RockLib.Encryption.Tests.Async
 
             var encryptTask = asyncEncryptor.EncryptAsync(new byte[0], default(CancellationToken));
 
-            Assert.That(encryptTask.IsCompleted, Is.True);
+            encryptTask.IsCompleted.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void EncryptAsync_bytearray_ReturnsTheResultReturnedByCryptoEncrypt()
         {
             Setup("foo");
@@ -65,7 +65,7 @@ namespace RockLib.Encryption.Tests.Async
 
             var encrypted = asyncEncryptor.EncryptAsync(new byte[0], default(CancellationToken)).Result;
 
-            Assert.That(encrypted, Is.EqualTo(Encoding.UTF8.GetBytes("foo")));
+            encrypted.Should().BeEquivalentTo(Encoding.UTF8.GetBytes("foo"));
         }
     }
 }

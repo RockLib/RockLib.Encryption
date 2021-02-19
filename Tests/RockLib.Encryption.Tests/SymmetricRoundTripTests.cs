@@ -1,17 +1,16 @@
 ﻿using FluentAssertions;
-using NUnit.Framework;
 using RockLib.Encryption.Symmetric;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using Xunit;
 using SymmetricAlgorithm = RockLib.Encryption.Symmetric.SymmetricAlgorithm;
 
 namespace RockLib.Encryption.Tests
 {
-    [TestFixture]
     public class SymmetricRoundTripTests
     {
-        [Test]
+        [Fact]
         public void CanRoundTripByString()
         {
             var credential = new Credential(
@@ -30,7 +29,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().Be(unencrypted);
         }
 
-        [Test]
+        [Fact]
         public void CanRoundTripByByteArray()
         {
             var credential = new Credential(
@@ -50,7 +49,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().Equal(unencrypted);
         }
 
-        [Test]
+        [Fact]
         public void CannotRoundTripByStringWithMismatchedCredentials()
         {
             var credential1 = new Credential(
@@ -72,7 +71,7 @@ namespace RockLib.Encryption.Tests
             action.Should().Throw<CryptographicException>();
         }
 
-        [Test]
+        [Fact]
         public void CannotRoundTripByByteArrayWithMismatchedCredentials()
         {
             var credential1 = new Credential(
@@ -95,7 +94,7 @@ namespace RockLib.Encryption.Tests
             action.Should().Throw<CryptographicException>();
         }
 
-        [Test]
+        [Fact]
         public void MismatchedEncodingCausesEncodingDiscrepency()
         {
             var credential = new Credential(

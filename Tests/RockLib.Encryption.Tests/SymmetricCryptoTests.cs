@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
-using NUnit.Framework;
 using RockLib.Encryption.Symmetric;
+using Xunit;
 
 namespace RockLib.Encryption.Tests
 {
-    [TestFixture]
     public class SymmetricCryptoTests
     {
-        [Test]
+        [Fact]
         public void CanEncryptDecryptAes()
         {
             var credential = new Credential(() => GetSequentialByteArray(16), SymmetricAlgorithm.Aes, 16);
@@ -26,7 +25,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().Be(plainText);
         }
 
-        [Test]
+        [Fact]
         public void CanEncryptDecryptDES()
         {
             var credential = new Credential(() => GetSequentialByteArray(8), SymmetricAlgorithm.DES, 8);
@@ -42,7 +41,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().Be(plainText);
         }
 
-        [Test]
+        [Fact]
         public void CanEncryptDecryptRC2()
         {
             var credential = new Credential(() => GetSequentialByteArray(8), SymmetricAlgorithm.RC2, 8);
@@ -58,7 +57,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().Be(plainText);
         }
 
-        [Test]
+        [Fact]
         public void CanEncryptDecryptRijndael()
         {
             var credential = new Credential(() => GetSequentialByteArray(16), SymmetricAlgorithm.Rijndael, 16);
@@ -74,7 +73,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().Be(plainText);
         }
 
-        [Test]
+        [Fact]
         public void CanEncryptDecryptTripleDes()
         {
             var credential = new Credential(() => GetSequentialByteArray(24), SymmetricAlgorithm.TripleDES, 8);
@@ -90,7 +89,7 @@ namespace RockLib.Encryption.Tests
             decrypted.Should().Be(plainText);
         }
 
-        [Test]
+        [Fact]
         public void CanGetSpecificEncryptorAndDecryptorWhenMultipleCredentialsExist()
         {
             var defaultCredential = new Credential(() => GetSequentialByteArray(16));
@@ -124,7 +123,7 @@ namespace RockLib.Encryption.Tests
             crypto.Invoking(c => c.GetDecryptor("something")).Should().Throw<KeyNotFoundException>().WithMessage("The specified credential was not found: something.");
         }
 
-        [Test]
+        [Fact]
         public void EncodingIsSetCorrectly()
         {
             var crypto = new SymmetricCrypto(new Credential[0], Encoding.ASCII);

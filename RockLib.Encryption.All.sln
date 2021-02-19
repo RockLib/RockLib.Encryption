@@ -7,19 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption", "RockL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer", "RockLib.Encryption.XSerializer\RockLib.Encryption.XSerializer.csproj", "{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RockLib.Encryption.XSerializer.Tests", "RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.shproj", "{0BA5120D-5606-4919-BBDA-4DAF66B331DF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests.net451", "RockLib.Encryption.XSerializer.Tests\net451\RockLib.Encryption.XSerializer.Tests.net451.csproj", "{96546D7F-3A0A-409C-B013-61F53A1FFDAD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests.netcoreapp2.0", "RockLib.Encryption.XSerializer.Tests\netcoreapp2.0\RockLib.Encryption.XSerializer.Tests.netcoreapp2.0.csproj", "{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests.net451", "RockLib.Encryption.Tests\net451\RockLib.Encryption.Tests.net451.csproj", "{383F059D-1007-49F4-B090-564DC5CF3997}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests.netcoreapp2.0", "RockLib.Encryption.Tests\netcoreapp2.0\RockLib.Encryption.Tests.netcoreapp2.0.csproj", "{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RockLib.Encryption.Tests", "RockLib.Encryption.Tests\RockLib.Encryption.Tests.shproj", "{A6E0B138-9266-41D3-8DA5-570C3535E49D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Symmetric", "Example.Symmetric\Example.Symmetric.csproj", "{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Symmetric", "Examples\Example.Symmetric\Example.Symmetric.csproj", "{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C80B1383-FEEE-4CA9-8146-CC69F84523F4}"
 	ProjectSection(SolutionItems) = preProject
@@ -32,15 +20,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C80B1383-F
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.Tests", "Tests\RockLib.Encryption.Tests\RockLib.Encryption.Tests.csproj", "{0D62277C-E658-4954-AC93-FD4791C8C809}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests", "Tests\RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.csproj", "{7683AC91-4683-44DF-9DC5-D88407EABE74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8C67D4FD-11A4-4C2E-AF8D-8844C1AFC211}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{10C9A292-2CE2-4F61-B071-2B6D7121825E}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{0ba5120d-5606-4919-bbda-4daf66b331df}*SharedItemsImports = 13
-		RockLib.Encryption.Tests\RockLib.Encryption.Tests.projitems*{31c21cc0-832c-4a4a-9841-09c16dffc5ad}*SharedItemsImports = 5
-		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{33f6122f-8c89-4b65-bc10-14e8adeab79c}*SharedItemsImports = 5
-		RockLib.Encryption.Tests\RockLib.Encryption.Tests.projitems*{383f059d-1007-49f4-b090-564dc5cf3997}*SharedItemsImports = 5
-		RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.projitems*{96546d7f-3a0a-409c-b013-61f53a1ffdad}*SharedItemsImports = 5
-		RockLib.Encryption.Tests\RockLib.Encryption.Tests.projitems*{a6e0b138-9266-41d3-8da5-570c3535e49d}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -54,29 +42,26 @@ Global
 		{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96546D7F-3A0A-409C-B013-61F53A1FFDAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96546D7F-3A0A-409C-B013-61F53A1FFDAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96546D7F-3A0A-409C-B013-61F53A1FFDAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96546D7F-3A0A-409C-B013-61F53A1FFDAD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33F6122F-8C89-4B65-BC10-14E8ADEAB79C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{383F059D-1007-49F4-B090-564DC5CF3997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{383F059D-1007-49F4-B090-564DC5CF3997}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{383F059D-1007-49F4-B090-564DC5CF3997}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{383F059D-1007-49F4-B090-564DC5CF3997}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31C21CC0-832C-4A4A-9841-09C16DFFC5AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D62277C-E658-4954-AC93-FD4791C8C809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D62277C-E658-4954-AC93-FD4791C8C809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D62277C-E658-4954-AC93-FD4791C8C809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D62277C-E658-4954-AC93-FD4791C8C809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7683AC91-4683-44DF-9DC5-D88407EABE74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7683AC91-4683-44DF-9DC5-D88407EABE74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7683AC91-4683-44DF-9DC5-D88407EABE74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7683AC91-4683-44DF-9DC5-D88407EABE74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14ECC4B2-5A8E-4DFD-9CFD-1F786C669D95} = {10C9A292-2CE2-4F61-B071-2B6D7121825E}
+		{0D62277C-E658-4954-AC93-FD4791C8C809} = {8C67D4FD-11A4-4C2E-AF8D-8844C1AFC211}
+		{7683AC91-4683-44DF-9DC5-D88407EABE74} = {8C67D4FD-11A4-4C2E-AF8D-8844C1AFC211}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68B67557-20B2-4F40-9FFB-19BCDBB9AA17}

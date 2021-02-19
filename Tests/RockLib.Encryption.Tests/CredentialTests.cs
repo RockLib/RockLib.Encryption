@@ -1,14 +1,13 @@
 ﻿using System;
 using FluentAssertions;
-using NUnit.Framework;
 using RockLib.Encryption.Symmetric;
+using Xunit;
 
 namespace RockLib.Encryption.Tests
 {
-    [TestFixture]
     public class CredentialTests
     {
-        [Test]
+        [Fact]
         public void CanGetKey()
         {
             var credential = new Credential(
@@ -20,7 +19,7 @@ namespace RockLib.Encryption.Tests
             key.Length.Should().BeGreaterThan(0);
         }
 
-        [Test]
+        [Fact]
         public void CanGetAlgorithm()
         {
             var credential = new Credential(
@@ -31,7 +30,7 @@ namespace RockLib.Encryption.Tests
             algorithm.Should().Be(SymmetricAlgorithm.TripleDES);
         }
 
-        [Test]
+        [Fact]
         public void CanGetIVSize()
         {
             var credential = new Credential(
@@ -42,7 +41,7 @@ namespace RockLib.Encryption.Tests
             ivSize.Should().Be(32);
         }
 
-        [Test]
+        [Fact]
         public void DefaultAlgorithmIsCorrect()
         {
             var credential = new Credential(
@@ -53,7 +52,7 @@ namespace RockLib.Encryption.Tests
             algorithm.Should().Be(Credential.DefaultAlgorithm);
         }
 
-        [Test]
+        [Fact]
         public void DefaultIVSizeIsCorrect()
         {
             var credential = new Credential(
@@ -64,14 +63,14 @@ namespace RockLib.Encryption.Tests
             ivSize.Should().Be(Credential.DefaultIVSize);
         }
 
-        [Test]
+        [Fact]
         public void NullKeyThrowsArgumentNullException()
         {
             Action newCredential = () => new Credential(null, SymmetricAlgorithm.Aes, 16);
             newCredential.Should().Throw<ArgumentNullException>();
         }
 
-        [Test]
+        [Fact]
         public void NullKeyValueThrowsInvalidOperationException()
         {
             var credential = new Credential(() => null, SymmetricAlgorithm.Aes, 16);
@@ -79,7 +78,7 @@ namespace RockLib.Encryption.Tests
             getKey.Should().Throw<InvalidOperationException>().WithMessage("The value returned from the key function must not be null or empty.");
         }
 
-        [Test]
+        [Fact]
         public void EmptyKeyValueThrowsInvalidOperationException()
         {
             var credential = new Credential(() => new byte[0], SymmetricAlgorithm.Aes, 16);
@@ -87,21 +86,21 @@ namespace RockLib.Encryption.Tests
             getKey.Should().Throw<InvalidOperationException>().WithMessage("The value returned from the key function must not be null or empty.");
         }
 
-        [Test]
+        [Fact]
         public void UndefinedAlgorithmThrowsArgumentOutOfRangeException()
         {
             Action newCredential = () => new Credential(
                 () => Convert.FromBase64String("1J9Og / OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), (SymmetricAlgorithm)(-1), 16);
-            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("algorithm value is not defined: -1.\r\nParameter name: algorithm");
+            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("algorithm value is not defined: -1.*Parameter*algorithm*");
         }
 
-        [Test]
+        [Fact]
         public void InvalidIvSizeThrowsArgumentOutOfRangeException()
         {
             Action newCredential = () => new Credential(
                 () => Convert.FromBase64String("1J9Og / OaZKWdfdwM6jWMpvlr3q3o7r20xxFDN7TEj6s="), SymmetricAlgorithm.Aes, 0);
 
-            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("ivSize must be greater than 0.\r\nParameter name: ivSize");
+            newCredential.Should().Throw<ArgumentOutOfRangeException>().WithMessage("ivSize must be greater than 0.*Parameter*ivSize*");
         }
     }
 }

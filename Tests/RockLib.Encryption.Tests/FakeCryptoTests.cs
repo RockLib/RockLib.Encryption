@@ -1,13 +1,12 @@
 ﻿using FluentAssertions;
-using NUnit.Framework;
 using RockLib.Encryption.Testing;
+using Xunit;
 
 namespace RockLib.Encryption.Tests
 {
-    [TestFixture]
     public class FakeCryptoTests
     {
-        [Test]
+        [Fact]
         public void EncryptStringAddsDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -19,7 +18,7 @@ namespace RockLib.Encryption.Tests
             cipherText.Should().Be("[[Hello, world!]]");
         }
 
-        [Test]
+        [Fact]
         public void DecryptStringRemovesDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -31,7 +30,7 @@ namespace RockLib.Encryption.Tests
             plainText.Should().Be("Hello, world!");
         }
 
-        [Test]
+        [Fact]
         public void DecryptStringReturnsTheCipherTextIfNotSurroundedByDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -43,7 +42,7 @@ namespace RockLib.Encryption.Tests
             plainText.Should().BeSameAs(cipherText);
         }
 
-        [Test]
+        [Fact]
         public void EncryptBinaryAddsDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -55,7 +54,7 @@ namespace RockLib.Encryption.Tests
             cipherText.Should().BeEquivalentTo(new byte[] { (int)'[', (int)'[', 1, 2, 3, (int)']', (int)']' });
         }
 
-        [Test]
+        [Fact]
         public void DecryptBinaryRemovesDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -67,7 +66,7 @@ namespace RockLib.Encryption.Tests
             plainText.Should().BeEquivalentTo(new byte[] { 1, 2, 3 });
         }
 
-        [Test]
+        [Fact]
         public void DecryptBinaryReturnsTheCipherTextIfNotSurroundedByDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -79,7 +78,7 @@ namespace RockLib.Encryption.Tests
             plainText.Should().BeSameAs(cipherText);
         }
 
-        [Test]
+        [Fact]
         public void GetEncryptorReturnsInstanceThatAddsDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -96,7 +95,7 @@ namespace RockLib.Encryption.Tests
             cipherTextBinary.Should().BeEquivalentTo(new byte[] { (int)'[', (int)'[', 1, 2, 3, (int)']', (int)']' });
         }
 
-        [Test]
+        [Fact]
         public void GetDecryptorReturnsInstanceThatRemovesDoubleSquareBrackets()
         {
             ICrypto crypto = new FakeCrypto();
@@ -113,11 +112,11 @@ namespace RockLib.Encryption.Tests
             plainTextBinary.Should().BeEquivalentTo(new byte[] { 1, 2, 3 });
         }
 
-        [Test]
-        [TestCase("default")]
-        [TestCase("literally any string")]
-        [TestCase("")]
-        [TestCase(null)]
+        [Theory]
+        [InlineData("default")]
+        [InlineData("literally any string")]
+        [InlineData("")]
+        [InlineData(null)]
         public void CanEncryptReturnsTrue(string credentialName)
         {
             ICrypto crypto = new FakeCrypto();
@@ -125,11 +124,11 @@ namespace RockLib.Encryption.Tests
             crypto.CanEncrypt(credentialName).Should().BeTrue();
         }
 
-        [Test]
-        [TestCase("default")]
-        [TestCase("literally any string")]
-        [TestCase("")]
-        [TestCase(null)]
+        [Theory]
+        [InlineData("default")]
+        [InlineData("literally any string")]
+        [InlineData("")]
+        [InlineData(null)]
         public void CanDecryptReturnsTrue(string credentialName)
         {
             ICrypto crypto = new FakeCrypto();
