@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 
 namespace Example.Symmetric
 {
-    public abstract class EncryptionService : IHostedService
+    public class EncryptionService : IHostedService
     {
         private readonly ICrypto _crypto;
-        private readonly string _serviceName;
         private readonly Thread _executionThread;
 
-        protected EncryptionService(ICrypto crypto, string serviceName)
+        public EncryptionService(ICrypto crypto)
         {
             _crypto = crypto;
-            _serviceName = serviceName;
             _executionThread = new Thread(RunEncryptionPrompt) { IsBackground = true };
         }
 
@@ -35,9 +33,9 @@ namespace Example.Symmetric
 
         private void RunEncryptionPrompt()
         {
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             Console.WriteLine();
-            Console.WriteLine($"Starting {_serviceName}...");
+            Console.WriteLine($"Starting...");
             Console.WriteLine();
 
             while (true)
