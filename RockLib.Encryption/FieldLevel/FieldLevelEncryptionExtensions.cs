@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 using System.Xml.XPath;
 using Formatting = Newtonsoft.Json.Formatting;
@@ -348,7 +349,7 @@ namespace RockLib.Encryption.FieldLevel
 
                 foreach (XPathNavigator match in navigator.Select(xpath))
                 {
-                    var decrypted = decryptor.Value.Decrypt(match.InnerXml);
+                    var decrypted = decryptor.Value.Decrypt(HttpUtility.HtmlDecode(match.InnerXml));
                     if (decrypted != match.InnerXml)
                     {
                         try
@@ -489,7 +490,7 @@ namespace RockLib.Encryption.FieldLevel
 
                 foreach (XPathNavigator match in navigator.Select(xpath))
                 {
-                    var decrypted = await decryptor.Value.DecryptAsync(match.InnerXml, cancellationToken).ConfigureAwait(false);
+                    var decrypted = await decryptor.Value.DecryptAsync(HttpUtility.HtmlDecode(match.InnerXml), cancellationToken).ConfigureAwait(false);
                     if (decrypted != match.InnerXml)
                     {
                         try
@@ -588,7 +589,7 @@ namespace RockLib.Encryption.FieldLevel
 
                 foreach (var match in token.SelectTokens(jsonPath).ToArray())
                 {
-                    var encryptedToken = JToken.Parse("\"" + encryptor.Value.Encrypt(match.ToString(Formatting.None)) + "\"");
+                    var encryptedToken = JValue.CreateString(encryptor.Value.Encrypt(match.ToString(Formatting.None)));
 
                     if (ReferenceEquals(token, match))
                         return encryptedToken.ToString(Formatting.None);
@@ -729,7 +730,7 @@ namespace RockLib.Encryption.FieldLevel
 
                 foreach (var match in token.SelectTokens(jsonPath).ToArray())
                 {
-                    var encryptedToken = JToken.Parse("\"" + await encryptor.Value.EncryptAsync(match.ToString(Formatting.None), cancellationToken) + "\"");
+                    var encryptedToken = JValue.CreateString(await encryptor.Value.EncryptAsync(match.ToString(Formatting.None), cancellationToken));
 
                     if (ReferenceEquals(token, match))
                         return encryptedToken.ToString(Formatting.None);
