@@ -10,7 +10,7 @@
     <Authors>RockLib</Authors>
     <Description>An easy-to-use crypto API.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>A changelog is available at https://github.com/RockLib/RockLib.Encryption/blob/main/RockLib.Encryption/CHANGELOG.md.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/RockLib/RockLib.Encryption</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
@@ -18,10 +18,17 @@
     <PackageTags>rocklib encryption crypto</PackageTags>
     <Version>2.0.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PublishRepositoryUrl>True</PublishRepositoryUrl>
+    <EmbedUntrackedSources>True</EmbedUntrackedSources>
+    <DebugType>Embedded</DebugType>
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\RockLib.Encryption.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(PackageId).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +41,7 @@
     <PackageReference Include="RockLib.Configuration" Version="2.5.1" />
     <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="1.6.6" />
     <PackageReference Include="RockLib.Collections" Version="1.0.4" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'netstandard2.0'">
