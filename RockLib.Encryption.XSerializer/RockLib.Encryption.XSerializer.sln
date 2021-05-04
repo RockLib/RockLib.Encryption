@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer", "RockLib.Encryption.XSerializer\RockLib.Encryption.XSerializer.csproj", "{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer", "RockLib.Encryption.XSerializer.csproj", "{B5D1A707-704C-4F76-A6FF-E0B379A79CE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests", "Tests\RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.csproj", "{E3D02A94-6CF2-4BEC-8A5E-62B969568B5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Encryption.XSerializer.Tests", "..\Tests\RockLib.Encryption.XSerializer.Tests\RockLib.Encryption.XSerializer.Tests.csproj", "{E3D02A94-6CF2-4BEC-8A5E-62B969568B5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
