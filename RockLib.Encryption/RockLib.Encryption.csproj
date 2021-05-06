@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <PackageId>RockLib.Encryption</PackageId>
-    <PackageVersion>2.3.1</PackageVersion>
+    <PackageVersion>2.3.2</PackageVersion>
     <Authors>RockLib</Authors>
     <Description>An easy-to-use crypto API.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -38,10 +38,10 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="RockLib.Configuration" Version="2.5.1" />
-    <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="1.6.6" />
-    <PackageReference Include="RockLib.Collections" Version="1.0.4" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+    <PackageReference Include="RockLib.Configuration" Version="2.5.2" />
+    <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="1.6.8" />
+    <PackageReference Include="RockLib.Collections" Version="1.0.5" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'netstandard2.0'">
