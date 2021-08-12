@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <PackageId>RockLib.Encryption</PackageId>
-    <PackageVersion>2.3.2</PackageVersion>
+    <PackageVersion>2.3.3</PackageVersion>
     <Authors>RockLib</Authors>
     <Description>An easy-to-use crypto API.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
