@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RockLib.Configuration" Version="2.5.3" />
     <PackageReference Include="RockLib.Configuration.ObjectFactory" Version="1.6.9" />
     <PackageReference Include="RockLib.Collections" Version="1.0.6" />
