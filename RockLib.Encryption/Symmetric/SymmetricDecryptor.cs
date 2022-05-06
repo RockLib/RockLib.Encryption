@@ -32,7 +32,7 @@ namespace RockLib.Encryption.Symmetric
         /// </param>
         public SymmetricDecryptor(Credential credential, Encoding encoding)
         {
-            _credential = credential;
+            _credential = credential ?? throw new ArgumentNullException(nameof(credential));
             _encoding = encoding;
             _algorithm = credential.Algorithm.CreateSymmetricAlgorithm();
         }
@@ -54,12 +54,13 @@ namespace RockLib.Encryption.Symmetric
         public string Decrypt(string cipherText)
         {
             if (!IsBase64(cipherText))
+            {
                 return cipherText;
+            }
 
             var cipherTextData = Convert.FromBase64String(cipherText);
             var plainTextData = Decrypt(cipherTextData);
-            var plainText = _encoding.GetString(plainTextData);
-            return plainText;
+            return _encoding.GetString(plainTextData);
         }
 
         /// <summary>
@@ -70,7 +71,9 @@ namespace RockLib.Encryption.Symmetric
         public byte[] Decrypt(byte[] cipherText)
         {
             if (!cipherText.IsEncrypted())
+            {
                 return cipherText;
+            }
 
             var decrypted = new List<byte>(cipherText.Length);
 
@@ -79,24 +82,22 @@ namespace RockLib.Encryption.Symmetric
                 var decryptor = _algorithm.CreateDecryptor(
                     _credential.GetKey(), stream.ReadIVFromCipherTextHeader());
 
-                using (var cryptoStream = new CryptoStream(stream, decryptor, CryptoStreamMode.Read))
+                using var cryptoStream = new CryptoStream(stream, decryptor, CryptoStreamMode.Read);
+                const int bufferSize = 256;
+                var buffer = new byte[bufferSize];
+
+                while (true)
                 {
-                    const int bufferSize = 256;
-                    var buffer = new byte[bufferSize];
+                    var readBytes = cryptoStream.Read(buffer, 0, buffer.Length);
 
-                    while (true)
+                    if (readBytes == bufferSize)
                     {
-                        var readBytes = cryptoStream.Read(buffer, 0, buffer.Length);
-
-                        if (readBytes == bufferSize)
-                        {
-                            decrypted.AddRange(buffer);
-                        }
-                        else
-                        {
-                            decrypted.AddRange(buffer.Take(readBytes));
-                            break;
-                        }
+                        decrypted.AddRange(buffer);
+                    }
+                    else
+                    {
+                        decrypted.AddRange(buffer.Take(readBytes));
+                        break;
                     }
                 }
             }
@@ -109,8 +110,16 @@ namespace RockLib.Encryption.Symmetric
 
         private static bool IsBase64(string base64)
         {
-            if (SpaceRegex.IsMatch(base64)) base64 = SpaceRegex.Replace(base64, "");
-            if (base64.Length % 4 != 0) return false;
+            if (SpaceRegex.IsMatch(base64))
+            {
+                base64 = SpaceRegex.Replace(base64, "");
+            }
+
+            if (base64.Length % 4 != 0)
+            {
+                return false;
+            }
+            
             return Base64Regex.IsMatch(base64);
         }
     }

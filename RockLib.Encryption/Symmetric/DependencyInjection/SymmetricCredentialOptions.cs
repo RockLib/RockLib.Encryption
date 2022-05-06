@@ -1,5 +1,4 @@
-﻿#if !NET451
-using System;
+﻿using System;
 
 namespace RockLib.Encryption.Symmetric.DependencyInjection
 {
@@ -15,7 +14,7 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <param name="key">A symmetric key.</param>
         /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
-        public SymmetricCredentialOptions (string credentialName, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
+        public SymmetricCredentialOptions(string? credentialName, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
             CredentialName = credentialName;
             Key = key ?? throw new ArgumentNullException(nameof(key));
@@ -26,12 +25,14 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <summary>
         /// The name of the credential.
         /// </summary>
-        public string CredentialName { get; }
+        public string? CredentialName { get; }
 
         /// <summary>
         /// A symmetric key.
         /// </summary>
+#pragma warning disable CA1819 // Properties should not return arrays
         public byte[] Key { get; }
+#pragma warning restore CA1819 // Properties should not return arrays
 
         /// <summary>
         /// The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.
@@ -44,4 +45,3 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         public ushort IvSize { get; }
     }
 }
-#endif

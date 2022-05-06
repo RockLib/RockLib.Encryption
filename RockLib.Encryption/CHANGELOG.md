@@ -23,11 +23,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `SynchronousAsyncCrypto`
   - `SynchronousAsyncDecryptor`
   - `SynchronousAsyncEncryptor`
+  - `FieldLevelEncryptionExtensions`
+    - `DecryptJsonAsync`
+    - `DecryptXmlAsync`
+    - `EncryptJsonAsync`
+    - `EncryptXmlAsync`
+  - `Crypto`
+    - `DecryptAsync`
+    - `EncryptAsync`
+    - `GetAsyncDecryptor`
+    - `GetAsyncEncryptor`
 - Algorithms that have been deemed [weak](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5350), [broken](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5351), or are now obsolete. have been removed from `SymmetricAlgorithm` and `SymmetricAlgorithmExtensions.CreateSymmetricAlgorithm()`. These include:
   - `DES`
   - `RC2`
   - `Rijndael`
   - `TripleDES`
+- TODO: Consider removing `Crypto`
 
 ## 2.3.3 - 2021-08-12
 

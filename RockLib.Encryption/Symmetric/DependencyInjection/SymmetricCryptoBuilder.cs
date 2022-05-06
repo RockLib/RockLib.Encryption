@@ -1,5 +1,4 @@
-﻿#if !NET451
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace RockLib.Encryption.Symmetric.DependencyInjection
@@ -9,7 +8,7 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
     /// </summary>
     public class SymmetricCryptoBuilder
     {
-        private List<SymmetricCredentialOptions> _credentialOptions = new List<SymmetricCredentialOptions>();
+        private readonly List<SymmetricCredentialOptions> _credentialOptions = new();
 
         /// <summary>
         /// Adds a credential with the default name to the builder.
@@ -20,8 +19,10 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
         public SymmetricCryptoBuilder AddCredential(string key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
-            if (key == null)
+            if (key is null)
+            {
                 throw new ArgumentNullException(nameof(key));
+            }
 
             _credentialOptions.Add(new SymmetricCredentialOptions(null, Convert.FromBase64String(key), algorithm, ivSize));
             return this;
@@ -35,10 +36,12 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
         /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
-        public SymmetricCryptoBuilder AddCredential(string credentialName, string key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
+        public SymmetricCryptoBuilder AddCredential(string? credentialName, string key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
-            if (key == null)
+            if (key is null)
+            {
                 throw new ArgumentNullException(nameof(key));
+            }
 
             _credentialOptions.Add(new SymmetricCredentialOptions(credentialName, Convert.FromBase64String(key), algorithm, ivSize));
             return this;
@@ -53,8 +56,10 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
         public SymmetricCryptoBuilder AddCredential(byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
-            if (key == null)
+            if (key is null)
+            {
                 throw new ArgumentNullException(nameof(key));
+            }
 
             _credentialOptions.Add(new SymmetricCredentialOptions(null, key, algorithm, ivSize));
             return this;
@@ -68,10 +73,12 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
         /// <param name="algorithm">The <see cref="SymmetricAlgorithm"/> that will be used for a symmetric encryption or decryption operation.</param>
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
         /// <returns>The same <see cref="SymmetricCryptoBuilder"/>.</returns>
-        public SymmetricCryptoBuilder AddCredential(string credentialName, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
+        public SymmetricCryptoBuilder AddCredential(string? credentialName, byte[] key, SymmetricAlgorithm algorithm = Credential.DefaultAlgorithm, ushort ivSize = Credential.DefaultIVSize)
         {
-            if (key == null)
+            if (key is null)
+            {
                 throw new ArgumentNullException(nameof(key));
+            }
 
             _credentialOptions.Add(new SymmetricCredentialOptions(credentialName, key, algorithm, ivSize));
             return this;
@@ -89,10 +96,11 @@ namespace RockLib.Encryption.Symmetric.DependencyInjection
             var credentials = new List<Credential>();
 
             foreach(var option in _credentialOptions)
+            {
                 credentials.Add(new Credential(() => option.Key, option.Algorithm, option.IvSize, option.CredentialName));
+            }
 
             return new SymmetricCrypto(credentials);
         }
     }
 }
-#endif

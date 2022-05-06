@@ -20,7 +20,7 @@ namespace RockLib.Encryption.Symmetric
         /// <param name="encoding">
         /// The <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
         /// </param>
-        public SymmetricCrypto(IEnumerable<Credential> credentials, Encoding encoding = null)
+        public SymmetricCrypto(IEnumerable<Credential> credentials, Encoding? encoding = null)
             : this(new InMemoryCredentialRepository(credentials ?? throw new ArgumentNullException(nameof(credentials))), encoding)
         {
         }
@@ -35,7 +35,7 @@ namespace RockLib.Encryption.Symmetric
         /// <param name="encoding">
         /// The <see cref="System.Text.Encoding"/> to be used for string/binary conversions.
         /// </param>
-        public SymmetricCrypto(ICredentialRepository credentialRepository, Encoding encoding = null)
+        public SymmetricCrypto(ICredentialRepository credentialRepository, Encoding? encoding = null)
         {
             CredentialRepository = credentialRepository ?? throw new ArgumentNullException(nameof(credentialRepository));
             Encoding = encoding ?? Encoding.UTF8;
@@ -61,10 +61,10 @@ namespace RockLib.Encryption.Symmetric
         /// or null to use the default credential.
         /// </param>
         /// <returns>The encrypted value as a string.</returns>
-        public string Encrypt(string plainText, string credentialName)
+        public string Encrypt(string plainText, string? credentialName)
         {
-            using (var encryptor = GetEncryptor(credentialName))
-                return encryptor.Encrypt(plainText);
+            using var encryptor = GetEncryptor(credentialName);
+            return encryptor.Encrypt(plainText);
         }
 
         /// <summary>
@@ -76,10 +76,10 @@ namespace RockLib.Encryption.Symmetric
         /// or null to use the default credential.
         /// </param>
         /// <returns>The decrypted value as a string.</returns>
-        public string Decrypt(string cipherText, string credentialName)
+        public string Decrypt(string cipherText, string? credentialName)
         {
-            using (var decryptor = GetDecryptor(credentialName))
-                return decryptor.Decrypt(cipherText);
+            using var decryptor = GetDecryptor(credentialName);
+            return decryptor.Decrypt(cipherText);
         }
 
         /// <summary>
@@ -91,10 +91,10 @@ namespace RockLib.Encryption.Symmetric
         /// or null to use the default credential.
         /// </param>
         /// <returns>The encrypted value as a byte array.</returns>
-        public byte[] Encrypt(byte[] plainText, string credentialName)
+        public byte[] Encrypt(byte[] plainText, string? credentialName)
         {
-            using (var encryptor = GetEncryptor(credentialName))
-                return encryptor.Encrypt(plainText);
+            using var encryptor = GetEncryptor(credentialName);
+            return encryptor.Encrypt(plainText);
         }
 
         /// <summary>
@@ -106,10 +106,10 @@ namespace RockLib.Encryption.Symmetric
         /// or null to use the default credential.
         /// </param>
         /// <returns>The decrypted value as a byte array.</returns>
-        public byte[] Decrypt(byte[] cipherText, string credentialName)
+        public byte[] Decrypt(byte[] cipherText, string? credentialName)
         {
-            using (var decryptor = GetDecryptor(credentialName))
-                return decryptor.Decrypt(cipherText);
+            using var decryptor = GetDecryptor(credentialName);
+            return decryptor.Decrypt(cipherText);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace RockLib.Encryption.Symmetric
         /// or null to use the default credential.
         /// </param>
         /// <returns>An object that can be used for encryption operations.</returns>
-        public IEncryptor GetEncryptor(string credentialName) =>
+        public IEncryptor GetEncryptor(string? credentialName) =>
             new SymmetricEncryptor(CredentialRepository.GetCredential(credentialName), Encoding);
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace RockLib.Encryption.Symmetric
         /// or null to use the default credential.
         /// </param>
         /// <returns>An object that can be used for decryption operations.</returns>
-        public IDecryptor GetDecryptor(string credentialName) =>
+        public IDecryptor GetDecryptor(string? credentialName) =>
             new SymmetricDecryptor(CredentialRepository.GetCredential(credentialName), Encoding);
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace RockLib.Encryption.Symmetric
         /// True, if this instance can handle the credential name for an encrypt operation.
         /// Otherwise, false.
         /// </returns>
-        public bool CanEncrypt(string credentialName) =>
+        public bool CanEncrypt(string? credentialName) =>
             CredentialRepository.ContainsCredential(credentialName);
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace RockLib.Encryption.Symmetric
         /// True, if this instance can handle the credential name for an encrypt operation.
         /// Otherwise, false.
         /// </returns>
-        public bool CanDecrypt(string credentialName) =>
+        public bool CanDecrypt(string? credentialName) =>
             CredentialRepository.ContainsCredential(credentialName);
     }
 }

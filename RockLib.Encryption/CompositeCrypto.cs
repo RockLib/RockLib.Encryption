@@ -26,7 +26,7 @@ namespace RockLib.Encryption
         /// </param>
         public CompositeCrypto(IEnumerable<ICrypto> cryptos)
         {
-            if (cryptos == null) throw new ArgumentNullException(nameof(cryptos));
+            if (cryptos is null) throw new ArgumentNullException(nameof(cryptos));
 
             _cryptos = cryptos as List<ICrypto> ?? cryptos.ToList();
         }
@@ -271,7 +271,7 @@ namespace RockLib.Encryption
         {
             var crypto = _cryptos.FirstOrDefault(c => canGet(c, credentialName));
 
-            if (crypto == null)
+            if (crypto is null)
             {
                 throw new KeyNotFoundException($"Unable to locate implementation of ICrypto that can locate a credential using credentialName: {credentialName}");
             }

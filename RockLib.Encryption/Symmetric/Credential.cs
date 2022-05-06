@@ -27,24 +27,40 @@ namespace RockLib.Encryption.Symmetric
         /// <param name="ivSize">The size of the initialization vector that is used to add entropy to encryption or decryption operations.</param>
         /// <param name="name">The name of this credential.</param>
         /// <param name="cacheKeyValue">Whether to cache the value of the <paramref name="key"/> function.</param>
-        public Credential(Func<byte[]> key, SymmetricAlgorithm algorithm = DefaultAlgorithm, ushort ivSize = DefaultIVSize, string name = null, bool cacheKeyValue = false)
+        public Credential(Func<byte[]> key, SymmetricAlgorithm algorithm = DefaultAlgorithm, ushort ivSize = DefaultIVSize, string? name = null, bool cacheKeyValue = false)
         {
-            if (key == null) throw new ArgumentNullException(nameof(key));
-            if (!Enum.IsDefined(typeof(SymmetricAlgorithm), algorithm)) throw new ArgumentOutOfRangeException(nameof(algorithm), $"{nameof(algorithm)} value is not defined: {algorithm}.");
-            if (ivSize <= 0) throw new ArgumentOutOfRangeException(nameof(ivSize), $"{nameof(ivSize)} must be greater than 0.");
+            if (key is null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+            if (!Enum.IsDefined(typeof(SymmetricAlgorithm), algorithm))
+            {
+                // TODO: Throw different exception for invalid enum
+                throw new ArgumentOutOfRangeException(nameof(algorithm), $"{nameof(algorithm)} value is not defined: {algorithm}.");
+            }
+            if (ivSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ivSize), $"{nameof(ivSize)} must be greater than 0.");
+            }
 
             Algorithm = algorithm;
             IVSize = ivSize;
             Name = name;
 
             if (!cacheKeyValue)
+            {
                 _key = key;
+            }
             else
             {
                 var k = new Lazy<byte[]>(key);
                 _key = () =>
                 {
-                    if (k.Value == null) return null;
+                    if (k.Value is null)
+                    {
+                        return Array.Empty<byte>();
+                    }
+
                     var copy = new byte[k.Value.Length];
                     k.Value.CopyTo(copy, 0);
                     return copy;
@@ -55,7 +71,7 @@ namespace RockLib.Encryption.Symmetric
         /// <summary>
         /// Gets the name of the credential.
         /// </summary>
-        public string Name { get; }
+        public string? Name { get; }
 
         /// <summary>
         /// Gets the <see cref="SymmetricAlgorithm"/> that is used for symmetric
@@ -77,8 +93,12 @@ namespace RockLib.Encryption.Symmetric
         public byte[] GetKey()
         {
             var key = _key();
-            if (key == null || key.Length == 0)
+
+            if (key is null || key.Length == 0)
+            {
                 throw new InvalidOperationException("The value returned from the key function must not be null or empty.");
+            }
+
             return key;
         }
     }

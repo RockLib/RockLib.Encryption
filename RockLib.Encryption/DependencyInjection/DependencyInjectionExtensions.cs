@@ -1,6 +1,4 @@
-﻿#if !NET451
-using Microsoft.Extensions.DependencyInjection;
-using RockLib.Encryption.Async;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace RockLib.Encryption.DependencyInjection
@@ -18,11 +16,12 @@ namespace RockLib.Encryption.DependencyInjection
         /// <returns>The same <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddCrypto(this IServiceCollection services)
         {
-            if (services == null)
+            if (services is null)
+            {
                 throw new ArgumentNullException(nameof(services));
+            }
 
             services.AddSingleton(_ => Crypto.Current);
-            services.AddSingleton(serviceProvider => serviceProvider.GetRequiredService<ICrypto>().AsAsync());
             return services;
         }
 
@@ -34,13 +33,16 @@ namespace RockLib.Encryption.DependencyInjection
         /// <returns>The same <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddCrypto(this IServiceCollection services, ICrypto crypto)
         {
-            if (services == null)
+            if (services is null)
+            {
                 throw new ArgumentNullException(nameof(services));
-            if (crypto == null)
+            }
+            if (crypto is null)
+            {
                 throw new ArgumentNullException(nameof(crypto));
+            }
 
             services.AddSingleton(crypto);
-            services.AddSingleton(serviceProvider => serviceProvider.GetRequiredService<ICrypto>().AsAsync());
             return services;
         }
 
@@ -52,15 +54,17 @@ namespace RockLib.Encryption.DependencyInjection
         /// <returns>The same <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddCrypto(this IServiceCollection services, Func<IServiceProvider, ICrypto> cryptoFactory)
         {
-            if (services == null)
+            if (services is null)
+            {
                 throw new ArgumentNullException(nameof(services));
-            if (cryptoFactory == null)
+            }
+            if (cryptoFactory is null)
+            {
                 throw new ArgumentNullException(nameof(cryptoFactory));
+            }
 
             services.AddSingleton(cryptoFactory);
-            services.AddSingleton(serviceProvider => serviceProvider.GetRequiredService<ICrypto>().AsAsync());
             return services;
         }
     }
 }
-#endif

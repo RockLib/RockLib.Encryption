@@ -30,7 +30,7 @@ namespace RockLib.Encryption.Symmetric
         public SymmetricEncryptor(Credential credential, Encoding encoding)
         {
             _encoding = encoding;
-            _credential = credential;
+            _credential = credential ?? throw new ArgumentNullException(nameof(credential));
             _algorithm = credential.Algorithm.CreateSymmetricAlgorithm();
         }
 
@@ -52,8 +52,7 @@ namespace RockLib.Encryption.Symmetric
         {
             var plainTextData = _encoding.GetBytes(plainText);
             var cipherTextData = Encrypt(plainTextData);
-            var cipherText = Convert.ToBase64String(cipherTextData);
-            return cipherText;
+            return Convert.ToBase64String(cipherTextData);
         }
 
         /// <summary>
@@ -63,21 +62,19 @@ namespace RockLib.Encryption.Symmetric
         /// <returns>The encrypted value as a byte array.</returns>
         public byte[] Encrypt(byte[] plainText)
         {
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
+            var iv = RandomNumberGenerator.GetBytes(_credential.IVSize);
+            var encryptor = _algorithm.CreateEncryptor(_credential.GetKey(), iv);
+
+            stream.WriteCipherTextHeader(iv);
+
+            using (var cryptoStream = new CryptoStream(stream, encryptor, CryptoStreamMode.Write))
             {
-                var iv = RNG.GetBytes(_credential.IVSize);
-                var encryptor = _algorithm.CreateEncryptor(_credential.GetKey(), iv);
-
-                stream.WriteCipherTextHeader(iv);
-
-                using (var cryptoStream = new CryptoStream(stream, encryptor, CryptoStreamMode.Write))
-                {
-                    cryptoStream.Write(plainText, 0, plainText.Length);
-                }
-
-                stream.Flush();
-                return stream.ToArray();
+                cryptoStream.Write(plainText, 0, plainText.Length);
             }
+
+            stream.Flush();
+            return stream.ToArray();
         }
     }
 }

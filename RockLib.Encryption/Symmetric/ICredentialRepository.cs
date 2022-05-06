@@ -12,13 +12,13 @@
         /// <returns>
         /// <see langword="true"/>, if the credential exists; otherwise <see langword="false"/>.
         /// </returns>
-        bool ContainsCredential(string credentialName);
+        bool ContainsCredential(string? credentialName);
 
         /// <summary>
         /// Gets the credential by name.
         /// </summary>
         /// <param name="credentialName">The name of the credential to retrieve.</param>
         /// <returns>The matching credential.</returns>
-        Credential GetCredential(string credentialName);
+        Credential GetCredential(string? credentialName);
     }
 }
