@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+#### Added
+- Added `.editorconfig` and `Directory.Build.props` files to ensure consistency.
+
+#### Changed
+- Supported targets: net6.0, netcoreapp3.1, and net48.
+- Updated all NuGet package dependencies to their latest versions.
+- As the package now uses nullable reference types, some method parameters now specify if they can accept nullable values.
+- "Async-over-sync" code has been removed. This means that the following members have been removed:
+  - `AsAsyncExtension`
+  - `IAsyncCrypto`
+  - `IAsyncCryptoExtensions`
+  - `IAsyncDecryptor`
+  - `IAsyncEncryptor`
+  - `SynchronousAsyncCrypto`
+  - `SynchronousAsyncDecryptor`
+  - `SynchronousAsyncEncryptor`
+- Algorithms that have been deemed [weak](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5350), [broken](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5351), or are now obsolete. have been removed from `SymmetricAlgorithm` and `SymmetricAlgorithmExtensions.CreateSymmetricAlgorithm()`. These include:
+  - `DES`
+  - `RC2`
+  - `Rijndael`
+  - `TripleDES`
+
 ## 2.3.3 - 2021-08-12
 
 #### Changed
