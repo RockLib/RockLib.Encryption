@@ -84,7 +84,6 @@ public sealed class SymmetricEncryptor : IEncryptor
             cryptoStream.Write(plainText, 0, plainText.Length);
         }
 
-        stream.Flush();
         return stream.ToArray();
     }
 }

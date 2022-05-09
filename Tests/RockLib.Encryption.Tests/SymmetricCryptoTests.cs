@@ -9,11 +9,12 @@ namespace RockLib.Encryption.Tests;
 
 public static class SymmetricCryptoTests
 {
+    private static readonly byte[] Key = GetSequentialByteArray(16);
+
     [Fact]
     public static void CanEncryptDecryptAes()
     {
-        var credential = new Credential(() => GetSequentialByteArray(16), SymmetricAlgorithm.Aes, 16);
-
+        var credential = new Credential(() => Key, SymmetricAlgorithm.Aes, 16);
         var crypto = new SymmetricCrypto(new[] { credential });
 
         var plainText = "This is just some random text to encrypt/decrypt";
@@ -28,9 +29,9 @@ public static class SymmetricCryptoTests
     [Fact]
     public static void CanGetSpecificEncryptorAndDecryptorWhenMultipleCredentialsExist()
     {
-        var defaultCredential = new Credential(() => GetSequentialByteArray(16));
-        var credential1 = new Credential(() => GetSequentialByteArray(16), name: "encryptor1");
-        var credential2 = new Credential(() => GetSequentialByteArray(16), name: "encryptor2");
+        var defaultCredential = new Credential(() => Key);
+        var credential1 = new Credential(() => Key, name: "encryptor1");
+        var credential2 = new Credential(() => Key, name: "encryptor2");
 
         var crypto = new SymmetricCrypto(new[] { defaultCredential, credential1, credential2 });
 

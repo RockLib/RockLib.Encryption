@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using RockLib.Encryption.Symmetric;
-using System;
 using System.Security.Cryptography;
 using System.Text;
 using Xunit;

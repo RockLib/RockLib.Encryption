@@ -100,13 +100,12 @@ public sealed class SymmetricDecryptor : IDecryptor
             {
                 var readBytes = cryptoStream.Read(buffer, 0, buffer.Length);
 
-                if (readBytes == bufferSize)
+                if (readBytes > 0)
                 {
-                    decrypted.AddRange(buffer);
+                    decrypted.AddRange(buffer.Take(readBytes));
                 }
                 else
                 {
-                    decrypted.AddRange(buffer.Take(readBytes));
                     break;
                 }
             }

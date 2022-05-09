@@ -3,7 +3,6 @@ using RockLib.Encryption.FieldLevel;
 using RockLib.Encryption.Testing;
 using System;
 using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace RockLib.Encryption.Tests.FieldLevel;

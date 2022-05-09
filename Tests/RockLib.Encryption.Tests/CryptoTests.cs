@@ -6,8 +6,6 @@ using Moq;
 using RockLib.Configuration;
 using RockLib.Encryption.Symmetric;
 using RockLib.Immutable;
-using System.Threading.Tasks;
-using System.Threading;
 using Xunit;
 
 namespace RockLib.Encryption.Tests;
@@ -46,7 +44,7 @@ public static class CryptoTests
             var action = () => { var current = Crypto.Current; };
 
             action.Should().Throw<InvalidOperationException>()
-                .WithMessage("No crypto implementations found in config.  See the Readme.md file for details on how to setup the configuration."); 
+                .WithMessage("No crypto implementations found in config. See the Readme.md file for details on how to setup the configuration."); 
         }
     }
 
