@@ -213,7 +213,7 @@ public static class FieldLevelEncryptionExtensionsTests
 
         var xml = "<foo bar=\"[[123]]\"><baz>[[456]]</baz><baz>[[789]]</baz><qux>[[&lt;garply grault=\"abc\" /&gt;]]</qux></foo>";
         
-        var xpathsToDecrypt = Array.Empty<string>();
+        string[] xpathsToDecrypt = null!;
 
         var act = () => fakeCrypto.DecryptXml(xml, xpathsToDecrypt);
 
