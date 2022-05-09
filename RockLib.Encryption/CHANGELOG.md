@@ -40,7 +40,7 @@ This will be the last release of this project.
     - `EncryptAsync`
     - `GetAsyncDecryptor`
     - `GetAsyncEncryptor`
-- Algorithms that have been deemed [weak](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5350), [broken](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5351), or are now obsolete. have been removed from `SymmetricAlgorithm` and `SymmetricAlgorithmExtensions.CreateSymmetricAlgorithm()`. These include:
+- Algorithms that have been deemed [weak](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5350), [broken](https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5351), or are now obsolete, have been removed from `SymmetricAlgorithm` and `SymmetricAlgorithmExtensions.CreateSymmetricAlgorithm()`. These include:
   - `DES`
   - `RC2`
   - `Rijndael`
@@ -48,7 +48,6 @@ This will be the last release of this project.
 - The following classes are now `sealed`
   - `SymmetricDecryptor`
   - `SymmetricEncryptor`
-- TODO: Consider removing `Crypto`
 
 ## 2.3.3 - 2021-08-12
 

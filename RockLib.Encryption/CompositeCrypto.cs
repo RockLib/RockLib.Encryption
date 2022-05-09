@@ -32,7 +32,7 @@ public class CompositeCrypto : ICrypto
     /// Gets the instances of <see cref="ICrypto"/> that this <see cref="CompositeCrypto"/>
     /// delegates logic to.
     /// </summary>
-    public IEnumerable<ICrypto> Cryptos { get { return _cryptos; } }
+    public IEnumerable<ICrypto> Cryptos => _cryptos;
 
     /// <summary>
     /// Encrypts the specified plain text.

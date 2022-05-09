@@ -114,8 +114,8 @@ public sealed class SymmetricDecryptor : IDecryptor
         return decrypted.ToArray();
     }
 
-    private static readonly Regex SpaceRegex = new Regex(@"\s");
-    private static readonly Regex Base64Regex = new Regex(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$");
+    private static readonly Regex SpaceRegex = new(@"\s");
+    private static readonly Regex Base64Regex = new(@"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$");
 
     private static bool IsBase64(string base64)
     {
