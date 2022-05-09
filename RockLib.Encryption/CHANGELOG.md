@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+This will be the last release of this project.
+
 #### Added
 - Added `.editorconfig` and `Directory.Build.props` files to ensure consistency.
 
