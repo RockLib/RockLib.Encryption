@@ -1,133 +1,103 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using RockLib.Encryption.Async;
 using RockLib.Encryption.DependencyInjection;
 using System;
 using Xunit;
 
-namespace RockLib.Encryption.Tests.DependencyInjection
+namespace RockLib.Encryption.Tests.DependencyInjection;
+
+public static class DependencyInjectionExtensionsTests
 {
-    public class DependencyInjectionExtensionsTests
+    [Fact(DisplayName = "AddCrypto Extension 1 throws when the services parameter is null")]
+    public static void AddCryptoExtension1SadPath()
     {
-        [Fact(DisplayName = "AddCrypto Extension 1 adds Crypto.Current to the service collection")]
-        public void AddCryptoExtension1HappyPath()
-        {
-            lock (CryptoReset.Locker)
-            {
-                var mockCrypto = new Mock<IAsyncCrypto>().As<ICrypto>();
+        IServiceCollection services = null!;
 
-                CryptoTests.ResetCrypto();
-                Crypto.SetCurrent(mockCrypto.Object);
+        Action act = () => services.AddCrypto();
 
-                var services = new ServiceCollection();
+        act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("services");
+    }
 
-                services.AddCrypto();
+    [Fact(DisplayName = "AddCrypto Extension 2 adds the crypto parameter to the service collection")]
+    public static void AddCryptoExtension2HappyPath()
+    {
+        var mockCrypto = new Mock<ICrypto>();
 
-                var provider = services.BuildServiceProvider();
+        var services = new ServiceCollection();
 
-                var crypto = provider.GetRequiredService<ICrypto>();
-                var asyncCrypto = provider.GetRequiredService<IAsyncCrypto>();
+        services.AddCrypto(mockCrypto.Object);
 
-                crypto.Should().BeSameAs(mockCrypto.Object);
-                asyncCrypto.Should().BeSameAs(mockCrypto.Object);
-            }
-        }
+        var provider = services.BuildServiceProvider();
 
-        [Fact(DisplayName = "AddCrypto Extension 1 throws when the services parameter is null")]
-        public void AddCryptoExtension1SadPath()
-        {
-            IServiceCollection services = null;
+        var crypto = provider.GetRequiredService<ICrypto>();
 
-            Action act = () => services.AddCrypto();
+        crypto.Should().BeSameAs(mockCrypto.Object);
+    }
 
-            act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("services");
-        }
+    [Fact(DisplayName = "AddCrypto Extension 2 throws when the services parameter is null")]
+    public static void AddCryptoExtension2SadPath1()
+    {
+        var mockCrypto = new Mock<ICrypto>();
 
-        [Fact(DisplayName = "AddCrypto Extension 2 adds the crypto parameter to the service collection")]
-        public void AddCryptoExtension2HappyPath()
-        {
-            var mockCrypto = new Mock<IAsyncCrypto>().As<ICrypto>();
+        IServiceCollection services = null!;
 
-            var services = new ServiceCollection();
+        Action act = () => services.AddCrypto(mockCrypto.Object);
 
-            services.AddCrypto(mockCrypto.Object);
+        act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("services");
+    }
 
-            var provider = services.BuildServiceProvider();
+    [Fact(DisplayName = "AddCrypto Extension 2 throws when the crypto parameter is null")]
+    public static void AddCryptoExtension2SadPath2()
+    {
+        ICrypto crypto = null!;
 
-            var crypto = provider.GetRequiredService<ICrypto>();
-            var asyncCrypto = provider.GetRequiredService<IAsyncCrypto>();
+        var services = new ServiceCollection();
 
-            crypto.Should().BeSameAs(mockCrypto.Object);
-            asyncCrypto.Should().BeSameAs(mockCrypto.Object);
-        }
+        Action act = () => services.AddCrypto(crypto);
 
-        [Fact(DisplayName = "AddCrypto Extension 2 throws when the services parameter is null")]
-        public void AddCryptoExtension2SadPath1()
-        {
-            var mockCrypto = new Mock<IAsyncCrypto>().As<ICrypto>();
+        act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("crypto");
+    }
 
-            IServiceCollection services = null;
+    [Fact(DisplayName = "AddCrypto Extension 3 adds the ICrypto returned by the cryptoFactory parameter to the service collection")]
+    public static void AddCryptoExtension3HappyPath()
+    {
+        var mockCrypto = new Mock<ICrypto>();
+        Func<IServiceProvider, ICrypto> cryptoFactory = sp => mockCrypto.Object;
 
-            Action act = () => services.AddCrypto(mockCrypto.Object);
+        var services = new ServiceCollection();
 
-            act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("services");
-        }
+        services.AddCrypto(cryptoFactory);
 
-        [Fact(DisplayName = "AddCrypto Extension 2 throws when the crypto parameter is null")]
-        public void AddCryptoExtension2SadPath2()
-        {
-            ICrypto crypto = null;
+        var provider = services.BuildServiceProvider();
 
-            var services = new ServiceCollection();
+        var crypto = provider.GetRequiredService<ICrypto>();
 
-            Action act = () => services.AddCrypto(crypto);
+        crypto.Should().BeSameAs(mockCrypto.Object);
+    }
 
-            act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("crypto");
-        }
+    [Fact(DisplayName = "AddCrypto Extension 3 throws when the services parameter is null")]
+    public static void AddCryptoExtension3SadPath1()
+    {
+        var mockCrypto = new Mock<ICrypto>();
+        Func<IServiceProvider, ICrypto> cryptoFactory = provider => mockCrypto.Object;
 
-        [Fact(DisplayName = "AddCrypto Extension 3 adds the ICrypto returned by the cryptoFactory parameter to the service collection")]
-        public void AddCryptoExtension3HappyPath()
-        {
-            var mockCrypto = new Mock<IAsyncCrypto>().As<ICrypto>();
-            Func<IServiceProvider, ICrypto> cryptoFactory = sp => mockCrypto.Object;
+        IServiceCollection services = null!;
 
-            var services = new ServiceCollection();
+        Action act = () => services.AddCrypto(cryptoFactory);
 
-            services.AddCrypto(cryptoFactory);
+        act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("services");
+    }
 
-            var provider = services.BuildServiceProvider();
+    [Fact(DisplayName = "AddCrypto Extension 3 throws when the cryptoFactory parameter is null")]
+    public static void AddCryptoExtension3SadPath2()
+    {
+        Func<IServiceProvider, ICrypto> cryptoFactory = null!;
 
-            var crypto = provider.GetRequiredService<ICrypto>();
-            var asyncCrypto = provider.GetRequiredService<IAsyncCrypto>();
+        var services = new ServiceCollection();
 
-            crypto.Should().BeSameAs(mockCrypto.Object);
-            asyncCrypto.Should().BeSameAs(mockCrypto.Object);
-        }
+        Action act = () => services.AddCrypto(cryptoFactory);
 
-        [Fact(DisplayName = "AddCrypto Extension 3 throws when the services parameter is null")]
-        public void AddCryptoExtension3SadPath1()
-        {
-            var mockCrypto = new Mock<IAsyncCrypto>().As<ICrypto>();
-            Func<IServiceProvider, ICrypto> cryptoFactory = provider => mockCrypto.Object;
-
-            IServiceCollection services = null;
-
-            Action act = () => services.AddCrypto(cryptoFactory);
-
-            act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("services");
-        }
-
-        [Fact(DisplayName = "AddCrypto Extension 3 throws when the cryptoFactory parameter is null")]
-        public void AddCryptoExtension3SadPath2()
-        {
-            Func<IServiceProvider, ICrypto> cryptoFactory = null;
-
-            var services = new ServiceCollection();
-
-            Action act = () => services.AddCrypto(cryptoFactory);
-
-            act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("cryptoFactory");
-        }
+        act.Should().ThrowExactly<ArgumentNullException>().Which.Message.Should().Contain("cryptoFactory");
     }
 }

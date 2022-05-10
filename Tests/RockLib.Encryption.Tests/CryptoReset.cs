@@ -1,7 +1,6 @@
-﻿namespace RockLib.Encryption.Tests
+﻿namespace RockLib.Encryption.Tests;
+
+internal static class CryptoReset
 {
-    internal static class CryptoReset
-    {
-        public static readonly object Locker = new object();
-    }
+    internal static readonly object Locker = new();
 }
