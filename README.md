@@ -2,7 +2,7 @@
 
 *An easy-to-use, easy-to-configure crypto API.*
 
-Note: 3.0.0 is the last major version release for `RockLib.Encryption`.
+Note: 3.0.0 is the last major version release for the `RockLib.Encryption` and `RockLib.Encryption.XSerializer` packages.
 
 ### RockLib.Encryption [![Build status](https://ci.appveyor.com/api/projects/status/q9s982i6d34tc318?svg=true)](https://ci.appveyor.com/project/RockLib/rocklib-encryption) [![NuGet](https://img.shields.io/nuget/vpre/RockLib.Encryption.svg)](https://www.nuget.org/packages/RockLib.Encryption)
 
