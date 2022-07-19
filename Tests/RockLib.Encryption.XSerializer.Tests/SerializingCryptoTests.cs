@@ -337,19 +337,23 @@ public static class SerializingCryptoTests
         public Mock<Base64Decryptor> MockDecryptor { get; } = new Mock<Base64Decryptor>() { CallBase = true };
     }
 
-    public sealed class Base64Encryptor : IEncryptor
+#pragma warning disable CA1063 // Implement IDisposable Correctly
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
+    public class Base64Encryptor : IEncryptor
     {
         public void Dispose() { }
         public string Encrypt(string plainText) => Base64.Encrypt(plainText);
         public byte[] Encrypt(byte[] plainText) => throw new NotImplementedException();
     }
 
-    public sealed class Base64Decryptor : IDecryptor
+    public class Base64Decryptor : IDecryptor
     {
         public void Dispose() { }
         public string Decrypt(string cipherText) => Base64.Decrypt(cipherText);
         public byte[] Decrypt(byte[] cipherText) => throw new NotImplementedException();
     }
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
+#pragma warning restore CA1063 // Implement IDisposable Correctly
 
     private static class Base64
     {

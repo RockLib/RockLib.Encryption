@@ -46,11 +46,10 @@ public sealed class CryptoEncryptionMechanism : IEncryptionMechanism
     /// </param>
     /// <returns>The encrypted text.</returns>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="serializationState"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException">Thrown if <paramref name="plainText"/> or <paramref name="credentialName"/> are <c>null</c> or empty.</exception>
-    public string Encrypt(string plainText, string credentialName, SerializationState serializationState)
+    /// <exception cref="ArgumentException">Thrown if <paramref name="plainText"/> is <c>null</c> or empty.</exception>
+    public string Encrypt(string plainText, string? credentialName, SerializationState serializationState)
     {
         if (string.IsNullOrEmpty(plainText)) { throw new ArgumentException($"'{nameof(plainText)}' cannot be null or empty.", nameof(plainText)); }
-        if (string.IsNullOrEmpty(credentialName)) { throw new ArgumentException($"'{nameof(credentialName)}' cannot be null or empty.", nameof(credentialName)); }
         if (serializationState is null) { throw new ArgumentNullException(nameof(serializationState)); }
 
         var encryptor = serializationState.Get(() => _crypto.GetEncryptor(credentialName?.ToString()));
@@ -58,8 +57,8 @@ public sealed class CryptoEncryptionMechanism : IEncryptionMechanism
         return cipherText;
     }
 
-    string IEncryptionMechanism.Encrypt(string plainText, object encryptKey, SerializationState serializationState) =>
-        Encrypt(plainText, encryptKey?.ToString() ?? throw new ArgumentNullException(nameof(encryptKey)), serializationState);
+    string IEncryptionMechanism.Encrypt(string plainText, object? encryptKey, SerializationState serializationState) =>
+        Encrypt(plainText, encryptKey?.ToString(), serializationState);
 
     /// <summary>
     /// Decrypts the specified cipher text.
@@ -75,11 +74,10 @@ public sealed class CryptoEncryptionMechanism : IEncryptionMechanism
     /// </param>
     /// <returns>The decrypted text.</returns>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="serializationState"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException">Thrown if <paramref name="cipherText"/> or <paramref name="credentialName"/> are <c>null</c> or empty.</exception>
-    public string Decrypt(string cipherText, string credentialName, SerializationState serializationState)
+    /// <exception cref="ArgumentException">Thrown if <paramref name="cipherText"/>is <c>null</c> or empty.</exception>
+    public string Decrypt(string cipherText, string? credentialName, SerializationState serializationState)
     {
         if (string.IsNullOrEmpty(cipherText)) { throw new ArgumentException($"'{nameof(cipherText)}' cannot be null or empty.", nameof(cipherText)); }
-        if (string.IsNullOrEmpty(credentialName)) { throw new ArgumentException($"'{nameof(credentialName)}' cannot be null or empty.", nameof(credentialName)); }
         if (serializationState is null) { throw new ArgumentNullException(nameof(serializationState)); }
 
         var decryptor = serializationState.Get(() => _crypto.GetDecryptor(credentialName?.ToString()));
@@ -87,6 +85,6 @@ public sealed class CryptoEncryptionMechanism : IEncryptionMechanism
         return plainText;
     }
 
-    string IEncryptionMechanism.Decrypt(string cipherText, object encryptKey, SerializationState serializationState) =>
-        Decrypt(cipherText, encryptKey?.ToString() ?? throw new ArgumentNullException(nameof(encryptKey)), serializationState);
+    string IEncryptionMechanism.Decrypt(string cipherText, object? encryptKey, SerializationState serializationState) =>
+        Decrypt(cipherText, encryptKey?.ToString(), serializationState);
 }
