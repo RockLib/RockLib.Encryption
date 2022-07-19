@@ -17,9 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The following types have changed:
   - `CryptoEncryptionMechanism`
     - The constructor require the `ICrypto` parameter to be non-`null` and will throw an `ArgumentNullException` if it is `null`.
-    - The `Encrypt()` and `Decrypt()` methods require all parameters to be non-`null` and contain valid values - the code will throw an `ArgumentNullException` or an `ArgumentException`.
-
-
+    - The `Encrypt()` and `Decrypt()` methods require the text and state parameters to be non-`null` and contain valid values - the code will throw an `ArgumentNullException` or an `ArgumentException`.
 
 ## 2.1.5 - 2021-08-12
 
