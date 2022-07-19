@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.0.0 - Not Yet Released
+
+#### Added
+- Added `.editorconfig` and `Directory.Build.props` files to ensure consistency.
+
+#### Changed
+- Supported targets: net6.0, netcoreapp3.1, and net48.
+- Updated all NuGet package dependencies to their latest versions.
+- As the package now uses nullable reference types, some method parameters now specify if they can accept nullable values.
+- The following types have changed:
+  - `CryptoEncryptionMechanism`
+    - The constructor require the `ICrypto` parameter to be non-`null` and will throw an `ArgumentNullException` if it is `null`.
+    - The `Encrypt()` and `Decrypt()` methods require the text and state parameters to be non-`null` and contain valid values - the code will throw an `ArgumentNullException` or an `ArgumentException`.
+
 ## 2.1.5 - 2021-08-12
 
 #### Changed
