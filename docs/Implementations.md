@@ -1,6 +1,13 @@
-## `ICrypto` implementations
+---
+sidebar_position: 5
+sidebar_label: 'ICrypto implementations'
+---
 
-### `SymmetricCrypto` class
+# ICrypto implementations
+
+
+
+## SymmetricCrypto class
 
 RockLib.Encryption provides an implementation of `ICrypto`, `SymmetricCrypto`, that uses the various symmetric encryption implementations that are provided by .NET. The supported algorithms are: `AES`, `DES`, `RC2`, `Rijndael`, and `Triple DES`. This class has public constructors and can be instantiated directly.
 
@@ -8,7 +15,7 @@ RockLib.Encryption provides an implementation of `ICrypto`, `SymmetricCrypto`, t
 
 To register a `SymmetricCrypto` with the Microsoft.Extensions.DependencyInjection container, use the `AddSymmetricCrypto` extension method, and add credentials with the `AddCredential` method:
 
-```c#
+```csharp
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddSymmetricCrypto()
@@ -21,7 +28,7 @@ public void ConfigureServices(IServiceCollection services)
 
 If using the default value for the static `Crypto` class, it can be configured as follows:
 
-appsettings.json:
+`appsettings.json`
 
 ```json
 {
@@ -47,7 +54,7 @@ appsettings.json:
 }
 ```
 
-app.config/web.config:
+`app.config/web.config`
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -75,9 +82,9 @@ app.config/web.config:
 </configuration>
 ```
 
-_Note that it is an **exceedingly** bad idea to store symmetric keys in configuration plaintext as shown above._
+_Note that it is a bad idea to store symmetric keys in configuration plaintext as shown above._
 
-### `CompositeCrypto` class
+## CompositeCrypto class
 
 If your application needs to support more than one implementation of the `ICrypto` interface, you can use the `CompositeCrypto` class.
 It does so by implementing the [_composite_](http://www.blackwasp.co.uk/Composite.aspx) pattern. The constructor of this class takes a collection of `ICrypto` objects. Each method of the `CompositeCrypto` class is implemented by iterating through that collection. The first item in the collection that returns `true` from its `CanEncrypt` or `CanDecrypt` method is the `ICrypto` that is used for the current encryption operation.
