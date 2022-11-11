@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Getting Started
 
 RockLib.Encryption provides a simple API for encryption and decryption text and binary data. In this tutorial, we will be building a console application that encrypts and decrypts sample text using the Rijndael algorithm.
@@ -14,7 +18,7 @@ Add a nuget references for "RockLib.Encryption" and "Microsoft.Extensions.Hostin
 
 Add a class named "EncryptionService" to the project. Replace the default code with the following:
 
-```c#
+```csharp
 using Microsoft.Extensions.Hosting;
 using RockLib.Encryption;
 using System;
@@ -63,7 +67,7 @@ namespace EncryptionApp
             // Decrypt the SSN. The resulting value should be the same as the original SSN.
             string decryptedSsn = _crypto.Decrypt(encryptedSsn);
             Console.WriteLine($"Decrypted SSN: {decryptedSsn}");
-            
+
             Console.WriteLine();
         }
     }
@@ -74,7 +78,7 @@ namespace EncryptionApp
 
 Replace the contents of Program.cs with the following:
 
-```c#
+```csharp
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RockLib.Encryption.Symmetric;
@@ -109,7 +113,7 @@ namespace EncryptionApp
 
 Start the application. The output should look something like this (press Ctrl+C to exit):
 
-```
+```powershell
 info: Microsoft.Hosting.Lifetime[0]
       Application started. Press Ctrl+C to shut down.
 info: Microsoft.Hosting.Lifetime[0]

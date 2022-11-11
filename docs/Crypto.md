@@ -1,10 +1,14 @@
+---
+sidebar_position: 4
+---
+
 # Crypto static class
 
 The `Crypto` static class provides simple access to a single instance of `ICrypto`, defined by its `Current` property. For convenience, it includes synchronous and asynchronous methods for encryption and decryption, each of which uses the `Current` property.
 
 To programmatically change the value of the `Current` property, call the `SetCurrent` method at the very beginning of an application:
 
-```c#
+```csharp
 ICrypto crypto = // TODO: instantiate
 
 Crypto.SetCurrent(crypto);
@@ -12,7 +16,7 @@ Crypto.SetCurrent(crypto);
 // TODO: The rest of the application
 ```
 
-### Configuration
+## Configuration
 
 By default, the `Crypto` static class sets its `Current` property using the `RockLib.Configuration.Config` static class. Specifically, it loads the instance (or instances) of the `ICrypto` interface specified in this configuration section: `Config.Root.GetSection("rocklib.encryption")`. This is an example `appsettings.json` file, for .NET Core projects:
 
@@ -53,7 +57,7 @@ This is an equivalent app.config/web.config (applicable only to .NET Framework a
 
 Your configuration can define one or more implementation/instance of the `ICrypto` in config. Each of these elements describe an implementation of the `ICrypto` interface, and will be transformed into an item in the collection of an instance of [`CompositeCrypto`](#compositecrypto-class).
 
-appsettings.json:
+`appsettings.json`
 
 ```json
 {
@@ -76,7 +80,7 @@ appsettings.json:
 }
 ```
 
-app.config/web.config:
+`app.config/web.config`
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
