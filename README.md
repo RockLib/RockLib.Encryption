@@ -1,4 +1,4 @@
-RockLib.Encryption Deprecation
+# **RockLib.Encryption Deprecation**
 
 RockLib has been a cornerstone of our open source efforts here at Rocket Mortgage, and it's played a significant role in our journey to drive innovation and collaboration within our organization and the open source community. It's been amazing to witness the collective creativity and hard work that you all have poured into this project.
 
