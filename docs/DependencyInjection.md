@@ -2,7 +2,13 @@
 sidebar_position: 3
 ---
 
-# Dependency Injection
+# :warning: Deprecation Warning :warning:
+
+This library has been deprecated and will no longer receive updates.
+
+---
+
+## Dependency Injection
 
 To register an implementation of `ICrypto` with the Microsoft.Extensions.DependencyInjection container, the RockLib.Encryption package provides a `AddCrypto` extension method with several overloads. Each of the methods registers both the `ICrypto` and `IAsyncCrypto` interfaces.
 

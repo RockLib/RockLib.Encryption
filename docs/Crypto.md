@@ -2,7 +2,13 @@
 sidebar_position: 4
 ---
 
-# Crypto static class
+# :warning: Deprecation Warning :warning:
+
+This library has been deprecated and will no longer receive updates.
+
+---
+
+## Crypto static class
 
 The `Crypto` static class provides simple access to a single instance of `ICrypto`, defined by its `Current` property. For convenience, it includes synchronous and asynchronous methods for encryption and decryption, each of which uses the `Current` property.
 
