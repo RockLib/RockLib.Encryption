@@ -2,7 +2,13 @@
 sidebar_position: 1
 ---
 
-# Getting Started
+# :warning: Deprecation Warning :warning:
+
+This library has been deprecated and will no longer receive updates.
+
+---
+
+## Getting Started
 
 RockLib.Encryption provides a simple API for encryption and decryption text and binary data. In this tutorial, we will be building a console application that encrypts and decrypts sample text using the Rijndael algorithm.
 

@@ -2,7 +2,13 @@
 sidebar_position: 6
 ---
 
-# Field-Level Encryption
+# :warning: Deprecation Warning :warning:
+
+This library has been deprecated and will no longer receive updates.
+
+---
+
+## Field-Level Encryption
 
 Sometime sensitive information exists within an XML or JSON document in specific fields. For example the following documents contain a clear text SSN:
 

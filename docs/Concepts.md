@@ -2,7 +2,13 @@
 sidebar_position: 2
 ---
 
-# Concepts
+# :warning: Deprecation Warning :warning:
+
+This library has been deprecated and will no longer receive updates.
+
+---
+
+## Concepts
 
 ## `ICrypto` interface
 

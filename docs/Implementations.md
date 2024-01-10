@@ -3,9 +3,13 @@ sidebar_position: 5
 sidebar_label: 'ICrypto implementations'
 ---
 
-# ICrypto implementations
+# :warning: Deprecation Warning :warning:
 
+This library has been deprecated and will no longer receive updates.
 
+---
+
+## ICrypto implementations
 
 ## SymmetricCrypto class
 
