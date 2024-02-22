@@ -62,7 +62,7 @@ This is an equivalent app.config/web.config (applicable only to .NET Framework a
 </configuration>
 ```
 
-Your configuration can define one or more implementation/instance of the `ICrypto` in config. Each of these elements describe an implementation of the `ICrypto` interface, and will be transformed into an item in the collection of an instance of [`CompositeCrypto`](#compositecrypto-class).
+Your configuration can define one or more implementation/instance of the `ICrypto` in config. Each of these elements describe an implementation of the `ICrypto` interface, and will be transformed into an item in the collection of an instance of `CompositeCrypto`.
 
 `appsettings.json`
 
